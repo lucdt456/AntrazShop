@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AntrazShop.Areas.Admin.Controllers.API
+namespace AntrazShop.Controllers.API
 {
 	[Area("Admin")]
 	[Route("api/[controller]")]

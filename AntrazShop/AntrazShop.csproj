@@ -17,8 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\DTOModels\" />
-    <Folder Include="Areas\Admin\Models\ViewModels\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Respositories\Interfaces\" />
     <Folder Include="Areas\Admin\Services\Interfaces\" />
     <Folder Include="Models\DTOModels\" />
