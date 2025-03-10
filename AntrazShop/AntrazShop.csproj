@@ -17,10 +17,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\API\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Models\DTOModels\" />
     <Folder Include="Models\DTOModels\" />
     <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Respositories\Interfaces\" />
     <Folder Include="Respositories\Interfaces\" />
     <Folder Include="Services\Interfaces\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>
