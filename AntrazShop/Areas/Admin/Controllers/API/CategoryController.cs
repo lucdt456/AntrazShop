@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AntrazShop.Controllers.API
+namespace AntrazShop.Areas.Admin.Controllers.API
 {
-    [Route("api/[controller]")]
+	[Area("Admin")]
+	[Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
