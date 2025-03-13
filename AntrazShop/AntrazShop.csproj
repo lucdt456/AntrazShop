@@ -17,18 +17,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\API\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Respositories\Interfaces\" />
     <Folder Include="Areas\Admin\Services\Interfaces\" />
-    <Folder Include="Models\DTOModels\" />
-    <Folder Include="Models\DTOModels\" />
-    <Folder Include="Models\ViewModels\" />
-    <Folder Include="Models\ViewModels\" />
-    <Folder Include="Respositories\Interfaces\" />
-    <Folder Include="Respositories\Interfaces\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="wwwroot\img\" />
+    <Folder Include="Views\Product\" />
+    <Folder Include="wwwroot\admin\img\" />
+    <Folder Include="wwwroot\test\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\test\css\style.css" />
+    <None Include="wwwroot\test\js\main.js" />
   </ItemGroup>
 
 </Project>

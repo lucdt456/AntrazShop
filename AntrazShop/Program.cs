@@ -1,5 +1,9 @@
 using AntrazShop.Data;
+using AntrazShop.Services.Interfaces;
+using AntrazShop.Services;
 using Microsoft.EntityFrameworkCore;
+using AntrazShop.Repositories.Interfaces;
+using AntrazShop.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +27,10 @@ builder.Services.AddDbContext<ShopDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AntrazShop"));
 });
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+
 
 var app = builder.Build();
 
@@ -51,7 +59,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "Areas",
-	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+	pattern: "{area:exists}/{controller=Manager}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

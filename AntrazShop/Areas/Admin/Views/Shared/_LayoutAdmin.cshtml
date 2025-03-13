@@ -2,12 +2,72 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+
+    <meta charset="utf-8">
+
+    <meta name="author" content="themesflat.com">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>@ViewBag.Title</title>
+
+
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animation.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/style.css">
+
+
+    <!-- Font -->
+    <link rel="stylesheet" href="~/admin/font/fonts.css">
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="~/admin/icon/style.css">
+
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="~/img/Logo/LogoA2.png">
+    @*     <link rel="apple-touch-icon-precomposed" href="~/admin/images/favicon.png"> *@
+
 </head>
 <body>
+    <div id="wrapper">
+        <div id="page" class="">
+            <div class="layout-wrap">
+                <!-- preload -->
+                <div id="preload" class="preload-container">
+                    <div class="preloading">
+                        <span></span>
+                    </div>
+                </div>
+                <!-- /preload -->
+                <div class="section-menu-left">
+                    @Html.Partial("_Sidebar")
+                </div>
+                <div class="section-content-right">
+                    @Html.Partial("_Navbar")
+                    <div class="main-content">
+                        @RenderBody()
+                    </div>
+
+                    @Html.Partial("_Footer")
+                </div>
+            </div>
+        </div>
+    </div>
     <div>
         @RenderBody()
     </div>
+
+    <!-- Javascript -->
+    <script src="~/admin/js/jquery.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script src="~/admin/js/bootstrap-select.min.js"></script>
+    <script src="~/admin/js/zoom.js"></script>
+    <!-- <script src="js/switcher.js"></script> -->
+    <script src="~/admin/js/theme-settings.js"></script>
+    <script src="~/admin/js/main.js"></script>
+
 </body>
 </html>
