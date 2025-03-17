@@ -28,12 +28,13 @@ namespace AntrazShop.Repositories
 				ImageView = p.ImageView,
 				Brand = p.Brand.Name,
 				Category = p.Category.Name,
-				Stock = p.Stock
+				Stock = p.Stock,
+				status = p.status
 			});
 			return productVMs;
 		}
 
-		
+
 		public async Task<ProductVM?> GetProduct(int id)
 		{
 			var product = await _context.Products.Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
@@ -47,7 +48,8 @@ namespace AntrazShop.Repositories
 				ImageView = product.ImageView,
 				Brand = product.Brand.Name,
 				Category = product.Category.Name,
-				Stock = product.Stock
+				Stock = product.Stock,
+				status = product.status
 			};
 			return productVM;
 		}

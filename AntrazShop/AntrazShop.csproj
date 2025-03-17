@@ -22,7 +22,6 @@
     <Folder Include="Areas\Admin\Respositories\Interfaces\" />
     <Folder Include="Areas\Admin\Services\Interfaces\" />
     <Folder Include="Views\Product\" />
-    <Folder Include="wwwroot\admin\img\" />
     <Folder Include="wwwroot\test\img\" />
   </ItemGroup>
 
