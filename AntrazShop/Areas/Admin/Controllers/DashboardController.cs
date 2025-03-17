@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AntrazShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ManagerController : Controller
+    public class DashboardController : Controller
     {
         public IActionResult Index()
         {

@@ -18,11 +18,17 @@ namespace AntrazShop.Data
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<WishList> WishLists { get; set; }
+		public DbSet<Role> Roles { get; set; }
+		public DbSet<UserRole> UserRoles { get; set; }
+		public DbSet<Permission> Permissions { get; set; }
+		public DbSet<RolePermission> RolePermissions { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<WishList>().HasKey(w => new { w.UserId, w.ProductId });
 			modelBuilder.Entity<Cart>().HasKey(c => new { c.UserId, c.ProductId });
+			modelBuilder.Entity<UserRole>().HasKey(u => new { u.UserId, u.RoleId });
+			modelBuilder.Entity<RolePermission>().HasKey(r => new { r.RoleId, r.PermissionId });
 			modelBuilder.Entity<OrderDetail>().HasKey(od => new { od.OrderCode, od.ProductId });
 
 			modelBuilder.Entity<Order>().Property(o => o.CreatedAt).HasDefaultValueSql("GETDATE()");

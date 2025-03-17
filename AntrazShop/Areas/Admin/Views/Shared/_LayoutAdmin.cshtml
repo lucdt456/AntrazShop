@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="~/admin/css/style.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     <!-- Font -->
     <link rel="stylesheet" href="~/admin/font/fonts.css">
@@ -27,20 +27,20 @@
     <link rel="stylesheet" href="~/admin/icon/style.css">
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href="~/img/Logo/LogoA2.png">
+    <link rel="shortcut icon" href="~/img/Logo/LogoAntrazIcon.png">
     @*     <link rel="apple-touch-icon-precomposed" href="~/admin/images/favicon.png"> *@
-
+    <script src="~/admin/js/jquery.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
         <div id="page" class="">
             <div class="layout-wrap">
                 <!-- preload -->
-                <div id="preload" class="preload-container">
+                @* <div id="preload" class="preload-container">
                     <div class="preloading">
                         <span></span>
                     </div>
-                </div>
+                </div> *@
                 <!-- /preload -->
                 <div class="section-menu-left">
                     @Html.Partial("_Sidebar")
@@ -50,24 +50,19 @@
                     <div class="main-content">
                         @RenderBody()
                     </div>
-
                     @Html.Partial("_Footer")
                 </div>
             </div>
         </div>
     </div>
-    <div>
-        @RenderBody()
-    </div>
 
     <!-- Javascript -->
-    <script src="~/admin/js/jquery.min.js"></script>
     <script src="~/admin/js/bootstrap.min.js"></script>
     <script src="~/admin/js/bootstrap-select.min.js"></script>
     <script src="~/admin/js/zoom.js"></script>
     <!-- <script src="js/switcher.js"></script> -->
     <script src="~/admin/js/theme-settings.js"></script>
     <script src="~/admin/js/main.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
