@@ -2,8 +2,11 @@ using AntrazShop.Data;
 using AntrazShop.Services.Interfaces;
 using AntrazShop.Services;
 using Microsoft.EntityFrameworkCore;
-using AntrazShop.Repositories.Interfaces;
 using AntrazShop.Repositories;
+using AntrazShop.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,15 +24,43 @@ builder.Services.AddCors(options =>
 });
 
 
-
-
 builder.Services.AddDbContext<ShopDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AntrazShop"));
 });
 
+builder.Services.AddAuthentication(options =>
+{
+	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+	options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+	options.RequireHttpsMetadata = false;
+	options.SaveToken = true;
+	options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+	{
+		ValidIssuer = builder.Configuration["JwtConfig:Issuer"],
+		ValidAudience = builder.Configuration["JwtConfig:Audience"],
+		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]!)),
+		ValidateIssuer = true,
+		ValidateAudience =true,
+		ValidateLifetime = true,
+		ValidateIssuerSigningKey = true
+	};
+});
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 var app = builder.Build();
@@ -59,11 +90,15 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "Areas",
-	pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+	pattern: "{area:exists}/{controller=account}/{action=index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.Run();

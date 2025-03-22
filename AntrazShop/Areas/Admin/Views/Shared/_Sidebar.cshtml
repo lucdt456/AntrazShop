@@ -19,14 +19,14 @@
         </ul>
     </div>
     <div class="center-item">
-        <div class="center-heading">Quản lý</div>
+        <div class="center-heading">Thương mại điện tử</div>
         <ul class="menu-list">
             <li class="menu-item has-children">
                 <a href="javascript:void(0);" class="menu-item-button" sss>
                     <div class="icon"><i class="icon-shopping-cart"></i></div>
                     <div class="text">Sản phẩm</div>
                 </a>
-                <ul class="sub-menu" @* style="display: block;" *@>
+                <ul class="sub-menu">
                     <li class="sub-menu-item">
                         <a href="/admin/product" class="menu-item-active">
                             <div class="text">DS sản phẩm</div>
@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="sub-menu-item">
-                        <a href="/admin/product/brand" class="menu-item-active">
+                        <a href="/admin/product/storage" class="menu-item-active">
                             <div class="text">Kho hàng</div>
                         </a>
                     </li>
@@ -103,52 +103,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="menu-item has-children">
-                <a href="javascript:void(0);" class="menu-item-button">
-                    <div class="icon"><i class="icon-user"></i></div>
-                    <div class="text">Người dùng</div>
-                </a>
-                <ul class="sub-menu">
-                    <li class="sub-menu-item">
-                        <a href="all-user.html" class="menu-item-active">
-                            <div class="text">Tất cả người dùng</div>
-                        </a>
-                    </li>
-                    <li class="sub-menu-item">
-                        <a href="add-new-user.html" class="menu-item-active">
-                            <div class="text">Tạo mới</div>
-                        </a>
-                    </li>
-                    <li class="sub-menu-item">
-                        <a href="login.html" class="menu-item-active">
-                            <div class="text">Đăng nhập</div>
-                        </a>
-                    </li>
-                    <li class="sub-menu-item">
-                        <a href="sign-up.html" class="menu-item-active">
-                            <div class="text">Đăng ký</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu-item has-children">
-                <a href="javascript:void(0);" class="menu-item-button">
-                    <div class="icon"><i class="icon-user-plus"></i></div>
-                    <div class="text">Vai trò</div>
-                </a>
-                <ul class="sub-menu">
-                    <li class="sub-menu-item">
-                        <a href="all-roles.html" class="menu-item-active">
-                            <div class="text">Tất cả vai trò</div>
-                        </a>
-                    </li>
-                    <li class="sub-menu-item">
-                        <a href="create-role.html" class="menu-item-active">
-                            <div class="text">Tạo vai trò</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+        
+           
             <li class="menu-item">
                 <a href="gallery.html" class="">
                     <div class="icon"><i class="icon-image"></i></div>
@@ -163,6 +119,53 @@
             </li>
         </ul>
     </div>
+
+    <div class="center-item">
+        <div class="center-heading">Tài khoản</div>
+        <ul class="menu-list">
+
+            <li class="menu-item has-children">
+                <a href="javascript:void(0);" class="menu-item-button">
+                    <div class="icon"><i class="icon-user"></i></div>
+                    <div class="text">Người dùng</div>
+                </a>
+
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/admin/account" class="menu-item-active">
+                            <div class="text">Nhân sự</div>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/admin/account/customer" class="menu-item-active">
+                            <div class="text">Khách hàng</div>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </li>
+
+            <li class="menu-item has-children">
+                <a href="javascript:void(0);" class="menu-item-button">
+                    <div class="icon"><i class="icon-user-plus"></i></div>
+                    <div class="text">Chức vụ</div>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/admin/account/role" class="menu-item-active">
+                            <div class="text">Danh sách</div>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/admin/account/rolepermissions" class="menu-item-active">
+                            <div class="text">Phân quyền</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
     <div class="center-item">
         <div class="center-heading">Setting</div>
         <ul class="menu-list">

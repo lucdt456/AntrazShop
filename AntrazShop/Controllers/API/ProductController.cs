@@ -3,6 +3,7 @@ using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
 using AntrazShop.Services;
 using AntrazShop.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace AntrazShop.Controllers.API
 {
 	[Route("api/[controller]")]
 	[ApiController]
+
 	public class ProductController : ControllerBase
 	{
 		private readonly IProductService _productService;
@@ -17,7 +19,7 @@ namespace AntrazShop.Controllers.API
 		{
 			_productService = productService;
 		}
-
+		
 		[HttpGet]
 		public async Task<IEnumerable<ProductVM>> GetProducts()
 		{

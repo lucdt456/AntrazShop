@@ -1887,14 +1887,15 @@ a:hover, a:focus {
 }
 
 .list-icon-function {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  gap: 20px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+    justify-content: center;
 }
 .list-icon-function .item {
   font-size: 20px;
@@ -2577,11 +2578,11 @@ a:hover, a:focus {
   width: 100%;
   height: 100%;
   border-left-color: transparent;
-  -webkit-animation: rotate360 2s infinite linear;
-  -moz-animation: rotate360 2s infinite linear;
-  -ms-animation: rotate360 2s infinite linear;
-  -o-animation: rotate360 2s infinite linear;
-  animation: rotate360 2s infinite linear;
+  -webkit-animation: rotate360 1s infinite linear;
+  -moz-animation: rotate360 1s infinite linear;
+  -ms-animation: rotate360 1s infinite linear;
+  -o-animation: rotate360 1s infinite linear;
+  animation: rotate360 1s infinite linear;
 }
 
 #line-chart-1,

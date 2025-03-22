@@ -1,0 +1,89 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="author" content="themesflat.com">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Đăng nhập</title>
+
+
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animation.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <!-- Font -->
+    <link rel="stylesheet" href="~/admin/font/fonts.css">
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="~/admin/icon/style.css">
+
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="~/img/Logo/LogoAntrazIcon.png">
+    @*     <link rel="apple-touch-icon-precomposed" href="~/admin/images/favicon.png"> *@
+    <script src="~/admin/js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="page" class="">
+            <div class="wrap-login-page">
+                <div class="flex-grow flex flex-column justify-center gap30">
+                   
+                    <div class="login-box">
+                        <a style="display: flex; justify-content: center;">
+                            <img src="/img/Logo/antrazLight.png" />
+                        </a>            
+
+                        <form class="form-login flex flex-column gap24">
+                            <fieldset class="email">
+                                <label for="email" class="body-title mb-10">Email</label>
+                                <input class="flex-grow" type="email" placeholder="Nhập địa chỉ email" id="email" tabindex="0" value="" aria-required="true" required="">
+                            </fieldset>
+                            <fieldset class="password">
+                                <label for="password" class="body-title mb-10">Mật khẩu</label>
+                                <input class="password-input" type="password" placeholder="Nhập mật khẩu" id="password" tabindex="0" value="" aria-required="true" required="">
+                                <span class="show-pass">
+                                    <i class="icon-eye view"></i>
+                                    <i class="icon-eye-off hide"></i>
+                                </span>
+                            </fieldset>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap10">
+                                    <input class="" type="checkbox" id="signed">
+                                    <label class="body-text" for="signed">Giữ thông tin đăng nhập</label>
+                                </div>
+                                <a href="#" class="body-text tf-color">Quên mật khẩu?</a>
+                            </div>
+                            <a href="index.html" class="tf-button w-full">Đăng nhập</a>
+                        </form>
+                        
+                        <div class="body-text text-center">
+                            Chưa có tài khoản đăng nhập?
+                            <a href="/admin/account/signup" class="body-text tf-color">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="~/admin/js/jquery.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script src="~/admin/js/bootstrap-select.min.js"></script>
+    <script src="~/admin/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
