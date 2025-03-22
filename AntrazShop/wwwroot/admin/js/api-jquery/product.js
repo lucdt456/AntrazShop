@@ -11,8 +11,8 @@ function loadproducts() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            console.log("Dữ liệu nhận về: ", response);
             $("#product-list").empty();
+            $("#product-list2").empty();
             $.each(response, function (index, product) {
                 let status;
                 switch (product.status) {
@@ -65,6 +65,55 @@ function loadproducts() {
                         </div>
                     </li>`
                 )
+
+                $("#product-list2").append(
+                    `<tr class="antraz-table-list">
+                        <th class="antraz-table-item">
+                            <div class="image no-bg">
+                                <img src="/admin/img/product/${product.imageView}" alt="">
+                            </div>
+                            
+                            <div class="name">
+                                <a class="body-title-2">${product.name}</a>
+                            </div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">#${product.id}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">$${product.price}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.stock}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.discountAmount}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="block-available">${status}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.brand}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.category}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="list-icon-function">
+                                <div class="item eye" onclick="goToEdit(${product.id})">
+                                    <i class="icon-eye"></i>
+                                </div>
+                                <div class="item edit" onclick="goToEdit(${product.id})">
+                                    <i class="icon-edit-3"></i>
+                                </div>
+                                <div class="item trash" onclick="deleteProduct(${product.id})">
+                                    <i class="icon-trash-2"></i>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    `
+                )
             })
         },
         error: function (xhr, status, error) {
@@ -97,7 +146,7 @@ function CreateProduct() {
             data: productJson,
             success: function (response) {
                 swal.fire({
-                    title: "tạo sản phẩm thành công",
+                    title: "Tạo sản phẩm thành công",
                     icon: "success",
                     draggable: true
                 }).then(() => {
@@ -213,6 +262,7 @@ function saveUpdate() {
     }
 }
 
+//delete
 function deleteProduct(id) {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -228,7 +278,7 @@ function deleteProduct(id) {
         showCancelButton: true,
         cancelButtonText: "No",
         confirmButtonText: "Yes",
-       
+
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
@@ -247,7 +297,7 @@ function deleteProduct(id) {
                     alert("Lỗi khi xoá: " + xhr.responseText);
                     console.error(error);
                 }
-            })     
+            })
         } else if (
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel

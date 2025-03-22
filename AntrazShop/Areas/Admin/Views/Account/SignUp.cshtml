@@ -1,0 +1,119 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta charset="utf-8">
+
+    <meta name="author" content="themesflat.com">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Đăng ký</title>
+
+
+
+    <!-- Theme Style -->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/animation.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <!-- Font -->
+    <link rel="stylesheet" href="~/admin/font/fonts.css">
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="~/admin/icon/style.css">
+
+    <!-- Favicon and Touch Icons  -->
+    <link rel="shortcut icon" href="~/img/Logo/LogoAntrazIcon.png">
+    <script src="~/admin/js/jquery.min.js"></script>
+</head>
+<body>
+
+    <div id="wrapper">
+        <div id="page" class="">
+            <div class="wrap-login-page sign-up">
+                <div class="flex-grow flex flex-column justify-center gap30">
+                    <div class="login-box">
+                        <a style="display: flex; justify-content: center;">
+                            <img src="/img/Logo/antrazLight.png" />
+                        </a>
+                        <form class="form-login flex flex-column gap24">
+
+                            <div class="gap22 cols">
+                                <fieldset>
+                                    <label for="name" class="body-title mb-10">Họ và tên</label>
+                                    <input id="name" class="flex-grow flex gap10 validate-input" type="text" placeholder="Nhập tên của bạn" tabindex="0">
+                                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                                </fieldset>
+                                <fieldset style="width: 40%">
+                                    <label for="gender" class="body-title mb-10">Giới tính</label>
+                                    <div class="select">
+                                        <select id="gender" class="validate-name validate-input">
+                                            <option value="">Chọn</option>
+                                            <option>Nam</option>
+                                            <option>Nữ</option>
+                                        </select>
+                                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <fieldset class="email">
+                                <label for="email" class="body-title mb-10">Emai</label>
+                                <input autocomplete="username" id="email" class="flex-grow validate-input" type="email" placeholder="Nhập địa chỉ email" tabindex="0" value="">
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+
+                            <fieldset class="password">
+                                <label for="password" class="body-title mb-10">Mật khẩu</label>
+                                <input id="password" autocomplete="new-password" class="password-input validate-input" type="password" placeholder="Nhập mật khẩu" tabindex="0" value="">
+                                <span class="show-pass">
+                                    <i class="icon-eye view"></i>
+                                    <i class="icon-eye-off hide"></i>
+                                </span>
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+                            <fieldset class="password">
+                                <label for="repassword" class="body-title mb-10">Xác nhận mật khẩu </label>
+                                <input id="repassword" autocomplete="new-password" class="password-input validate-input" type="password" placeholder="Nhập lại mật khẩu" tabindex="0" value="">
+                                <span class="show-pass">
+                                    <i class="icon-eye view"></i>
+                                    <i class="icon-eye-off hide"></i>
+                                </span>
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+
+                            <fieldset class="phoneNumber">
+                                <label for="phoneNumber" class="body-title mb-10">Số điện thoại</label>
+                                <input id="phoneNumber" class="flex-grow validate-input" type="tel" placeholder="Nhập số điện thoại" tabindex="0">
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+
+                            <fieldset class="adress">
+                                <label for="address" class="body-title mb-10">Địa chỉ</label>
+                                <input id="address" class="flex-grow validate-input" type="text" placeholder="Nhập số điện thoại" tabindex="0">
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+                            <button type="button" id="btn_create" onclick="createUser()" class="tf-button w-full">Đăng ký</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="~/admin/js/jquery.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script src="~/admin/js/bootstrap-select.min.js"></script>
+    <script src="~/admin/js/main.js"></script>
+    <script src="~/admin/js/api-jquery/signUp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
