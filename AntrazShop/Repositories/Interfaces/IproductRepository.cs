@@ -6,9 +6,12 @@ namespace AntrazShop.Repositories.Interfaces
 {
 	public interface IProductRepository
 	{
-		Task<IEnumerable<ProductVM>> GetProducts();
-		Task<ProductVM?> GetProduct(int id);
-		Task<Product> AddProduct(ProductDTO newProduct);
+		Task<int> GetTotalProductCount();
+		Task<IEnumerable<Product>> GetProducts(int recSkip, int take);
+		Task<int> GetTotalProductCountSearch(string search);
+		Task<IEnumerable<Product>> SearchProducts(string search, int recSkip, int take);
+		Task<Product> GetProduct(int id);
+		Task<Product> AddProduct(Product newProduct);
 		Task<Product?> UpdateProduct(int id, ProductDTO productUpdate);
 		Task<bool> DeleteProduct(int id);
 	}

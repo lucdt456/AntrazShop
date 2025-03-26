@@ -1,4 +1,5 @@
 using AntrazShop.Data;
+using AntrazShop.Models.ViewModels;
 using AntrazShop.Repositories.Interfaces;
 using AntrazShop.Services.Interfaces;
 
@@ -22,12 +23,12 @@ namespace AntrazShop.Services
 			return await _brandRepository.DeleteBrand(id);
 		}
 
-		public async Task<Brand> GetBrand(int id)
+		public async Task<BrandVM> GetBrand(int id)
 		{
 			return await _brandRepository.GetBrand(id);
 		}
 
-		public async Task<IEnumerable<Brand>> GetBrands()
+		public async Task<IEnumerable<BrandVM>> GetBrands()
 		{
 			return await _brandRepository.GetBrands();
 		}

@@ -1,4 +1,5 @@
 using AntrazShop.Data;
+using AntrazShop.Models.ViewModels;
 using AntrazShop.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,14 +12,33 @@ namespace AntrazShop.Repositories
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<Brand>> GetBrands()
+		public async Task<IEnumerable<BrandVM>> GetBrands()
 		{
-			return await _context.Brands.ToListAsync();
+
+			var brandVM = await _context.Brands.Select(b => new BrandVM
+			{
+				Id = b.Id,
+				Name = b.Name,
+				Description = b.Description,
+				Logo = b.Logo,
+				ProductCount = _context.Products.Count(p => p.BrandId == b.Id)
+			}).ToListAsync();
+			return brandVM;
 		}
 
-		public async Task<Brand> GetBrand(int id)
+		public async Task<BrandVM> GetBrand(int id)
 		{
-			return await _context.Brands.FindAsync(id);
+			var brand = await _context.Brands.FindAsync(id);
+			var productCount = _context.Products.Count(p => p.BrandId == id);
+			var brandVM = new BrandVM
+			{
+				Name = brand.Name,
+				Description = brand.Description,
+				Logo = brand.Logo,
+				ProductCount  = productCount
+			};
+
+			return brandVM;
 		}
 
 		public async Task CreateBrand(Brand brand)

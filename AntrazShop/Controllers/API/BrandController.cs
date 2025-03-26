@@ -1,4 +1,5 @@
 using AntrazShop.Data;
+using AntrazShop.Models.ViewModels;
 using AntrazShop.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		[HttpGet]
-		public async Task<IEnumerable<Brand>> GetBrands()
+		public async Task<IEnumerable<BrandVM>> GetBrands()
 		{
 			return await _brandRepository.GetBrands();
 		}

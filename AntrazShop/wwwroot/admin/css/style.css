@@ -1584,11 +1584,11 @@ a:hover, a:focus {
 .wg-pagination li:hover i, .wg-pagination li.active i {
   color: #fff !important;
 }
-.wg-pagination li:last-child a, .wg-pagination li:first-child a {
-  border: 1px solid var(--Stroke);
-  width: 42px;
-  height: 42px;
-}
+    .wg-pagination li:last-child a, .wg-pagination li:nth-child(2) a, .wg-pagination li:nth-last-child(2) a, .wg-pagination li:nth-child(2) a, .wg-pagination li:first-child a {
+        border: 1px solid var(--Stroke);
+        width: 42px;
+        height: 42px;
+    }
 
 .comment-item {
   display: -webkit-box;
