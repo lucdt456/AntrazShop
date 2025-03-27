@@ -11,7 +11,7 @@
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel"></h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick=" loadproducts()"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
@@ -100,7 +100,7 @@
                             <label class="body-title mb-10">Ảnh đại diện sản phẩm</label>
                             <div class="upload-image mb-16">
                                 <div class="item">
-                                    <img id="imagePreview" alt="">
+                                    <img id="imagePreview" style="object-fit: contain;" alt="">
                                 </div>
                                 <div class="item up-load">
                                     <label class="uploadfile" for="imageView">
@@ -127,7 +127,7 @@
             <div class="modal-footer">
                 <div class="col-7"></div>
                 <div class="col-5" style="display: flex; gap: 10px;">
-                    <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="loadproducts()">Đóng</button>
+                    <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="closeView()">Đóng</button>
                     <button type="button" class="tf-button w-full" id="btn-edit">Chỉnh sửa</button>
                     <button type="button" class="tf-button w-full" onclick="saveUpdate()" id="btn-save">Lưu thay đổi</button>
                 </div>
@@ -165,7 +165,7 @@
         <div class="wg-box" style="overflow:auto;">
             <div class="title-box">
                 <i class="icon-coffee"></i>
-                <div class="body-text">Mẹo: tìm kiếm bằng mã sản phẩm nhanh hơn ...</div>
+                <div class="body-text">Tìm kiếm theo tên sản phẩm ...</div>
             </div>
             <div class="flex items-center justify-between gap10 flex-wrap">
 
@@ -224,7 +224,7 @@
                     <li>
                         <a href="#" id="leftPageButton"><i class="fa-solid fa-angle-left"></i></a>
                     </li>
-                  
+
                     <li>
                         <a href="#" id="rightPageButton"><i class="fa-solid fa-angle-right"></i></a>
                     </li>

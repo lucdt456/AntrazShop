@@ -24,7 +24,7 @@ namespace AntrazShop.Repositories
 
 		public async Task<IEnumerable<Product>> SearchProducts(string search, int recSkip, int take)
 		{
-			List<Product> products = await _context.Products.OrderBy(p => p.Id).Where(p => p.Name.Contains(search)).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
+			List<Product> products = await _context.Products.OrderBy(p => p.Id).Where(p => p.Name.Contains(search)).Skip(recSkip).Take(take).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
 			return products;
 		}
 
