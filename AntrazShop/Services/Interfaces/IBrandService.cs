@@ -1,11 +1,12 @@
 using AntrazShop.Data;
+using AntrazShop.Models;
 using AntrazShop.Models.ViewModels;
 
 namespace AntrazShop.Services.Interfaces
 {
 	public interface IBrandService
 	{
-		Task<IEnumerable<BrandVM>> GetBrands();
+		Task<(IEnumerable<BrandVM>, Paginate)> GetBrands(int pg, int size);
 		Task<BrandVM> GetBrand(int id);
 		Task CreateBrand(Brand brand);
 		Task<Brand> UpdateBrand(int id, Brand newBrand);

@@ -1,10 +1,5 @@
-using AntrazShop.Data;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Models.ViewModels;
-using AntrazShop.Services;
 using AntrazShop.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -20,6 +15,7 @@ namespace AntrazShop.Controllers.API
 			_productService = productService;
 		}
 
+		//[Authorize]
 		[HttpGet]
 		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{

@@ -11,9 +11,9 @@ namespace AntrazShop.Repositories
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<Category>> GetCategorys()
+		public async Task<IEnumerable<Category>> GetCategorys(int recskip, int take)
 		{
-			return await _context.Categories.ToListAsync();
+			return await _context.Categories.Skip(recskip).Take(take).ToListAsync();
 		}
 
 		public async Task<Category> GetCategory(int id)
@@ -56,6 +56,16 @@ namespace AntrazShop.Repositories
 				return true;
 			}
 			return false;
+		}
+
+		public async Task<int> getTotalCategories()
+		{
+			return await _context.Categories.CountAsync();
+		}
+
+		public async Task<int> getCategoryProductCounts(int id)
+		{
+			return await _context.Products.CountAsync(p => p.CategoryId == id);
 		}
 	}
 }

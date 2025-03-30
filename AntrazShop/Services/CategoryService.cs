@@ -1,4 +1,6 @@
 using AntrazShop.Data;
+using AntrazShop.Models;
+using AntrazShop.Models.ViewModels;
 using AntrazShop.Repositories.Interfaces;
 using AntrazShop.Services.Interfaces;
 
@@ -10,6 +12,28 @@ namespace AntrazShop.Services
 		public CategoryService(ICategoryRepository categoryRepository)
 		{
 			_categoryRepository = categoryRepository;
+		}
+
+		public async Task<(IEnumerable<CategoryVM>, Paginate)> GetCategories( int pg, int size)
+		{
+			var categoryCount = await _categoryRepository.getTotalCategories();
+			var pagination = new Paginate(categoryCount, pg, size);
+			int recskip = (pg - 1) * size;
+			var categpories = await _categoryRepository.GetCategorys(recskip, size);
+			var categoryVMs = new List<CategoryVM>();
+			foreach (var c in categpories)
+			{
+				var productCount = await _categoryRepository.getCategoryProductCounts(c.Id);
+				categoryVMs.Add(new CategoryVM
+				{
+					Id = c.Id,
+					Name  = c.Name,
+					Description = c.Description,
+					Image = c.Image,
+					ProductCount = productCount
+				});
+			};
+			return (categoryVMs, pagination);
 		}
 
 		public async Task CreateCategory(Category category)
@@ -27,10 +51,7 @@ namespace AntrazShop.Services
 			return await _categoryRepository.GetCategory(id);
 		}
 
-		public async Task<IEnumerable<Category>> GetCategorys()
-		{
-			return await _categoryRepository.GetCategorys();
-		}
+
 
 		public async Task<Category> UpdateCategory(int id, Category newCategory)
 		{

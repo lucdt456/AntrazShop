@@ -1,6 +1,6 @@
 namespace AntrazShop.Models
 {
-	public class Panigate
+	public class Paginate
 	{
 		public int TotalItems { get; set; }
 		public int PageSize { get; set; }
@@ -10,12 +10,12 @@ namespace AntrazShop.Models
 		public int MaxPagesToShow { get; set; }
 		public int EndPage { get; set; }
 
-		public Panigate()
+		public Paginate()
 		{
 
 		}
 
-		public Panigate(int totalItems, int currentPage, int pageSize)
+		public Paginate(int totalItems, int currentPage, int pageSize)
 		{
 			if (currentPage < 1)
 			{

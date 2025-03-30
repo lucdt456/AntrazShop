@@ -2,12 +2,8 @@ using AntrazShop.Data;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
-using AntrazShop.Repositories;
 using AntrazShop.Repositories.Interfaces;
 using AntrazShop.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Drawing;
-
 namespace AntrazShop.Services
 {
 	public class ProductService : IProductService
@@ -19,11 +15,11 @@ namespace AntrazShop.Services
 			_productRepository = productRepository;
 		}
 
-		public async Task<(IEnumerable<ProductVM>, Panigate pagination)> GetProducts(int pg, int size)
+		public async Task<(IEnumerable<ProductVM>, Paginate)> GetProducts(int pg, int size)
 		{
 			var totalProducts = await _productRepository.GetTotalProductCount();
 
-			var panigation = new Panigate(totalProducts, pg, size);
+			var pagination = new Paginate(totalProducts, pg, size);
 			int recSkip = (pg - 1) * size;
 			var products = await _productRepository.GetProducts(recSkip, size);
 
@@ -40,13 +36,13 @@ namespace AntrazShop.Services
 				Stock = p.Stock,
 				status = p.status
 			});
-			return (productVMs, panigation);
+			return (productVMs, pagination);
 		}
 
-		public async Task<(IEnumerable<ProductVM>, Panigate pagination)> SearchProducts(string search, int pg, int size)
+		public async Task<(IEnumerable<ProductVM>, Paginate)> SearchProducts(string search, int pg, int size)
 		{
 			var count = await _productRepository.GetTotalProductCountSearch(search);
-			var panigation = new Panigate(count, pg, size);
+			var panigation = new Paginate(count, pg, size);
 			int recSkip = (pg - 1) * size;
 			var products = await _productRepository.SearchProducts(search, recSkip, size);
 			var productVMs = products.Select(p => new ProductVM
@@ -113,7 +109,5 @@ namespace AntrazShop.Services
 		{
 			return await _productRepository.DeleteProduct(id);
 		}
-
-	
 	}
 }

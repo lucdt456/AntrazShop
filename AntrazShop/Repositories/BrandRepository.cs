@@ -12,18 +12,9 @@ namespace AntrazShop.Repositories
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<BrandVM>> GetBrands()
+		public async Task<IEnumerable<Brand>> GetBrands(int recskip, int take)
 		{
-
-			var brandVM = await _context.Brands.Select(b => new BrandVM
-			{
-				Id = b.Id,
-				Name = b.Name,
-				Description = b.Description,
-				Logo = b.Logo,
-				ProductCount = _context.Products.Count(p => p.BrandId == b.Id)
-			}).ToListAsync();
-			return brandVM;
+			return await _context.Brands.Skip(recskip).Take(take).ToListAsync();
 		}
 
 		public async Task<BrandVM> GetBrand(int id)
@@ -32,10 +23,11 @@ namespace AntrazShop.Repositories
 			var productCount = _context.Products.Count(p => p.BrandId == id);
 			var brandVM = new BrandVM
 			{
+				Id = brand.Id,
 				Name = brand.Name,
 				Description = brand.Description,
 				Logo = brand.Logo,
-				ProductCount  = productCount
+				ProductCount = productCount
 			};
 
 			return brandVM;
@@ -75,6 +67,16 @@ namespace AntrazShop.Repositories
 				return true;
 			}
 			return false;
+		}
+
+		public async Task<int> GetTotalBrands()
+		{
+			return await _context.Brands.CountAsync();
+		}
+
+		public async Task<int> GetBrandProductCounts(int brandId)
+		{
+			return await _context.Products.CountAsync(p => p.BrandId == brandId);
 		}
 	}
 }
