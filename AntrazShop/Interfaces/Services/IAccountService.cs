@@ -2,7 +2,7 @@ using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
 
 
-namespace AntrazShop.Services.Interfaces
+namespace AntrazShop.Interfaces.Services
 {
 	public interface IAccountService
 	{

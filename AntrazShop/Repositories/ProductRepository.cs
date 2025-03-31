@@ -1,8 +1,8 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
-using AntrazShop.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AntrazShop.Repositories

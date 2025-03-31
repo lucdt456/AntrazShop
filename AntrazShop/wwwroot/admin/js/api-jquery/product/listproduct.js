@@ -84,7 +84,7 @@ function searchProducts(page, size) {
                     $("#pageNumber").children("li:nth-child(2)").after(
                         ` 
                     <li ${active}>
-                        <a href="#" class="page-number-link" >${i}</a>
+                        <a class="page-number-link" >${i}</a>
                     </li>
                    `
                     )
@@ -111,6 +111,7 @@ $("#firstPageButton").click(function () {
 
 //Chuyển đến trang cuối cùng
 $("#endPageButton").click(function () {
+   
     size = $("#sizePage").val();
     pager.currentPage = pager.totalPage;
     if ($("#searchInput").val() === '') {
@@ -121,6 +122,7 @@ $("#endPageButton").click(function () {
 
 //Chuyển trang bên trái
 $("#leftPageButton").click(function () {
+  
     pager.currentPage = pager.currentPage - 1;
     size = $("#sizePage").val();
     if (pager.currentPage < 1) {
@@ -134,6 +136,7 @@ $("#leftPageButton").click(function () {
 
 //chuyển trang bên phải
 $("#rightPageButton").click(function () {
+   
     pager.currentPage = pager.currentPage + 1;
     if (pager.currentPage > pager.totalPage) {
         pager.currentPage = pager.totalPage;
@@ -282,7 +285,7 @@ function loadproducts(page, size) {
                 $("#pageNumber").children("li:nth-child(2)").after(
                     ` 
                     <li ${active}>
-                        <a href="#" class="page-number-link" >${i}</a>
+                        <a class="page-number-link" >${i}</a>
                     </li>
                    `
                 )

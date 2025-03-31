@@ -6,8 +6,6 @@ namespace AntrazShop.Data
 	[Table("Reviews")]
 	public class Review
 	{
-		[Key]
-		public int Id { get; set; }
 		[ForeignKey("User")]
 		public int UserId { get; set; }
 		public User User { get; set; }
@@ -18,6 +16,5 @@ namespace AntrazShop.Data
 		public string Content { get; set; }
 		public double Rating { get; set; }
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
-
 	}
 }

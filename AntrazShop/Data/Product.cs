@@ -26,8 +26,13 @@ namespace AntrazShop.Data
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
-		public List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
-		public List<Review> Reviews { get; set; } = new List<Review>();
+		public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+		public ICollection<Review> Reviews { get; set; } = new List<Review>();
 		public int status { get; set; }
+
+		public ICollection<WishList> WishLists { get; set; } = new List<WishList>();
+		public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+		public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
 	}
 }

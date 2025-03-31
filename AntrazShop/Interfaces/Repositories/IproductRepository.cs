@@ -2,7 +2,7 @@ using AntrazShop.Data;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
 
-namespace AntrazShop.Repositories.Interfaces
+namespace AntrazShop.Interfaces.Repositories
 {
 	public interface IProductRepository
 	{

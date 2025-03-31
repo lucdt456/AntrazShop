@@ -11,7 +11,7 @@ function createUser() {
         }
         userJson = JSON.stringify(user);
         $.ajax({
-            url: `https://localhost:7092/api/Account`,
+            url: `https://localhost:7092/api/Account/register`,
             type: 'POST',
             contentType: 'application/json',
             data: userJson,
@@ -21,7 +21,7 @@ function createUser() {
                     icon: "success",
                     draggable: true
                 }).then(() => {
-                    window.location.href = '/admin';
+                    window.location.href = '/admin/account/login';
                 });
             },
             error: function (xhr, status, error) {

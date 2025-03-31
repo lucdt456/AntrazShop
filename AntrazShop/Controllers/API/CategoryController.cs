@@ -1,5 +1,5 @@
 using AntrazShop.Data;
-using AntrazShop.Services.Interfaces;
+using AntrazShop.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

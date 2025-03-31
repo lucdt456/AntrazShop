@@ -1,5 +1,5 @@
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API

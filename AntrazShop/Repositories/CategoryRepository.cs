@@ -1,5 +1,5 @@
 using AntrazShop.Data;
-using AntrazShop.Repositories.Interfaces;
+using AntrazShop.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AntrazShop.Repositories

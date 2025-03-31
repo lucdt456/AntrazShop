@@ -2,7 +2,7 @@ using AntrazShop.Data;
 using AntrazShop.Models;
 using AntrazShop.Models.ViewModels;
 
-namespace AntrazShop.Services.Interfaces
+namespace AntrazShop.Interfaces.Services
 {
 	public interface ICategoryService
 	{

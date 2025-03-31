@@ -1,6 +1,6 @@
 using AntrazShop.Data;
 
-namespace AntrazShop.Repositories.Interfaces
+namespace AntrazShop.Interfaces.Repositories
 {
 	public interface ICategoryRepository
 	{

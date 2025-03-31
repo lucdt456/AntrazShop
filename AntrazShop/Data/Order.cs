@@ -14,5 +14,7 @@ namespace AntrazShop.Data
 		public User User { get; set; }
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
 		public int Status { get; set; }
+
+		public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 	}
 }

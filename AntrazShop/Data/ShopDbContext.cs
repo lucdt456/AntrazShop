@@ -33,7 +33,7 @@ namespace AntrazShop.Data
 			modelBuilder.Entity<UserRole>().HasKey(u => new { u.UserId, u.RoleId });
 			modelBuilder.Entity<RolePermission>().HasKey(r => new { r.RoleId, r.PermissionId });
 			modelBuilder.Entity<OrderDetail>().HasKey(od => new { od.OrderCode, od.ProductId });
-
+			modelBuilder.Entity<Review>().HasKey(rv => new { rv.UserId, rv.ProductId });
 			modelBuilder.Entity<UserPermission>().HasKey(up => new { up.UserId, up.PermissionId });
 			modelBuilder.Entity<ControllerActionsPermission>().HasOne(cap => cap.Permission).WithMany().HasForeignKey(cap => cap.PermissionId);
 

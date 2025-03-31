@@ -1,8 +1,8 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models;
 using AntrazShop.Models.ViewModels;
-using AntrazShop.Repositories.Interfaces;
-using AntrazShop.Services.Interfaces;
 
 namespace AntrazShop.Services
 {

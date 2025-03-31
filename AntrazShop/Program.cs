@@ -1,12 +1,14 @@
 using AntrazShop.Data;
-using AntrazShop.Services.Interfaces;
 using AntrazShop.Services;
 using Microsoft.EntityFrameworkCore;
 using AntrazShop.Repositories;
-using AntrazShop.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AntrazShop.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using AntrazShop.Interfaces.Repositories;
+using AntrazShop.Interfaces.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,7 @@ builder.Services.AddAuthentication(options =>
 	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 	options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
 }).AddJwtBearer(options =>
 {
 	options.RequireHttpsMetadata = false;
@@ -50,6 +53,15 @@ builder.Services.AddAuthentication(options =>
 	};
 });
 
+
+
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("CanViewProducts", policy => policy.Requirements.Add(new PermissionRequirement("ViewProducts")));
+	options.AddPolicy("CanEditProducts", policy => policy.Requirements.Add(new PermissionRequirement("EditProducts")));
+	options.AddPolicy("CanDeleteProducts", policy => policy.Requirements.Add(new PermissionRequirement("DeleteProducts")));
+});
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
@@ -62,6 +74,10 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+
+builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
 var app = builder.Build();
 

@@ -1,8 +1,8 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Repositories.Interfaces;
-using AntrazShop.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

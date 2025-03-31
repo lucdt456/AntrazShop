@@ -1,16 +1,15 @@
 using AntrazShop.Data;
+using AntrazShop.Models;
 using AntrazShop.Models.ViewModels;
 
-namespace AntrazShop.Repositories.Interfaces
+namespace AntrazShop.Interfaces.Services
 {
-	public interface IBrandRepository
+	public interface IBrandService
 	{
-		Task<IEnumerable<Brand>> GetBrands(int recskip, int take);
+		Task<(IEnumerable<BrandVM>, Paginate)> GetBrands(int pg, int size);
 		Task<BrandVM> GetBrand(int id);
 		Task CreateBrand(Brand brand);
 		Task<Brand> UpdateBrand(int id, Brand newBrand);
 		Task<bool> DeleteBrand(int id);
-		Task<int> GetTotalBrands();
-		Task<int> GetBrandProductCounts(int id);
 	}
 }

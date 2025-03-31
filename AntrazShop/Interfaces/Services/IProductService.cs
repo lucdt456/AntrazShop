@@ -3,7 +3,7 @@ using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
 
-namespace AntrazShop.Services.Interfaces
+namespace AntrazShop.Interfaces.Services
 {
 	public interface IProductService
 	{
