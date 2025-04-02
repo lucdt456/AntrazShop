@@ -14,8 +14,23 @@ namespace AntrazShop.Repositories
 
 		public async Task<List<string>> GetUserPermissions(int userId)
 		{
-			var permissions = await _context.UserRoles.Where(ur => ur.UserId == userId).SelectMany(ur => ur.Role.RolePermissions).Select(rp => rp.Permission.Name).Distinct().ToListAsync();
-			return permissions;
+			var rolePermissions = await _context.UserRoles
+				.Where(ur => ur.UserId == userId)
+				.SelectMany(ur => ur.Role.RolePermissions)
+				.Select(rp => rp.Permission.Name)
+				.ToListAsync();
+
+			var userPermissions = await _context.UserPermissions
+				.Where(up => up.UserId == userId)
+				.Select(up => up.Permission.Name)
+				.ToListAsync();
+
+			var allPermissions = rolePermissions
+				.Union(userPermissions)
+				.Distinct()
+				.ToList();
+
+			return allPermissions;
 		}
 	}
 }

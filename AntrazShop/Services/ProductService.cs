@@ -27,14 +27,14 @@ namespace AntrazShop.Services
 			{
 				Id = p.Id,
 				Name = p.Name,
-				Price = p.Price,
+				//Price = p.Price,
 				DiscountAmount = p.DiscountAmount,
 				Description = p.Description,
 				ImageView = p.ImageView,
 				Brand = p.Brand.Name,
 				Category = p.Category.Name,
-				Stock = p.Stock,
-				status = p.status
+				//Stock = p.Stock,
+				//status = p.Status
 			});
 			return (productVMs, pagination);
 		}
@@ -49,14 +49,14 @@ namespace AntrazShop.Services
 			{
 				Id = p.Id,
 				Name = p.Name,
-				Price = p.Price,
+				//Price = p.Price,
 				DiscountAmount = p.DiscountAmount,
 				Description = p.Description,
 				ImageView = p.ImageView,
 				Brand = p.Brand.Name,
 				Category = p.Category.Name,
-				Stock = p.Stock,
-				status = p.status
+				//Stock = p.Stock,
+				//status = p.Status
 			});
 			return (productVMs, panigation);
 		}
@@ -70,14 +70,14 @@ namespace AntrazShop.Services
 				{
 					Id = product.Id,
 					Name = product.Name,
-					Price = product.Price,
+					//Price = product.Price,
 					DiscountAmount = product.DiscountAmount,
 					Description = product.Description,
 					ImageView = product.ImageView,
 					Brand = product.Brand.Name,
 					Category = product.Category.Name,
-					Stock = product.Stock,
-					status = product.status
+					//Stock = product.Stock,
+					//status = product.Status
 				};
 				return productVM;
 			}
@@ -89,14 +89,14 @@ namespace AntrazShop.Services
 			var product = new Product
 			{
 				Name = newProduct.Name,
-				Price = newProduct.Price,
+				//Price = newProduct.Price,
 				DiscountAmount = newProduct.DiscountAmount,
 				Description = newProduct.Description,
 				ImageView = newProduct.ImageView,
 				BrandId = newProduct.BrandId,
 				CategoryId = newProduct.CategoryId,
-				status = newProduct.status,
-				Stock = newProduct.Stock
+				//Status = newProduct.status,
+				//Stock = newProduct.Stock
 			};
 			return await _productRepository.AddProduct(product);
 		}

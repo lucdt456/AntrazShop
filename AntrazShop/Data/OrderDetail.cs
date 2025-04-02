@@ -10,9 +10,10 @@ namespace AntrazShop.Data
 		[ForeignKey("Order")]
 		public Guid OrderCode { get; set; }
 		public Order Order { get; set; }
-		[ForeignKey("Product")]
-		public int ProductId { get; set; }
-		public Product Product { get; set; }
+
+		[ForeignKey("Color")]
+		public int ColorId { get; set; }
+		public Color Color { get; set; }
 		public int Quantity { get; set; }
 	}
 }

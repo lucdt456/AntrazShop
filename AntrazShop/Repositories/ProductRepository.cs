@@ -18,13 +18,26 @@ namespace AntrazShop.Repositories
 
 		public async Task<IEnumerable<Product>> GetProducts(int recSkip, int take)
 		{
-			List<Product> products = await _context.Products.OrderBy(p => p.Id).Skip(recSkip).Take(take).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
+			List<Product> products = await _context.Products
+				.OrderBy(p => p.Id)
+				.Skip(recSkip)
+				.Take(take)
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.ToListAsync();
 			return products;
 		}
 
 		public async Task<IEnumerable<Product>> SearchProducts(string search, int recSkip, int take)
 		{
-			List<Product> products = await _context.Products.OrderBy(p => p.Id).Where(p => p.Name.Contains(search)).Skip(recSkip).Take(take).Include(p => p.Brand).Include(p => p.Category).ToListAsync();
+			List<Product> products = await _context.Products
+				.OrderBy(p => p.Id)
+				.Where(p => p.Name.Contains(search))
+				.Skip(recSkip)
+				.Take(take)
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.ToListAsync();
 			return products;
 		}
 
@@ -57,14 +70,14 @@ namespace AntrazShop.Repositories
 			if (product != null)
 			{
 				product.Name = productUpdate.Name;
-				product.Price = productUpdate.Price;
+				//product.Price = productUpdate.Price;
 				product.DiscountAmount = productUpdate.DiscountAmount;
 				product.Description = productUpdate.Description;
 				product.ImageView = productUpdate.ImageView;
 				product.BrandId = productUpdate.BrandId;
 				product.CategoryId = productUpdate.CategoryId;
-				product.status = productUpdate.status;
-				product.Stock = productUpdate.Stock;
+				//product.Status = productUpdate.status;
+				//product.Stock = productUpdate.Stock;
 
 				_context.Products.Update(product);
 				await _context.SaveChangesAsync();

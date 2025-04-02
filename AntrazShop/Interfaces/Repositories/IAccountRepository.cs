@@ -6,5 +6,6 @@ namespace AntrazShop.Interfaces.Repositories
 	{
 		Task<User> CreateUser(User newUser);
 		Task<User> FindUser(string email);
+		
 	}
 }

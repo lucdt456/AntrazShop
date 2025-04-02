@@ -15,7 +15,40 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+	c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+	{
+		Title = "AntrazShop API",
+		Version = "v1"
+	});
+
+	// Thêm hỗ trợ JWT
+	c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+	{
+		Description = "Nhập token vào đây: Bearer {your JWT token}",
+		Name = "Authorization",
+		In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+		Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+		Scheme = "Bearer"
+	});
+
+	c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+	{
+		{
+			new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+			{
+				Reference = new Microsoft.OpenApi.Models.OpenApiReference
+				{
+					Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+					Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
+});
+
 
 builder.Services.AddCors(options =>
 {
@@ -28,7 +61,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ShopDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AntrazShop"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("AntrazShop"));
 });
 
 builder.Services.AddAuthentication(options =>
@@ -47,7 +80,7 @@ builder.Services.AddAuthentication(options =>
 		ValidAudience = builder.Configuration["JwtConfig:Audience"],
 		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]!)),
 		ValidateIssuer = true,
-		ValidateAudience =true,
+		ValidateAudience = true,
 		ValidateLifetime = true,
 		ValidateIssuerSigningKey = true
 	};
@@ -75,18 +108,19 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
-builder.Services.AddScoped<IPermissionService, PermissionService>();
-
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+
+builder.Services.AddScoped<IAccountManagerRepository, AccountManagerRepository>();
+builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -101,7 +135,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -109,12 +143,8 @@ app.MapControllerRoute(
 	pattern: "{area:exists}/{controller=dashboard}/{action=index}/{id?}");
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-
-app.UseAuthentication();
-app.UseAuthorization();
+	name: "default",
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers();
 app.Run();

@@ -1,34 +1,29 @@
-using AntrazShop.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Linq;
 
 namespace AntrazShop.Authorization
 {
-	public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
-	{
-		private readonly IPermissionService _permissionService;
-		public PermissionHandler(IPermissionService permissionService)
-		{
-			_permissionService = permissionService;
-		}
+    public class PermissionHandler : AuthorizationHandler<PermissionRequirement>
+    {
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
+        {
+            // Lấy tất cả claim có type = "Permission"
+            var userPermissions = context.User.Claims
+                .Where(c => c.Type == "Permission")
+                .Select(c => c.Value);
 
-		protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
-		{
-			var userIdClaim = context.User.FindFirst(ClaimTypes.NameIdentifier);
-			if(userIdClaim == null)
-			{
-				context.Fail();
-				return;
-			}
-			int userId = int.Parse(userIdClaim.Value);
+            // Kiểm tra xem có chứa quyền yêu cầu không
+            if (userPermissions.Contains(requirement.Permission))
+            {
+                context.Succeed(requirement);
+            }
+            else
+            {
+                context.Fail(); // Không có quyền → từ chối
+            }
 
-			var permissions = await _permissionService.GetUserPermissions(userId);
-			if (permissions.Contains(requirement.Permission))
-			{
-				context.Succeed(requirement);
-			}
-			else context.Fail();
-
-		}
-	}
+            return Task.CompletedTask;
+        }
+    }
 }

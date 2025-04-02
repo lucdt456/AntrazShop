@@ -24,6 +24,12 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 console.log('Đăng nhập thành công');
+                if (response.token) {
+                    localStorage.setItem('authToken', response.token); // Lưu token vào localStorage
+                    alert('Đăng nhập thành công!');
+                    // Có thể chuyển hướng người dùng đến trang Dashboard
+                    window.location.href = '/admin/dashboard';
+                }
             },
             error: function (xhr, status, error) {
                 // Kiểm tra mã lỗi và thông báo

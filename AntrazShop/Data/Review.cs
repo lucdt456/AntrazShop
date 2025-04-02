@@ -9,10 +9,11 @@ namespace AntrazShop.Data
 		[ForeignKey("User")]
 		public int UserId { get; set; }
 		public User User { get; set; }
+		
+		[ForeignKey("Color")]
+		public int ColorId { get; set; }
+		public Color Color { get; set; }
 
-		[ForeignKey("Product")]
-		public int ProductId { get; set; }
-		public Product Product { get; set; }
 		public string Content { get; set; }
 		public double Rating { get; set; }
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
