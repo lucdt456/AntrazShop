@@ -16,7 +16,7 @@ namespace AntrazShop.Controllers.API
 			_productService = productService;
 		}
 
-		[Authorize(Policy = "CanViewProducts")]
+		//[Authorize(Policy = "CanViewProducts")]
 		[HttpGet]
 		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{
@@ -29,8 +29,8 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
-		[Authorize]
-		[HttpGet("search")]
+		//[Authorize]
+		[HttpGet("search")]			
 		public async Task<IActionResult> SearchProducts(string search, int page =1, int size = 10)
 		{
 			var (products, pagination) = await _productService.SearchProducts(search, page, size);

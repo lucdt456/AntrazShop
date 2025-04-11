@@ -1,0 +1,124 @@
+            <!-- Modal Header -->
+<div class="modal-header">
+    <h4 class="modal-title" id="exampleModalLabel"></h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
+</div>
+<!-- Modal Body -->
+<div class="modal-body">
+    <form class="tf-section-2 form-add-product">
+        <div class="wg-box">
+            <fieldset>
+                <label class="body-title mb-10">
+                    ID sản phẩm
+                </label>
+                <input style="background-color: #E2E8F0" class="mb-10 validate-name" type="text" disabled tabindex="0" id="id-product">
+                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+            </fieldset>
+
+            <fieldset>
+                <label for="name" class="body-title mb-10">Tên sản phẩm</label>
+                <input class="mb-10 validate-name" type="text" placeholder="Điền tên sản phẩm" tabindex="0" id="name">
+                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+            </fieldset>
+
+            <div class="gap22 cols">
+                <fieldset>
+                    <label for="price" class="body-title mb-10">Giá sản phẩm</label>
+                    <input class="mb-10 validate-name" type="number" placeholder="Điền giá sản phẩm" id="price" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+                <fieldset>
+                    <label for="discountAmount" class="body-title mb-10">Giảm giá</label>
+                    <input class="mb-10 validate-name" type="number" placeholder="Giảm giá sản phẩm" id="discountAmount" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+            </div>
+
+            <div class="gap22 cols">
+                <fieldset>
+                    <label for="categoryid" class="body-title mb-10">Danh mục </label>
+                    <div class="select validate-name">
+                        <select id="categoryid" class="">
+                            <option value="">Chọn danh mục</option>
+                            <option value="1">Smart Phone</option>
+                            <option value="2">Laptop</option>
+                        </select>
+                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                    </div>
+
+                </fieldset>
+                <fieldset>
+                    <label for="brandid" class="body-title mb-10">Thương hiệu </label>
+                    <div class="select validate-name">
+                        <select id="brandid" class="">
+                            <option value="">Chọn thương hiệu</option>
+                            <option value="1">Apple</option>
+                            <option value="2">Samsung</option>
+                            <option value="3">Dell</option>
+                        </select>
+
+                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="gap22 cols">
+                <fieldset>
+                    <label for="status" class="body-title mb-10">Trạng thái</label>
+                    <div class="select">
+                        <select id="status" class="validate-name">
+                            <option value="">Chọn trạng thái</option>
+                            <option value="1">Hiện</option>
+                            <option value="0">Ẩn</option>
+                            <option value="3">Còn hàng</option>
+                            <option value="4">Hết hàng</option>
+                        </select>
+                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <label for="stock" class="body-title mb-10">Tồn kho</label>
+                    <input class="mb-10 validate-name" type="number" placeholder="Số lượng tồn kho" id="stock" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+            </div>
+
+        </div>
+        <input id="imageProductName" type="hidden" />
+        <div class="wg-box">
+            <fieldset>
+                <label class="body-title mb-10">Ảnh đại diện sản phẩm</label>
+                <div class="upload-image mb-16">
+                    <div class="item">
+                        <img id="imagePreview" style="object-fit: contain;" alt="">
+                    </div>
+                    <div class="item up-load">
+                        <label class="uploadfile" for="imageView">
+                            <span class="icon">
+                                <i class="icon-upload-cloud"></i>
+                            </span>
+
+                            <input class="form-control-plaintext" type="file" id="imageView" accept="image/*">
+                            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <label for="description" class="body-title mb-10">Mô tả</label>
+                <textarea class="mb-10 validate-name" id="description" placeholder="Điền mô tả sản phẩm" tabindex="0"></textarea>
+                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+            </fieldset>
+        </div>
+    </form>
+</div>
+<!-- Modal Footer -->
+<div class="modal-footer">
+    <div class="col-7"></div>
+    <div class="col-5" style="display: flex; gap: 10px;">
+        <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="closeView()">Đóng</button>
+        <button type="button" class="tf-button w-full" id="btn-edit">Chỉnh sửa</button>
+        <button type="button" class="tf-button w-full" onclick="saveUpdate()" id="btn-save">Lưu thay đổi</button>
+    </div>
+</div>

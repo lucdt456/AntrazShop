@@ -16,7 +16,7 @@ namespace AntrazShop.Repositories
 			_context = context;
 		}
 
-		public async Task<IEnumerable<Product>> GetProducts(int recSkip, int take)
+		public async Task<IEnumerable<Product>> GetProductsWithDetails(int recSkip, int take)
 		{
 			List<Product> products = await _context.Products
 				.OrderBy(p => p.Id)
@@ -24,6 +24,13 @@ namespace AntrazShop.Repositories
 				.Take(take)
 				.Include(p => p.Brand)
 				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
 				.ToListAsync();
 			return products;
 		}
@@ -37,31 +44,39 @@ namespace AntrazShop.Repositories
 				.Take(take)
 				.Include(p => p.Brand)
 				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
 				.ToListAsync();
 			return products;
 		}
 
-		public async Task<int> GetTotalProductCount()
-		{
-			return await _context.Products.CountAsync();
-		}
-		public async Task<int> GetTotalProductCountSearch(string search)
-		{
-			return await _context.Products.Where(p => p.Name.Contains(search)).CountAsync();
-		}
-
 		public async Task<Product> GetProduct(int id)
 		{
-			var product = await _context.Products.Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+			var product = await _context.Products
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
+				.FirstOrDefaultAsync(p => p.Id == id);
 
 			return product;
 		}
 
-		public async Task<Product> AddProduct(Product newProduct)
+		public async Task<int> AddProduct(Product newProduct)
 		{
 			await _context.Products.AddAsync(newProduct);
 			await _context.SaveChangesAsync();
-			return newProduct;
+			return newProduct.Id;
 		}
 
 		public async Task<Product?> UpdateProduct(int id, ProductDTO productUpdate)
@@ -98,6 +113,14 @@ namespace AntrazShop.Repositories
 			else return false;
 		}
 
+		public async Task<int> GetTotalProductCount()
+		{
+			return await _context.Products.CountAsync();
+		}
 
+		public async Task<int> GetTotalProductCountSearch(string search)
+		{
+			return await _context.Products.Where(p => p.Name.Contains(search)).CountAsync();
+		}
 	}
 }

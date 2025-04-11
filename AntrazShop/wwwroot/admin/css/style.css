@@ -2038,6 +2038,10 @@ a {
             color: #FF5200;
         }
 
+        .list-icon-function .item.save {
+            color: #1B56FD;
+        }
+
 .wg-order-detail {
     display: -webkit-box;
     display: -moz-box;

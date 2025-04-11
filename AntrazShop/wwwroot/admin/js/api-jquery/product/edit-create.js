@@ -33,8 +33,7 @@ $(document).ready(function () {
 
 //reset
 function ResetData() {
-    $("#name").val("");
-    $("#price").val("");
+    $("#name").val("");  
     $("#discountAmount").val("");
     $("#categoryid").val("");
     $("#brandid").val("");
@@ -242,4 +241,151 @@ function saveUpdate() {
             }
         });
     }
+}
+
+//Validate form nhập Color Capacity
+function ValidateFormCC() {
+    isValid = true;
+    $(".error-message-cc").text("");
+    $(".validate-form-cc").each(function () {
+        if ($(this).val().trim() == "") {
+            $(this).closest("fieldset").find(".error-message-cc").text("Đang trống")
+            isValid = false;
+        }
+    });
+
+    let color = $("#color").val();
+    let capacity = $("#capacity").val();
+
+    $("#productCC-list tr").each(function () {
+        let existingColor = $(this).find("th:nth-child(1) .body-text").text();
+        let existingCapacity = $(this).find("th:nth-child(2) .body-text").text();
+        if (existingColor === color && existingCapacity === capacity) {
+            $("#error-text-cc-message").text(`Sản phẩm màu ${color} dung lượng ${capacity} đã được thêm trước đó`)
+            isValid = false;
+        }
+    })
+    return isValid;
+}
+
+//reset Form CC
+function ResetFormCC() {
+    $("#color").val("");
+    $("#capacity").val("");
+    $("#price").val("");
+    $("#stock").val("");
+    $("#select").val("");
+   
+}
+
+//Thêm dữ liệu phân loại vào bảng
+function AddProductCC() {
+    $("#error-text-cc-message").text("");
+    $(".error-message").text("");
+    let isValid = ValidateFormCC();
+    if (isValid) {
+        let color = $("#color").val();
+        let capacity = $("#capacity").val();
+        let price = $("#price").val();
+        let stock = $("#stock").val();
+        let status = $("#status").val();
+
+        $("#productCC-list").append(
+            ` <tr>
+                        <th class="antraz-table-item" style="min-width:0px;">
+                            <div class="body-text">${color}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${capacity}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${price}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${stock}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${status}</div>
+                        </th>
+                        <th class="antraz-table-item" style="max-width:10%;">
+                            <div class="list-icon-function">
+                                <div class="item edit" onclick="EditProductCC(this)">
+                                    <i class="icon-edit-3"></i>
+                                </div>
+                                
+                                <div class="item trash" onclick="DeleteProductCC(this)">
+                                    <i class="icon-trash-2"></i>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>`
+        )
+
+        ResetFormCC()
+    }
+    else console.log("Lỗi validate");
+}
+
+//Xoá dữ liệu bảng phân loại
+function DeleteProductCC(button) {
+    $(button).closest("tr").remove();
+}
+
+//Đưa sản phẩm lại input
+function EditProductCC(button) {
+    currentRow = $(button).closest("tr");
+
+    let color = currentRow.find("th:nth-child(1) .body-text").text();
+    let capacity = currentRow.find("th:nth-child(2) .body-text").text();
+    let price = currentRow.find("th:nth-child(3) .body-text").text();
+    let stock = currentRow.find("th:nth-child(4) .body-text").text();
+    let status = currentRow.find("th:nth-child(5) .body-text").text();
+
+    currentRow.find("th:nth-child(1) .body-text").html(`<input type="text" value="${color}" />`);
+    currentRow.find("th:nth-child(2) .body-text").html(`<input type="text" value="${capacity}" />`);
+    currentRow.find("th:nth-child(3) .body-text").html(`<input type="text" value="${price}" />`);
+    currentRow.find("th:nth-child(4) .body-text").html(`<input type="text" value="${stock}" />`);
+    currentRow.find("th:nth-child(5) .body-text").html(`<input type="text" value="${status}" />`);
+
+    currentRow.find("th:nth-child(6) .list-icon-function").html(
+    `<div class="item save" onclick="SaveProductCC(this)" style="color: #1B56FD">
+        <i class="fa-regular fa-floppy-disk"></i>
+    </div>`
+    );
+}
+
+//SaveEdit
+function SaveProductCC(button) {
+    currentRow = $(button).closest("tr");
+
+    let color = currentRow.find("th:nth-child(1) input").val();
+    currentRow.find("th:nth-child(1) input").val("");
+
+    let capacity = currentRow.find("th:nth-child(2) input").val();
+    currentRow.find("th:nth-child(2) input").val("");
+
+    let price = currentRow.find("th:nth-child(3) input").val();
+    currentRow.find("th:nth-child(3) input").val("");
+
+    let stock = currentRow.find("th:nth-child(4) input").val();
+    currentRow.find("th:nth-child(4) input").val("");
+
+    let status = currentRow.find("th:nth-child(5) input").val();
+    currentRow.find("th:nth-child(5) input").val("");
+
+    currentRow.find("th:nth-child(1) .body-text").html(` <div class="body-text">${color}</div>`);
+    currentRow.find("th:nth-child(2) .body-text").html(` <div class="body-text">${capacity}</div>`);
+    currentRow.find("th:nth-child(3) .body-text").html(`<div class="body-text">${price}</div>`);
+    currentRow.find("th:nth-child(4) .body-text").html(`<div class="body-text">${stock}</div>`);
+    currentRow.find("th:nth-child(5) .body-text").html(`<div class="body-text">${status}</div>`);
+
+    currentRow.find("th:nth-child(6) .list-icon-function").html(
+        `<div class="item edit" onclick="EditProductCC(this)">
+        <i class="icon-edit-3"></i>
+        </div>
+        <div class="item trash" onclick="DeleteProductCC(this)">
+        <i class="icon-trash-2"></i>
+        </div>
+        `
+    );
 }

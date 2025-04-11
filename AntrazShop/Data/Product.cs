@@ -23,7 +23,7 @@ namespace AntrazShop.Data
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 		public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
-		public ICollection<Capacity> Capacities { get; set; } = new List<Capacity>();
+		public ICollection<ColorCapacity> ColorCapacities { get; set; } = new List<ColorCapacity>();
 
 	}
 }

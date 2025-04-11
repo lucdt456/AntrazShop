@@ -13,32 +13,65 @@ $(function () {
 
 // Chọn số lưognj sản phẩm trong 1 trang
 $("#sizePage").change(function () {
-    size = $("#sizePage").val();
+    size = $("#sizePage").val();     // cập nhật size trước
     pager.size = size;
+
     if ($("#searchInput").val() === '') {
         loadproducts(1, size);
-    } else
+    } else {
         searchProducts(1, size);
+    }
 });
 
 
-// Chuyển trang bằng cách ấn chân trang
-$(document).ready(function () {
-    $(document).on('click', '.page-number-link', function () {
-        let pageNumber = $(this).text();
-        pager.currentPage = pageNumber;
-        size = $("#sizePage").val();
-        if ($("#searchInput").val() === '') {
-            loadproducts(pageNumber, size);
-        }else
-            searchProducts(pageNumber, size);
-    });
+//hàm api lấy ds tất cả sản phẩm
+function loadproducts(page, size) {
+    $.ajax({
+        url: `https://localhost:7092/api/Product?page=${page}&size=${size}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            $("#product-list").empty();
+            $('#pageNumber li:nth-child(n+3):nth-last-child(n+3)').remove();
+            var listProducts = response.products.map(product => ({
+                id: product.id,
+                name: product.name,
+                price: `${product.minPrice} ~ ${product.maxPrice}`,
+                discountAmount: product.discountAmount,
+                description: product.description,
+                imageView: product.imageView,
+                brand: product.brand,
+                category: product.category,
+                status: product.status,
+                stock: product.totalStock
+            }));
 
-    $(".form-search").submit(function (event) {
-        event.preventDefault();
-        searchProducts(1, pager.size);
-    });
-});
+            // Xử lý các số chân trang
+            pager.totalPage = response.pagination.totalPage;
+
+            $("#totalProduct").text(`Có ${response.pagination.totalItems} sản phẩm`);
+            for (let i = response.pagination.endPage; i >= response.pagination.startPage; i--) {
+                let active = '';
+                if (i == response.pagination.currentPage) {
+                    active = 'class="active"';
+                }
+                $("#pageNumber").children("li:nth-child(2)").after(
+                    ` 
+                    <li ${active}>
+                        <a class="page-number-link" >${i}</a>
+                    </li>
+                   `
+                )
+            }
+
+            loadPageTableProduct(listProducts);
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi: ", error);
+        }
+    })
+}
 
 //search
 function searchProducts(page, size) {
@@ -58,7 +91,7 @@ function searchProducts(page, size) {
                 var listProducts = response.products.map(product => ({
                     id: product.id,
                     name: product.name,
-                    price: product.price,
+                    price: `${product.minPrice} ~ ${product.maxPrice}`,
                     discountAmount: product.discountAmount,
                     description: product.description,
                     imageView: product.imageView,
@@ -98,6 +131,125 @@ function searchProducts(page, size) {
         })
     }
 }
+
+//load sản phẩm vào bảng
+function loadPageTableProduct(products) {
+    //xử lý chân trang đầu và trang cuối
+    if (pager.currentPage == 1) {
+
+        $("#firstPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
+        $("#leftPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
+    } else {
+
+        $("#firstPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
+        $("#leftPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
+    }
+
+    if (pager.currentPage == pager.totalPage) {
+
+        $("#rightPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
+        $("#endPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
+    } else {
+
+        $("#rightPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
+        $("#endPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
+    }
+
+    //Load sản phẩm vào bảng
+    $.each(products, function (index, product) {
+
+        //Xử lý trạng thái sản phẩm
+        let statusText;
+        switch (product.status) {
+            case 0:
+                statusText = '<div class="block-pending">Ngừng bán</div>';
+                break;
+            case 1:
+                statusText = '<div class="block-available">Đang bán</div>';
+                break;
+            case 2:
+                statusText = '<div class="block-not-available">Hết hàng</div>';
+                break;
+            default: 
+                status = "---";
+        }
+
+        // xử lý tên quá dài
+        let nameText = product.name;
+        let listnametext = nameText.split(' ');
+        let shortcutName = product.name;
+        if (listnametext.length > 4) {
+            shortcutName = listnametext.slice(0, 4).join(' ') + ' ...'
+        }
+
+        $("#product-list").append(
+            `<tr class="antraz-table-list">
+                        <th class="antraz-table-item">
+                            <div class="image no-bg">
+                                <img style="object-fit: contain; width: 100%;" src="/admin/img/product/${product.imageView}" alt="">
+                            </div>
+                            
+                            <div class="name">
+                                <a class="body-title-2 name-shortcut">${shortcutName}</a>
+                            </div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">#${product.id}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">$${product.price}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.stock}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.discountAmount}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            ${statusText}
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.brand}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="body-text">${product.category}</div>
+                        </th>
+                        <th class="antraz-table-item">
+                            <div class="list-icon-function">
+                                <div class="item eye" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewProduct(${product.id})">
+                                 <i class="icon-eye"></i>
+                                 </div>
+                                <div class="item edit" onclick="goToEdit(${product.id})">
+                                    <i class="icon-edit-3"></i>
+                                </div>
+                                <div class="item trash" onclick="deleteProduct(${product.id})">
+                                    <i class="icon-trash-2"></i>
+                                </div>
+                            </div>
+                        </th>   
+                    </tr>`
+        )
+    })
+
+}
+
+// Chuyển trang bằng cách ấn chân trang
+$(document).ready(function () {
+    $(document).on('click', '.page-number-link', function () {
+        let pageNumber = $(this).text();
+        pager.currentPage = pageNumber;
+        size = $("#sizePage").val();
+        if ($("#searchInput").val() === '') {
+            loadproducts(pageNumber, size);
+        } else
+            searchProducts(pageNumber, size);
+    });
+
+    $(".form-search").submit(function (event) {
+        event.preventDefault();
+        searchProducts(1, pager.size);
+    });
+});
 
 // Chuyển đến trang đầu tiên
 $("#firstPageButton").click(function () {
@@ -147,157 +299,6 @@ $("#rightPageButton").click(function () {
     } else
         searchProducts(pager.currentPage, size);
 });
-
-//load sản phẩm vào bảng
-function loadPageTableProduct(products) {
-    //xử lý chân trang đầu và trang cuối
-    if (pager.currentPage == 1) {
-
-        $("#firstPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
-        $("#leftPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
-    } else {
-
-        $("#firstPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
-        $("#leftPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
-    }
-
-    if (pager.currentPage == pager.totalPage) {
-
-        $("#rightPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
-        $("#endPageButton").parent().css({ "pointer-events": "none", "opacity": "0.2" });
-    } else {
-
-        $("#rightPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
-        $("#endPageButton").parent().css({ "pointer-events": "auto", "opacity": "1" });
-    }
-
-    //Load sản phẩm vào bảng
-    $.each(products, function (index, product) {
-        let status;
-        switch (product.status) {
-            case 1:
-                status = "Hiện";
-                break;
-            case 2:
-                status = "Ẩn";
-                break;
-            case 3:
-                status = "Còn hàng";
-                break;
-            case 4:
-                status = "Hết hàng";
-                break;
-            default:
-                status = "---";
-        }
-
-        // xử lý tên quá dài
-        let nameText = product.name;
-        let listnametext = nameText.split(' ');
-        let shortcutName = product.name;
-        if (listnametext.length > 4) {
-            shortcutName = listnametext.slice(0, 4).join(' ') + ' ...'
-        }
-
-        $("#product-list").append(
-            `<tr class="antraz-table-list">
-                        <th class="antraz-table-item">
-                            <div class="image no-bg">
-                                <img style="object-fit: contain; width: 100%;" src="/admin/img/product/${product.imageView}" alt="">
-                            </div>
-                            
-                            <div class="name">
-                                <a class="body-title-2 name-shortcut">${shortcutName}</a>
-                            </div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">#${product.id}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">$${product.price}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${product.stock}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${product.discountAmount}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="block-available">${status}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${product.brand}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${product.category}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="list-icon-function">
-                                <div class="item eye" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewProduct(${product.id})">
-                                 <i class="icon-eye"></i>
-                                 </div>
-                                <div class="item edit" onclick="goToEdit(${product.id})">
-                                    <i class="icon-edit-3"></i>
-                                </div>
-                                <div class="item trash" onclick="deleteProduct(${product.id})">
-                                    <i class="icon-trash-2"></i>
-                                </div>
-                            </div>
-                        </th>   
-                    </tr>`
-        )
-    })
-
-}
-
-//hàm api lấy ds tất cả sản phẩm
-function loadproducts(page, size) {
-    $.ajax({
-        url: `https://localhost:7092/api/Product?page=${page}&size=${size}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            console.log(response);
-            $("#product-list").empty();
-            $('#pageNumber li:nth-child(n+3):nth-last-child(n+3)').remove();
-            var listProducts = response.products.map(product => ({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                discountAmount: product.discountAmount,
-                description: product.description,
-                imageView: product.imageView,
-                brand: product.brand,
-                category: product.category,
-                status: product.status,
-                stock: product.stock
-            }));
-
-            // Xử lý các số chân trang
-            pager.totalPage = response.pagination.totalPage;
-
-            $("#totalProduct").text(`Có ${response.pagination.totalItems} sản phẩm`);
-            for (let i = response.pagination.endPage; i >= response.pagination.startPage; i--) {
-                let active = '';
-                if (i == response.pagination.currentPage) {
-                    active = 'class="active"';
-                }
-                $("#pageNumber").children("li:nth-child(2)").after(
-                    ` 
-                    <li ${active}>
-                        <a class="page-number-link" >${i}</a>
-                    </li>
-                   `
-                )
-            }
-
-            loadPageTableProduct(listProducts);
-        },
-        error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
-        }
-    })
-}
 
 //Xoá sản phẩm
 function deleteProduct(id) {
@@ -353,7 +354,6 @@ function goToEdit(id) {
     window.location.href = '/admin/product/update?id=' + id;
 }
 
-
 //Hàm ấn vào mắt xem chi tiết sản phẩm
 function viewProduct(id) {
 
@@ -407,6 +407,7 @@ function viewProduct(id) {
         })
     }
 }
+
 //btn- edit click
 $("#btn-edit").click(function () {
     $("#exampleModalLabel").text("Chỉnh sửa")
@@ -424,11 +425,12 @@ $("#btn-edit").click(function () {
 })
 
 // Đóng modal
-
 function closeView() {
     if ($("#searchInput").val() === '') {
+        $(".error-message").text("");
         loadproducts(pager.currentPage, pager.size);
     } else
+        $(".error-message").text("");
         searchProducts(pager.currentPage, pager.size);
 }
 

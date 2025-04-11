@@ -25,16 +25,17 @@ namespace AntrazShop.Data
 		public DbSet<UserPermission> UserPermissions { get; set; }
 		public DbSet<Color> Colors { get; set; }
 		public DbSet<Capacity> Capacities { get; set; }
+		public DbSet<ColorCapacity> ColorCapacities { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<WishList>().HasKey(w => new { w.UserId, w.ColorId });
-			modelBuilder.Entity<Cart>().HasKey(c => new { c.UserId, c.ColorId });
+			modelBuilder.Entity<WishList>().HasKey(w => new { w.UserId, w.ColorCapacityId });
+			modelBuilder.Entity<Cart>().HasKey(c => new { c.UserId, c.ColorCapacityId });
 			modelBuilder.Entity<UserRole>().HasKey(u => new { u.UserId, u.RoleId });
 			modelBuilder.Entity<RolePermission>().HasKey(r => new { r.RoleId, r.PermissionId });
-			modelBuilder.Entity<OrderDetail>().HasKey(od => new { od.OrderCode, od.ColorId });
-			modelBuilder.Entity<Review>().HasKey(rv => new { rv.UserId, rv.ColorId });
+			modelBuilder.Entity<OrderDetail>().HasKey(od => new { od.OrderCode, od.ColorCapacityId });
+			modelBuilder.Entity<Review>().HasKey(rv => new { rv.UserId, rv.ColorCapacityId });
 			modelBuilder.Entity<UserPermission>().HasKey(up => new { up.UserId, up.PermissionId });
 
 			modelBuilder.Entity<Order>().Property(o => o.CreatedAt).HasDefaultValueSql("GETDATE()");
