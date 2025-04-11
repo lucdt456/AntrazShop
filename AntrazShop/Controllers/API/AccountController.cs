@@ -1,6 +1,6 @@
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

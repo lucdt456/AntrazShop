@@ -1,10 +1,6 @@
-using AntrazShop.Data;
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Models.ViewModels;
-using AntrazShop.Services;
-using AntrazShop.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -19,11 +15,30 @@ namespace AntrazShop.Controllers.API
 		{
 			_productService = productService;
 		}
-		
+
+		//[Authorize(Policy = "CanViewProducts")]
 		[HttpGet]
-		public async Task<IEnumerable<ProductVM>> GetProducts()
+		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{
-			return await _productService.GetProducts();
+			var (products, pagination) = await _productService.GetProducts(page, size);
+
+			return Ok(new
+			{
+				Products = products,
+				Pagination = pagination
+			});
+		}
+
+		//[Authorize]
+		[HttpGet("search")]			
+		public async Task<IActionResult> SearchProducts(string search, int page =1, int size = 10)
+		{
+			var (products, pagination) = await _productService.SearchProducts(search, page, size);
+			return Ok(new
+			{
+				Products = products,
+				Pagination = pagination
+			});
 		}
 
 		[HttpGet("{id}")]
@@ -36,7 +51,7 @@ namespace AntrazShop.Controllers.API
 			}
 			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
 		}
-		
+
 		[HttpPost]
 		public async Task<IActionResult> AddProduct([FromBody] ProductDTO newProduct)
 		{

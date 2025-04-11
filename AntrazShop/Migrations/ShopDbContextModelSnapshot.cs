@@ -47,12 +47,29 @@ namespace AntrazShop.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.Capacity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Capacities");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Cart", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ColorCapacityId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -61,9 +78,9 @@ namespace AntrazShop.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
-                    b.HasKey("UserId", "ProductId");
+                    b.HasKey("UserId", "ColorCapacityId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ColorCapacityId");
 
                     b.ToTable("Carts");
                 });
@@ -93,7 +110,7 @@ namespace AntrazShop.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AntrazShop.Data.ControllerActionsPermission", b =>
+            modelBuilder.Entity("AntrazShop.Data.Color", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,22 +118,54 @@ namespace AntrazShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ActionName")
+                    b.Property<string>("NameColor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ControllerName")
+                    b.HasKey("Id");
+
+                    b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.ColorCapacity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CapacityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PermissionId")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stock")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("CapacityId");
 
-                    b.ToTable("ControllerActionsPermissions");
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ColorCapacities");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Order", b =>
@@ -148,7 +197,7 @@ namespace AntrazShop.Migrations
                     b.Property<Guid>("OrderCode")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ColorCapacityId")
                         .HasColumnType("int");
 
                     b.Property<int>("Id")
@@ -157,9 +206,9 @@ namespace AntrazShop.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderCode", "ProductId");
+                    b.HasKey("OrderCode", "ColorCapacityId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ColorCapacityId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -177,6 +226,10 @@ namespace AntrazShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameController")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -214,15 +267,6 @@ namespace AntrazShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
@@ -256,33 +300,25 @@ namespace AntrazShop.Migrations
 
             modelBuilder.Entity("AntrazShop.Data.Review", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ColorCapacityId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.HasKey("UserId", "ColorCapacityId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("ColorCapacityId");
 
                     b.ToTable("Reviews");
                 });
@@ -332,6 +368,10 @@ namespace AntrazShop.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Avatar")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -398,47 +438,63 @@ namespace AntrazShop.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ColorCapacityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("UserId", "ProductId");
+                    b.HasKey("UserId", "ColorCapacityId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ColorCapacityId");
 
                     b.ToTable("WishLists");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Cart", b =>
                 {
-                    b.HasOne("AntrazShop.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                    b.HasOne("AntrazShop.Data.ColorCapacity", "ColorCapacity")
+                        .WithMany("Carts")
+                        .HasForeignKey("ColorCapacityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.User", "User")
-                        .WithMany()
+                        .WithMany("Carts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("ColorCapacity");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AntrazShop.Data.ControllerActionsPermission", b =>
+            modelBuilder.Entity("AntrazShop.Data.ColorCapacity", b =>
                 {
-                    b.HasOne("AntrazShop.Data.Permission", "Permission")
-                        .WithMany()
-                        .HasForeignKey("PermissionId")
+                    b.HasOne("AntrazShop.Data.Capacity", "Capacity")
+                        .WithMany("ColorCapacities")
+                        .HasForeignKey("CapacityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Permission");
+                    b.HasOne("AntrazShop.Data.Color", "Color")
+                        .WithMany("ColorCapacities")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AntrazShop.Data.Product", "Product")
+                        .WithMany("ColorCapacities")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Capacity");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Order", b =>
@@ -454,21 +510,21 @@ namespace AntrazShop.Migrations
 
             modelBuilder.Entity("AntrazShop.Data.OrderDetail", b =>
                 {
+                    b.HasOne("AntrazShop.Data.ColorCapacity", "ColorCapacity")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ColorCapacityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AntrazShop.Data.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AntrazShop.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ColorCapacity");
 
                     b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Product", b =>
@@ -503,19 +559,19 @@ namespace AntrazShop.Migrations
 
             modelBuilder.Entity("AntrazShop.Data.Review", b =>
                 {
-                    b.HasOne("AntrazShop.Data.Product", "Product")
+                    b.HasOne("AntrazShop.Data.ColorCapacity", "ColorCapacity")
                         .WithMany("Reviews")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ColorCapacityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.User", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("ColorCapacity");
 
                     b.Navigation("User");
                 });
@@ -523,13 +579,13 @@ namespace AntrazShop.Migrations
             modelBuilder.Entity("AntrazShop.Data.RolePermission", b =>
                 {
                     b.HasOne("AntrazShop.Data.Permission", "Permission")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -542,13 +598,13 @@ namespace AntrazShop.Migrations
             modelBuilder.Entity("AntrazShop.Data.UserPermission", b =>
                 {
                     b.HasOne("AntrazShop.Data.Permission", "Permission")
-                        .WithMany()
+                        .WithMany("UserPermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.User", "User")
-                        .WithMany()
+                        .WithMany("UserPermissions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -561,13 +617,13 @@ namespace AntrazShop.Migrations
             modelBuilder.Entity("AntrazShop.Data.UserRole", b =>
                 {
                     b.HasOne("AntrazShop.Data.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -579,19 +635,19 @@ namespace AntrazShop.Migrations
 
             modelBuilder.Entity("AntrazShop.Data.WishList", b =>
                 {
-                    b.HasOne("AntrazShop.Data.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                    b.HasOne("AntrazShop.Data.ColorCapacity", "ColorCapacity")
+                        .WithMany("WishLists")
+                        .HasForeignKey("ColorCapacityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AntrazShop.Data.User", "User")
-                        .WithMany()
+                        .WithMany("WishLists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("ColorCapacity");
 
                     b.Navigation("User");
                 });
@@ -601,16 +657,69 @@ namespace AntrazShop.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.Capacity", b =>
+                {
+                    b.Navigation("ColorCapacities");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("AntrazShop.Data.Product", b =>
+            modelBuilder.Entity("AntrazShop.Data.Color", b =>
                 {
-                    b.Navigation("ProductImages");
+                    b.Navigation("ColorCapacities");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.ColorCapacity", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("OrderDetails");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("WishLists");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserPermissions");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.Product", b =>
+                {
+                    b.Navigation("ColorCapacities");
+
+                    b.Navigation("ProductImages");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.User", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Reviews");
+
+                    b.Navigation("UserPermissions");
+
+                    b.Navigation("UserRoles");
+
+                    b.Navigation("WishLists");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,7 +1,8 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
+using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
-using AntrazShop.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AntrazShop.Repositories
@@ -15,63 +16,67 @@ namespace AntrazShop.Repositories
 			_context = context;
 		}
 
-		public async Task<IEnumerable<ProductVM>> GetProducts()
+		public async Task<IEnumerable<Product>> GetProductsWithDetails(int recSkip, int take)
 		{
-			List<Product> products = await _context.Products.Include(p => p.Brand).Include(p => p.Category).ToListAsync();
-			var productVMs = products.Select(p => new ProductVM
-			{
-				Id = p.Id,
-				Name = p.Name,
-				Price = p.Price,
-				DiscountAmount = p.DiscountAmount,
-				Description = p.Description,
-				ImageView = p.ImageView,
-				Brand = p.Brand.Name,
-				Category = p.Category.Name,
-				Stock = p.Stock,
-				status = p.status
-			});
-			return productVMs;
+			List<Product> products = await _context.Products
+				.OrderBy(p => p.Id)
+				.Skip(recSkip)
+				.Take(take)
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
+				.ToListAsync();
+			return products;
 		}
 
-
-		public async Task<ProductVM?> GetProduct(int id)
+		public async Task<IEnumerable<Product>> SearchProducts(string search, int recSkip, int take)
 		{
-			var product = await _context.Products.Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
-			var productVM = new ProductVM
-			{
-				Id = product.Id,
-				Name = product.Name,
-				Price = product.Price,
-				DiscountAmount = product.DiscountAmount,
-				Description = product.Description,
-				ImageView = product.ImageView,
-				Brand = product.Brand.Name,
-				Category = product.Category.Name,
-				Stock = product.Stock,
-				status = product.status
-			};
-			return productVM;
+			List<Product> products = await _context.Products
+				.OrderBy(p => p.Id)
+				.Where(p => p.Name.Contains(search))
+				.Skip(recSkip)
+				.Take(take)
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
+				.ToListAsync();
+			return products;
 		}
 
-		public async Task<Product> AddProduct(ProductDTO newProduct)
+		public async Task<Product> GetProduct(int id)
 		{
-			var product = new Product
-			{
-				Name = newProduct.Name,
-				Price = newProduct.Price,
-				DiscountAmount = newProduct.DiscountAmount,
-				Description = newProduct.Description,
-				ImageView = newProduct.ImageView,
-				BrandId = newProduct.BrandId,
-				CategoryId = newProduct.CategoryId,
-				status = newProduct.status,
-				Stock = newProduct.Stock
-			};
+			var product = await _context.Products
+				.Include(p => p.Brand)
+				.Include(p => p.Category)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Color)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Capacity)
+				.Include(p => p.ColorCapacities)
+					.ThenInclude(cc => cc.Reviews)
+						.ThenInclude(r => r.User)
+				.FirstOrDefaultAsync(p => p.Id == id);
 
-			await _context.Products.AddAsync(product);
-			await _context.SaveChangesAsync();
 			return product;
+		}
+
+		public async Task<int> AddProduct(Product newProduct)
+		{
+			await _context.Products.AddAsync(newProduct);
+			await _context.SaveChangesAsync();
+			return newProduct.Id;
 		}
 
 		public async Task<Product?> UpdateProduct(int id, ProductDTO productUpdate)
@@ -80,14 +85,14 @@ namespace AntrazShop.Repositories
 			if (product != null)
 			{
 				product.Name = productUpdate.Name;
-				product.Price = productUpdate.Price;
+				//product.Price = productUpdate.Price;
 				product.DiscountAmount = productUpdate.DiscountAmount;
 				product.Description = productUpdate.Description;
 				product.ImageView = productUpdate.ImageView;
 				product.BrandId = productUpdate.BrandId;
 				product.CategoryId = productUpdate.CategoryId;
-				product.status = productUpdate.status;
-				product.Stock = productUpdate.Stock;
+				//product.Status = productUpdate.status;
+				//product.Stock = productUpdate.Stock;
 
 				_context.Products.Update(product);
 				await _context.SaveChangesAsync();
@@ -108,5 +113,14 @@ namespace AntrazShop.Repositories
 			else return false;
 		}
 
+		public async Task<int> GetTotalProductCount()
+		{
+			return await _context.Products.CountAsync();
+		}
+
+		public async Task<int> GetTotalProductCountSearch(string search)
+		{
+			return await _context.Products.Where(p => p.Name.Contains(search)).CountAsync();
+		}
 	}
 }

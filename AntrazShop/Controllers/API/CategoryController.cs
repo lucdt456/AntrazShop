@@ -1,5 +1,5 @@
 using AntrazShop.Data;
-using AntrazShop.Services.Interfaces;
+using AntrazShop.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +16,14 @@ namespace AntrazShop.Controllers.API
 		}
 
 		[HttpGet]
-		public async Task<IEnumerable<Category>> GetCategorys()
+		public async Task<IActionResult> GetCategories(int page = 1, int size = 10)
 		{
-			return await _categoryService.GetCategorys();
+			var (categories, pagination) = await _categoryService.GetCategories(page, size);
+			return Ok(new
+			{
+				Categories = categories,
+				Pagination = pagination
+			});
 		}
 
 		[HttpGet("{id}")]

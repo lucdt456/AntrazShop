@@ -1,6 +1,6 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AntrazShop.Repositories
@@ -12,6 +12,7 @@ namespace AntrazShop.Repositories
 		{
 			_context = context;
 		}
+
 		public async Task<User> CreateUser(User newUser)
 		{
 			await _context.Users.AddAsync(newUser);

@@ -1,8 +1,8 @@
 using AntrazShop.Data;
+using AntrazShop.Interfaces.Repositories;
+using AntrazShop.Interfaces.Services;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
-using AntrazShop.Repositories.Interfaces;
-using AntrazShop.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,14 +15,16 @@ namespace AntrazShop.Services
 	{
 		private readonly IAccountRepository _accountRepository;
 		private readonly IConfiguration _configuration;
+		private readonly IPermissionRepository _permissionRepository;
 
-		public AccountService(IAccountRepository accountRepository, IConfiguration configuration)
+		public AccountService(IAccountRepository accountRepository, IConfiguration configuration, IPermissionRepository permissionRepository)
 		{
 			_accountRepository = accountRepository;
 			_configuration = configuration;
+			_permissionRepository = permissionRepository;
 		}
 
-		
+
 		public async Task<UserDTO> CreateUser(UserDTO newUser)
 		{
 			var passwordHasher = new PasswordHasher<User>();
@@ -39,7 +41,7 @@ namespace AntrazShop.Services
 			return newUser;
 		}
 
-		
+
 		public async Task<string> AuthenticateAsync(Login loginRequest)
 		{
 			var passwordHasher = new PasswordHasher<User>();
@@ -49,7 +51,7 @@ namespace AntrazShop.Services
 				throw new UnauthorizedAccessException("Email không tồn tại");
 			}
 
-			
+
 			var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginRequest.Password);
 
 			if (result == PasswordVerificationResult.Failed)
@@ -57,15 +59,20 @@ namespace AntrazShop.Services
 				throw new UnauthorizedAccessException("Mật khẩu không chính xác");
 			}
 
-		
-			var claims = new[]
+
+			var claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Name, user.Name),
 				new Claim(ClaimTypes.Email, user.Email),
-				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+				new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 			};
+			List<string> permissions = await _permissionRepository.GetUserPermissions(user.Id);
+			foreach(var permission in permissions)
+			{
+				claims.Add(new Claim("Permission", permission));
+			}
 
-			
+
 			var jwtConfig = _configuration.GetSection("JwtConfig");
 
 			var key = jwtConfig["Key"];
@@ -77,7 +84,7 @@ namespace AntrazShop.Services
 			var creds = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256);
 
 
-			
+
 			var token = new JwtSecurityToken(
 				issuer: jwtConfig["Issuer"],
 				audience: jwtConfig["Audience"],

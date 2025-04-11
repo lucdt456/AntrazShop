@@ -11,11 +11,7 @@ namespace AntrazShop.Data
 		public string Name { get; set; }
 
 		[Column(TypeName = "decimal(18,2)")]
-		public Decimal Price { get; set; }
-
-		[Column(TypeName = "decimal(18,2)")]
 		public Decimal DiscountAmount { get; set; }
-		public int Stock { get; set; }
 		public string Description { get; set; }
 		public string ImageView { get; set; }
 
@@ -26,8 +22,8 @@ namespace AntrazShop.Data
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
-		public List<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
-		public List<Review> Reviews { get; set; } = new List<Review>();
-		public int status { get; set; }
+		public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+		public ICollection<ColorCapacity> ColorCapacities { get; set; } = new List<ColorCapacity>();
+
 	}
 }

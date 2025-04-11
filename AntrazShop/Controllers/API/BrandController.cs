@@ -1,6 +1,5 @@
 using AntrazShop.Data;
-using AntrazShop.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
+using AntrazShop.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -9,22 +8,28 @@ namespace AntrazShop.Controllers.API
 	[ApiController]
 	public class BrandController : ControllerBase
 	{
-		private readonly IBrandRepository _brandRepository;
-		public BrandController(IBrandRepository brandRepository)
+		private readonly IBrandService _brandService;
+		public BrandController(IBrandService brandService)
 		{
-			_brandRepository = brandRepository;
+			_brandService = brandService;
 		}
 
 		[HttpGet]
-		public async Task<IEnumerable<Brand>> GetBrands()
+		public async Task<IActionResult> GetBrands(int page = 1, int size = 10)
 		{
-			return await _brandRepository.GetBrands();
+			var (brands, pagination) = await _brandService.GetBrands(page, size);
+
+			return Ok(new
+			{
+				Brands = brands,
+				Pagination = pagination
+			});
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBrand(int id)
 		{
-			var brand = await _brandRepository.GetBrand(id);
+			var brand = await _brandService.GetBrand(id);
 			if (brand != null)
 			{
 				return Ok(brand);
@@ -35,7 +40,7 @@ namespace AntrazShop.Controllers.API
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateBrand(int id, [FromBody] Brand newBrand)
 		{
-			var brand = await _brandRepository.UpdateBrand(id, newBrand);
+			var brand = await _brandService.UpdateBrand(id, newBrand);
 			if (brand != null)
 			{
 				return Ok();
@@ -46,7 +51,7 @@ namespace AntrazShop.Controllers.API
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBrand(int id)
 		{
-			var isDelete = await _brandRepository.DeleteBrand(id);
+			var isDelete = await _brandService.DeleteBrand(id);
 			if (isDelete == true)
 			{
 				return Ok();
