@@ -52,8 +52,8 @@ namespace AntrazShop.Controllers.API
 			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> AddProduct([FromBody] ProductDTO newProduct)
+		[HttpPost("create")]
+		public async Task<IActionResult> AddProduct([FromForm] ProductDTO newProduct)
 		{
 			return Ok(await _productService.AddProduct(newProduct));
 		}
