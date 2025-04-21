@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-cc-title"></h4>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
+</div>
+
+
+<div class="modal-body">
+    <div class="wg-box">
+        <div class="gap22 cols">
+            <fieldset>
+                <label class="body-title mb-10">Ảnh sản phẩm</label>
+                <div class="upload-image mb-16">
+                    <div class="item up-load image-border" style="width: 100%;">
+                        <label class="uploadfile" for="imageViewCC">
+                            @* icon *@
+                            <span id="uploadIconCC" class="icon">
+                                <i class="icon-upload-cloud"></i>
+                            </span>
+
+                            @* Ảnh thay thế icon *@
+                            <div class="img-preview-product" style="width:100%; display:none; ">
+                                <img style="object-fit: contain;" id="imagePreviewCC" alt="">
+                            </div>
+                            
+                            @* Input *@
+                            <input class="form-control-plaintext" type="file" id="imageViewCC" accept="image/*">
+                            <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label for="color" class="body-title mb-10">Màu</label>
+                <input class="mb-10 validate-form-cc" type="text" placeholder="" id="color" tabindex="0">
+                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+
+                <label for="capacity" class="body-title mb-10">Dung lượng</label>
+                <input class="mb-10 validate-form-cc" type="text" placeholder="" id="capacity" tabindex="0">
+                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+            </fieldset>
+        </div>
+
+
+        <div class="gap22 cols">
+
+            <fieldset>
+                <label for="price" class="body-title mb-10">Giá</label>
+                <input class="mb-10 validate-form-cc" type="number" placeholder="" id="price" tabindex="0">
+                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+            </fieldset>
+            <fieldset>
+                <label for="stock" class="body-title mb-10">Tồn kho</label>
+                <input class="mb-10 validate-form-cc" type="number" placeholder="" id="stock" tabindex="0">
+                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+            </fieldset>
+            <fieldset>
+                <label for="status" class="body-title mb-10">Trạng thái</label>
+                <div class="select">
+                    <select id="status" class="validate-form-cc mb-10">
+                        <option value="">Chọn</option>
+                        <option value="1">Đang bán</option>
+                        <option value="0">Ngừng bán</option>
+                    </select>
+                    <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
+                </div>
+            </fieldset>
+
+
+        </div>
+        <div class="text-tiny text-danger" style="font-style : italic" id="error-text-cc-message"></div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="col-7"></div>
+    <div class="col-5" style="display: flex; gap: 10px;">
+        <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="closeView()">Đóng</button>
+        <button type="button" class="tf-button w-full" id="btn_create_cc" onclick="AddProductCC()">Thêm</button>
+        <button type="button" class="tf-button w-full" id="btn_save_cc" onclick="SaveProductCC()">Lưu</button>
+    </div>
+</div>

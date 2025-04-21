@@ -88,7 +88,7 @@ namespace AntrazShop.Repositories
 				//product.Price = productUpdate.Price;
 				product.DiscountAmount = productUpdate.DiscountAmount;
 				product.Description = productUpdate.Description;
-				product.ImageView = productUpdate.ImageView;
+				product.ImageView = "1.png";
 				product.BrandId = productUpdate.BrandId;
 				product.CategoryId = productUpdate.CategoryId;
 				//product.Status = productUpdate.status;

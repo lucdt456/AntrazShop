@@ -1,16 +1,28 @@
+@* Modal View *@
+
+
 
 <form class="form-add-product" style="display:flex; gap:18px;">
+
     <div class="wg-box col-3">
+        <div class="modal fade" id="productCCModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:50vw">
+                <div class="modal-content" style="">
+                    @Html.Partial("_ModalProductCC")
+                </div>
+            </div>
+        </div>
         <fieldset>
             <label for="name" class="body-title mb-10">Tên sản phẩm</label>
-            <input class="mb-10 validate-name" type="text" placeholder="Điền tên sản phẩm" tabindex="0" id="name">
+            <input class="mb-10 validate-input" type="text" placeholder="Điền tên sản phẩm" tabindex="0" id="name">
             <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
         </fieldset>
 
         <div class="gap22 cols">
             <fieldset>
                 <label for="discountAmount" class="body-title mb-10">Giảm giá</label>
-                <input class="mb-10 validate-name" type="number" placeholder="Giảm giá sản phẩm" id="discountAmount" tabindex="0">
+                <input class="mb-10 validate-input" type="number" placeholder="Giảm giá sản phẩm" id="discountAmount" tabindex="0">
                 <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
             </fieldset>
         </div>
@@ -18,8 +30,8 @@
         <div class="gap22 cols">
             <fieldset>
                 <label for="brandid" class="body-title mb-10">Thương hiệu </label>
-                <div class="select validate-name">
-                    <select id="brandid" class="mb-10">
+                <div class="select">
+                    <select id="brandid" class="mb-10 validate-input">
                         <option value="">Chọn thương hiệu</option>
                         <option value="1">Apple</option>
                         <option value="2">Samsung</option>
@@ -34,8 +46,8 @@
         <div class="gap22 cols">
             <fieldset>
                 <label for="categoryid" class="body-title mb-10">Danh mục </label>
-                <div class="select validate-name">
-                    <select id="categoryid" class="mb-10">
+                <div class="select">
+                    <select id="categoryid" class="mb-10 validate-input">
                         <option value="">Chọn danh mục</option>
                         <option value="1">Smart Phone</option>
                         <option value="2">Laptop</option>
@@ -47,49 +59,27 @@
         </div>
 
         <fieldset>
-            <label class="body-title mb-10">Ảnh đại diện sản phẩm</label>
+            <label class="body-title mb-20">Ảnh đại diện sản phẩm</label>
             <div class="upload-image mb-16">
-                <div class="item">
-                    <img style="object-fit: contain;" id="imagePreview" alt="">
-                </div>
-                <div class="item up-load">
-                    <label class="uploadfile" for="imageView">
-                        <span class="icon">
+                <div class="item up-load image-border" style="width:100%">
+                    <label class="uploadfile mb-0" for="imageView" style="gap:0;">
+                        @* icon *@
+                        <span id="uploadIcon" class="icon" style="">
                             <i class="icon-upload-cloud"></i>
                         </span>
 
+                        @* Ảnh thay thế icon *@
+                        <div class="img-preview-product" style="width:100%; display:none; ">
+                            <img style="object-fit: contain;" id="imagePreview" alt="">
+                        </div>
+
+                        @* Input *@
                         <input class="form-control-plaintext" type="file" id="imageView" accept="image/*">
-                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                        <div class="text-tiny error-message text-danger" id="error-message-image" style="font-style : italic"></div>
                     </label>
                 </div>
             </div>
         </fieldset>
-        @*  <div class="gap22 cols">
-            <fieldset>
-                <label for="status" class="body-title mb-10">Trạng thái</label>
-                <div class="select">
-                    <select id="status" class="validate-name">
-                        <option value="">Chọn trạng thái</option>
-                        <option value="1">Hiện</option>
-                        <option value="0">Ẩn</option>
-                        <option value="3">Còn hàng</option>
-                        <option value="4">Hết hàng</option>
-                    </select>
-                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <label for="stock" class="body-title mb-10">Tồn kho</label>
-                <input class="mb-10 validate-name" type="number" placeholder="Số lượng tồn kho" id="stock" tabindex="0">
-                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-            </fieldset>
-        </div> *@
-
-        @*  <fieldset>
-            <label for="description " class="body-title mb-10">Mô tả</label>
-            <textarea class="mb-10 validate-name" id="description" placeholder="Điền mô tả sản phẩm" tabindex="0"></textarea>
-            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-        </fieldset> *@
     </div>
     <input id="imageProductName" type="hidden" />
     <div class="wg-box col-9">
@@ -97,60 +87,26 @@
         <div class="gap22 cols">
             <fieldset>
                 <label for="description" class="body-title mb-10">Mô tả</label>
-                <textarea class="mb-10 validate-name" id="description" placeholder="Điền mô tả sản phẩm" tabindex="0"></textarea>
+                <textarea class="mb-10 validate-input" id="description" placeholder="Điền mô tả sản phẩm" tabindex="0"></textarea>
                 <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
             </fieldset>
         </div>
 
-        <div style="display:flex; justify-content: space-between;">
+        <div style="display:flex; justify-content: space-between; align-items: center;">
 
             <div><h5>Phân loại</h5></div>
+            <div @* style="max-width:7%" *@>
+                <button type="button" class="tf-button w-full" id="modal-cc-open"><i class="fa-solid fa-plus"></i></button>
+            </div>
         </div>
 
-        <div class="gap22 cols">
-            <fieldset>
-                <label for="color" class="body-title mb-10">Màu</label>
-                <input class="mb-10 validate-form-cc" type="text" placeholder="" id="color" tabindex="0">
-                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
-            </fieldset>
-            <fieldset>
-                <label for="capacity" class="body-title mb-10">Dung lượng</label>
-                <input class="mb-10 validate-form-cc" type="text" placeholder="" id="capacity" tabindex="0">
-                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
-            </fieldset>
-            <fieldset>
-                <label for="price" class="body-title mb-10">Giá</label>
-                <input class="mb-10 validate-form-cc" type="number" placeholder="" id="price" tabindex="0">
-                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
-            </fieldset>
-            <fieldset>
-                <label for="stock" class="body-title mb-10">Tồn kho</label>
-                <input class="mb-10 validate-form-cc" type="number" placeholder="" id="stock" tabindex="0">
-                <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
-            </fieldset>
-            <fieldset>
-                <label for="status" class="body-title mb-10">Trạng thái</label>
-                <div class="select">
-                    <select id="status" class="validate-form-cc mb-10">
-                        <option value="">Chọn</option>
-                        <option>Đang bán</option>
-                        <option>Ngừng bán</option>
-                    </select>
-                    <div class="text-tiny error-message-cc text-danger" style="font-style : italic"></div>
-                </div>
-            </fieldset>
-            <fieldset style="max-width:7%">
-                <label for="status" class="body-title mb-10"><br /></label>
-                <button type="button" onclick="AddProductCC()" class="tf-button w-full"><i class="fa-solid fa-plus"></i></button>
-            </fieldset>
-            
-        </div>
-        <div class="text-tiny text-danger" style="font-style : italic" id="error-text-cc-message"></div>
+
         <div class="gap22 cols">
             <table class="antraz-table" style="min-width:0px;">
                 <thead>
                     <tr class="antraz-table-title">
-                        <th style="width:auto">Màu</th>
+                        <th style="width:8%">STT</th>
+                        <th>Màu</th>
                         <th>Dung lượng</th>
                         <th>Giá</th>
                         <th>Tồn kho</th>
@@ -159,7 +115,6 @@
                     </tr>
                 </thead>
                 <tbody id="productCC-list">
-                   
                 </tbody>
             </table>
         </div>

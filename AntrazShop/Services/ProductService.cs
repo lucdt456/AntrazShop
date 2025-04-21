@@ -194,11 +194,35 @@ namespace AntrazShop.Services
 		{
 			try
 			{
+				//Chuyển đổi tên file ảnh đã xử lý trong class FileNameHelper
+				string slugProductName = FileNameHelper.ToSlug(newProduct.Name);
+
+				// Đường dẫn thư mục (wwwroot/admin/imgs/product/productName)
+				var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", slugProductName);
+
+				// Kiểm tra thư mục chưa tồn tại thì tạo mới
+				if (!Directory.Exists(imagePath))
+				{
+					Directory.CreateDirectory(imagePath);
+				}
+
+				// tên file lưu
+				string imageViewName = "1" + Path.GetExtension(newProduct.ImageView.FileName);
+
+				//Đường dẫn lưu + tên file
+				var filePath = Path.Combine(imagePath, imageViewName);
+
+				// lưu file ảnh vào đường dẫn
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await newProduct.ImageView.CopyToAsync(stream);
+				}
+
 				var product = new Product
 				{
-					Name = newProduct.Name,
+					Name = newProduct.Name.Trim(),
 					Description = newProduct.Description,
-					ImageView = newProduct.ImageView,
+					ImageView = imageViewName,
 					BrandId = newProduct.BrandId,
 					CategoryId = newProduct.CategoryId,
 					DiscountAmount = newProduct.DiscountAmount
@@ -209,16 +233,25 @@ namespace AntrazShop.Services
 				{
 					var colorId = await _productCCRepository.AddColor(productCCDTO.ColorName);
 					var capacityId = await _productCCRepository.AddCapacity(productCCDTO.CapacityValue);
-					var productCC = new ColorCapacity
+					string imageName = productCCDTO.ColorName + '_' + productCCDTO.CapacityValue + Path.GetExtension(productCCDTO.Image.FileName);
+
+					filePath = Path.Combine(imagePath, imageName);
+
+					using (var stream = new FileStream(filePath, FileMode.Create))
 					{
-						Stock = productCCDTO.Stock,
-						Price = productCCDTO.Price,
-						ColorId = colorId,
-						CapacityId = capacityId,
-						Image = productCCDTO.Image,
-						Status = productCCDTO.Status,
-						ProductId = productId
-					};
+						await productCCDTO.Image.CopyToAsync(stream);
+					}
+
+						var productCC = new ColorCapacity
+						{
+							Stock = productCCDTO.Stock,
+							Price = productCCDTO.Price,
+							ColorId = colorId,
+							CapacityId = capacityId,
+							Image = imageName,
+							Status = productCCDTO.Status,
+							ProductId = productId
+						};
 
 					await _productCCRepository.AddColorCapacity(productCC);
 				}
@@ -229,7 +262,6 @@ namespace AntrazShop.Services
 				ListErrors.Add("Lỗi khi tạo sản phẩm");
 				return ListErrors;
 			}
-
 		}
 		public async Task<Product> UpdateProduct(int id, ProductDTO productUpdate)
 		{

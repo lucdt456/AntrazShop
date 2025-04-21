@@ -25,6 +25,7 @@
     <Folder Include="Views\Product\" />
     <Folder Include="wwwroot\admin\img\brandlogo\" />
     <Folder Include="wwwroot\admin\js\user\" />
+    <Folder Include="wwwroot\admin\imgs\" />
     <Folder Include="wwwroot\test\img\" />
   </ItemGroup>
 
