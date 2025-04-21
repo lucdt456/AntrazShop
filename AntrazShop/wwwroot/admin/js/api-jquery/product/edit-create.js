@@ -1,6 +1,14 @@
 $(function () {
     findH3CreateOrUpdate();
+    loadDataColorCapacity();
 });
+
+//Biến toàn cục
+var colorCheck = "";
+var capacityCheck = "";
+var arrProductCCs = [];
+var index;
+
 
 function findH3CreateOrUpdate() {
     let h3headings = document.querySelectorAll("h3");
@@ -16,24 +24,41 @@ function findH3CreateOrUpdate() {
     });
 }
 
-//xem trước image
+//xem trước imageView
 $(document).ready(function () {
     $("#imageView").on("change", function (event) {
-        var file = event.target.files[0];
+        let file = event.target.files[0];
         if (file) {
             var reader = new FileReader();
             reader.onload = function (e) {
-
+                $("#uploadIcon").hide();
+                $("#imagePreview").closest(".img-preview-product").show();
+                $("#imagePreview").closest(".image-border").css("border", "none");
                 $("#imagePreview").attr("src", e.target.result).show();
+
             };
             reader.readAsDataURL(file);
+        }
+    });
+
+    $("#imageViewCC").on("change", function (event) {
+        let fileCC = event.target.files[0];
+        if (fileCC) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#uploadIconCC").hide();
+                $("#imagePreviewCC").closest(".img-preview-product").show();
+                $("#imagePreviewCC").closest(".image-border").css("border", "none");
+                $("#imagePreviewCC").attr("src", e.target.result).show();         
+            };
+            reader.readAsDataURL(fileCC);
         }
     });
 });
 
 //reset
 function ResetData() {
-    $("#name").val("");  
+    $("#name").val("");
     $("#discountAmount").val("");
     $("#categoryid").val("");
     $("#brandid").val("");
@@ -49,66 +74,22 @@ function validateInput() {
     $(".error-message").text("");
     let isValid = true;
 
-    //name
-    if ($("#name").val() === "") {
-        $("#name").next(".error-message").text("Vui lòng nhập tên sản phẩm")
-        isValid = false;
-    }
+    $(".validate-input").each(function () {
+        if ($(this).val().trim() == "") {
+            $(this).closest("fieldset").find(".error-message").text("Không được để trống")
+            isValid = false;
+        }
+    });
 
-    //price
-    if ($("#price").val() === "") {
-        $("#price").next(".error-message").text("Vui lòng nhập giá sản phẩm")
-        isValid = false;
-    }
-
-    //discountAmount
-    if ($("#discountAmount").val() === "") {
-        $("#discountAmount").next(".error-message").text("Vui lòng nhập giảm giá")
-        isValid = false;
-    }
-
-    //category
-    if ($("#categoryid").val() === "") {
-        $("#categoryid").next(".error-message").text("Vui lòng nhập danh mục")
-        isValid = false;
-    }
-
-    //brandid
-    if ($("#brandid").val() === "") {
-        $("#brandid").next(".error-message").text("Vui lòng nhập thương hiệu")
-        isValid = false;
-    }
-
-    //description
-    if ($("#description").val() === "") {
-        $("#description").next(".error-message").text("Vui lòng nhập mô tả sản phẩm")
-        isValid = false;
-    }
 
     //imagefile
-    if ($("#imageProductName") == null) {
+    if ($("#imageProductName").val() === '') {
         if ($("#imageView").val().split("\\").pop() === "") {
-            $("#imageView").next(".error-message").text("Vui lòng nhập file ảnh")
+            $("#error-message-image").text('Chưa chọn ảnh');
             isValid = false;
         }
     }
-    //status
-    if ($("#status").val() === "") {
-        $("#status").next(".error-message").text("Vui lòng nhập trạng thái sản phẩm")
-        isValid = false;
-    }
 
-    //stock
-    if ($("#stock").val() === "") {
-        $("#stock").next(".error-message").text("Vui lòng nhập số lượng tồn kho")
-        isValid = false;
-    }
-    //$(".validate-name").each(function () {
-    //    if ($(this).val.trim() === "") {
-    //        $(this).next.(".error-message").text("Không được để trống");
-    //        isValid = false;
-    //    }
-    //});
     return isValid;
 }
 
@@ -155,26 +136,35 @@ function CreateProduct() {
     let isValid = validateInput();
 
     if (isValid == true) {
-        let product = {
-            name: $("#name").val(),
-            price: $("#price").val(),
-            discountAmount: $("#discountAmount").val(),
-            description: $("#description").val(),
-            imageView: $("#imageView").val().split("\\").pop(),
-            brandId: $("#brandid").val(),
-            categoryId: $("#categoryid").val(),
-            status: $("#status").val(),
-            stock: $("#stock").val()
-        }
-        productJson = JSON.stringify(product);
+        let productFormData = new FormData();
+
+        productFormData.append('Name', $("#name").val());
+        productFormData.append('Description', $("#description").val());
+        productFormData.append('BrandId', $("#brandid").val());
+        productFormData.append('CategoryId', $("#categoryid").val());
+        productFormData.append('ImageView', $("#imageView")[0].files[0]);
+        productFormData.append('DiscountAmount', $("#discountAmount").val());
+
+        arrProductCCs.forEach(function (productCC, index) {
+            productFormData.append(`ProductCCDTOs[${index}].colorName`, productCC.colorName);
+            productFormData.append(`ProductCCDTOs[${index}].capacityValue`, productCC.capacityValue);
+            productFormData.append(`ProductCCDTOs[${index}].stock`, productCC.stock);
+            productFormData.append(`ProductCCDTOs[${index}].price`, productCC.price);
+            productFormData.append(`ProductCCDTOs[${index}].status`, productCC.status);
+            productFormData.append(`ProductCCDTOs[${index}].image`, productCC.image);
+        });
+         
+        console.log(productFormData)
         $.ajax({
-            url: 'https://localhost:7092/api/Product',
-            type: 'post',
-            contentType: 'application/json',
-            data: productJson,
+            url: 'https://localhost:7092/api/Product/create',
+            type: 'POST',
+            data: productFormData,
+            processData: false,
+            contentType: false,
+
             success: function (response) {
                 swal.fire({
-                    title: "Tạo sản phẩm thành công",
+                    title: "Tạo sản phẩm thành công!",
                     icon: "success",
                     draggable: true
                 }).then(() => {
@@ -186,8 +176,8 @@ function CreateProduct() {
                 swal.fire({
                     icon: "error",
                     title: "oops...",
-                    text: "lỗi không tạo được sản phẩm" + xhr.responsetext,
-                    footer: '<a href="#">why do i have this issue?</a>'
+                    text: "Lỗi không tạo được sản phẩm" + xhr.responseText,
+                    footer: '<a href="#">Có lỗi xảy ra?</a>'
                 });
                 console.error(error);
             }
@@ -243,9 +233,65 @@ function saveUpdate() {
     }
 }
 
+
+//Load dữ liệu phân loại CC ra bảng con
+function loadDataColorCapacity() {
+    $("#productCC-list").empty();
+    $.each(arrProductCCs, function (index, productCC) {
+
+        let status = (productCC.status == 1) ? '<div class="block-available">Đang bán</div>' : '<div class="block-pending">Ngừng bán</div>';
+
+        $("#productCC-list").append(
+            ` <tr>
+                    <th class="antraz-table-item" style="min-width:0px;">
+                        <div class="body-text">${index + 1}</div>
+                    </th>
+                    <th class="antraz-table-item">
+                        <div class="body-text">${productCC.colorName}</div>
+                    </th>
+                    <th class="antraz-table-item">
+                        <div class="body-text">${productCC.capacityValue}</div>
+                    </th>
+                    <th class="antraz-table-item">
+                       <div class="body-text">${productCC.price}</div>
+                        </th>
+                    <th class="antraz-table-item">
+                        <div class="body-text">${productCC.stock}</div>
+                    </th>
+                    <th class="antraz-table-item">
+                        <div class="body-text">${status}</div>
+                    </th>
+                    <th class="antraz-table-item" style="max-width:10%;">
+                        <div class="list-icon-function">
+                           <div class="item edit" onclick="EditProductCC(this)">
+                                <i class="icon-edit-3"></i>
+                           </div>                             
+                           <div class="item trash" onclick="DeleteProductCC(this)">
+                                <i class="icon-trash-2"></i>
+                           </div>
+                       </div>
+                    </th>
+               </tr>`
+        )
+    });
+}
+
+// Mở modal CC
+$("#modal-cc-open").click(function () {
+    ResetFormCC();
+    document.getElementById("btn_save_cc").style.display = "none";
+    document.getElementById("btn_create_cc").style.display = "inline";
+    $('#productCCModal').modal('show');
+    $('#modal-cc-title').text('Phân loại sản phẩm');
+});
+
+
+
+
 //Validate form nhập Color Capacity
 function ValidateFormCC() {
     isValid = true;
+
     $(".error-message-cc").text("");
     $(".validate-form-cc").each(function () {
         if ($(this).val().trim() == "") {
@@ -258,70 +304,60 @@ function ValidateFormCC() {
     let capacity = $("#capacity").val();
 
     $("#productCC-list tr").each(function () {
-        let existingColor = $(this).find("th:nth-child(1) .body-text").text();
-        let existingCapacity = $(this).find("th:nth-child(2) .body-text").text();
-        if (existingColor === color && existingCapacity === capacity) {
-            $("#error-text-cc-message").text(`Sản phẩm màu ${color} dung lượng ${capacity} đã được thêm trước đó`)
-            isValid = false;
+        let existingcolor = $(this).find("th:nth-child(2) .body-text").text();
+        let existingcapacity = $(this).find("th:nth-child(3) .body-text").text();
+        if (existingcolor === color && existingcapacity === capacity) {
+            if (color === colorCheck && capacity === capacityCheck) {
+
+            }
+            else {
+                $("#error-text-cc-message").text(`Sản phẩm màu ${color} dung lượng ${capacity} đã được thêm trước đó`)
+                isValid = false;
+            }
+
         }
     })
+
+
     return isValid;
 }
-
 //reset Form CC
 function ResetFormCC() {
     $("#color").val("");
     $("#capacity").val("");
     $("#price").val("");
     $("#stock").val("");
-    $("#select").val("");
-   
+    $("#status").val("");
+    $("#imageViewCC").val("");
+    $("#imagePreviewCC").closest(".image-border").removeAttr('style');
+    $("#uploadIconCC").show();
+    $("#imagePreviewCC").closest(".img-preview-product").hide();
+    $(".error-message").text("");
+
+    colorCheck = "";
+    capacityCheck = "";
 }
 
 //Thêm dữ liệu phân loại vào bảng
 function AddProductCC() {
     $("#error-text-cc-message").text("");
     $(".error-message").text("");
+
     let isValid = ValidateFormCC();
     if (isValid) {
-        let color = $("#color").val();
-        let capacity = $("#capacity").val();
-        let price = $("#price").val();
-        let stock = $("#stock").val();
-        let status = $("#status").val();
+        let productCC = {
+            colorName: $("#color").val(),
+            capacityValue: $("#capacity").val(),
+            price: $("#price").val(),
+            stock: $("#stock").val(),
+            status: $("#status").val(),
+            image: $("#imageViewCC")[0].files[0]
+        };
 
-        $("#productCC-list").append(
-            ` <tr>
-                        <th class="antraz-table-item" style="min-width:0px;">
-                            <div class="body-text">${color}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${capacity}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${price}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${stock}</div>
-                        </th>
-                        <th class="antraz-table-item">
-                            <div class="body-text">${status}</div>
-                        </th>
-                        <th class="antraz-table-item" style="max-width:10%;">
-                            <div class="list-icon-function">
-                                <div class="item edit" onclick="EditProductCC(this)">
-                                    <i class="icon-edit-3"></i>
-                                </div>
-                                
-                                <div class="item trash" onclick="DeleteProductCC(this)">
-                                    <i class="icon-trash-2"></i>
-                                </div>
-                            </div>
-                        </th>
-                    </tr>`
-        )
+        arrProductCCs.push(productCC);
+        loadDataColorCapacity();
+        $('#productCCModal').modal('hide');
 
-        ResetFormCC()
     }
     else console.log("Lỗi validate");
 }
@@ -331,61 +367,58 @@ function DeleteProductCC(button) {
     $(button).closest("tr").remove();
 }
 
-//Đưa sản phẩm lại input
+//Đưa sản phẩm vào modal
 function EditProductCC(button) {
-    currentRow = $(button).closest("tr");
+    let currentRow = $(button).closest("tr");
 
-    let color = currentRow.find("th:nth-child(1) .body-text").text();
-    let capacity = currentRow.find("th:nth-child(2) .body-text").text();
-    let price = currentRow.find("th:nth-child(3) .body-text").text();
-    let stock = currentRow.find("th:nth-child(4) .body-text").text();
-    let status = currentRow.find("th:nth-child(5) .body-text").text();
+    index = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
 
-    currentRow.find("th:nth-child(1) .body-text").html(`<input type="text" value="${color}" />`);
-    currentRow.find("th:nth-child(2) .body-text").html(`<input type="text" value="${capacity}" />`);
-    currentRow.find("th:nth-child(3) .body-text").html(`<input type="text" value="${price}" />`);
-    currentRow.find("th:nth-child(4) .body-text").html(`<input type="text" value="${stock}" />`);
-    currentRow.find("th:nth-child(5) .body-text").html(`<input type="text" value="${status}" />`);
+    let color = arrProductCCs[index].colorName;
+    let capacity = arrProductCCs[index].capacityValue;
+    let price = arrProductCCs[index].price;
+    let stock = arrProductCCs[index].stock;
+    let status = arrProductCCs[index].status;
+    let image = arrProductCCs[index].image;
 
-    currentRow.find("th:nth-child(6) .list-icon-function").html(
-    `<div class="item save" onclick="SaveProductCC(this)" style="color: #1B56FD">
-        <i class="fa-regular fa-floppy-disk"></i>
-    </div>`
-    );
+    colorCheck = color;
+    capacityCheck = capacity;
+
+    document.getElementById("btn_save_cc").style.display = "inline";
+    document.getElementById("btn_create_cc").style.display = "none";
+
+    $('#productCCModal').modal('show');
+    $('#modal-cc-title').text('Chỉnh sửa sản phẩm phân loại');
+
+    $("#color").val(color);
+    $("#capacity").val(capacity);
+    $("#price").val(price);
+    $("#stock").val(stock);
+    $("#status").val(status);
+ /*   let imageURL = URL.createObjectURL(image);*/
+    console.log(image.target.result)
+   /* $("#imagePreviewCC").attr("src", imageURL).show(); */
+
+  /*  $("#imageViewCC").val(image);*/
 }
 
-//SaveEdit
-function SaveProductCC(button) {
-    currentRow = $(button).closest("tr");
+//SaveEdit CC
+function SaveProductCC() {
+    $(".error-message").text("");
+    let isValid = ValidateFormCC();
+    if (isValid) {
+        let color = $("#color").val();
+        let capacity = $("#capacity").val();
+        let price = $("#price").val();
+        let stock = $("#stock").val();
+        let status = $("#status").val();
 
-    let color = currentRow.find("th:nth-child(1) input").val();
-    currentRow.find("th:nth-child(1) input").val("");
+        currentRow.find("th:nth-child(1) .body-text").html(`${color}`);
+        currentRow.find("th:nth-child(2) .body-text").html(`${capacity}`);
+        currentRow.find("th:nth-child(3) .body-text").html(`${price}`);
+        currentRow.find("th:nth-child(4) .body-text").html(`${stock}`);
+        currentRow.find("th:nth-child(5) .body-text").html(`${status}`);
+        $('#productCCModal').modal('hide');
+    }
+    else console.log("Lỗi validate")
 
-    let capacity = currentRow.find("th:nth-child(2) input").val();
-    currentRow.find("th:nth-child(2) input").val("");
-
-    let price = currentRow.find("th:nth-child(3) input").val();
-    currentRow.find("th:nth-child(3) input").val("");
-
-    let stock = currentRow.find("th:nth-child(4) input").val();
-    currentRow.find("th:nth-child(4) input").val("");
-
-    let status = currentRow.find("th:nth-child(5) input").val();
-    currentRow.find("th:nth-child(5) input").val("");
-
-    currentRow.find("th:nth-child(1) .body-text").html(` <div class="body-text">${color}</div>`);
-    currentRow.find("th:nth-child(2) .body-text").html(` <div class="body-text">${capacity}</div>`);
-    currentRow.find("th:nth-child(3) .body-text").html(`<div class="body-text">${price}</div>`);
-    currentRow.find("th:nth-child(4) .body-text").html(`<div class="body-text">${stock}</div>`);
-    currentRow.find("th:nth-child(5) .body-text").html(`<div class="body-text">${status}</div>`);
-
-    currentRow.find("th:nth-child(6) .list-icon-function").html(
-        `<div class="item edit" onclick="EditProductCC(this)">
-        <i class="icon-edit-3"></i>
-        </div>
-        <div class="item trash" onclick="DeleteProductCC(this)">
-        <i class="icon-trash-2"></i>
-        </div>
-        `
-    );
 }
