@@ -223,6 +223,7 @@ namespace AntrazShop.Services
 					Name = newProduct.Name.Trim(),
 					Description = newProduct.Description,
 					ImageView = imageViewName,
+					ImageFolder = slugProductName,
 					BrandId = newProduct.BrandId,
 					CategoryId = newProduct.CategoryId,
 					DiscountAmount = newProduct.DiscountAmount
@@ -233,7 +234,7 @@ namespace AntrazShop.Services
 				{
 					var colorId = await _productCCRepository.AddColor(productCCDTO.ColorName);
 					var capacityId = await _productCCRepository.AddCapacity(productCCDTO.CapacityValue);
-					string imageName = productCCDTO.ColorName + '_' + productCCDTO.CapacityValue + Path.GetExtension(productCCDTO.Image.FileName);
+					string imageName = FileNameHelper.ToSlug(productCCDTO.ColorName) + '_' + FileNameHelper.ToSlug(productCCDTO.CapacityValue) + Path.GetExtension(productCCDTO.Image.FileName);
 
 					filePath = Path.Combine(imagePath, imageName);
 
@@ -242,16 +243,16 @@ namespace AntrazShop.Services
 						await productCCDTO.Image.CopyToAsync(stream);
 					}
 
-						var productCC = new ColorCapacity
-						{
-							Stock = productCCDTO.Stock,
-							Price = productCCDTO.Price,
-							ColorId = colorId,
-							CapacityId = capacityId,
-							Image = imageName,
-							Status = productCCDTO.Status,
-							ProductId = productId
-						};
+					var productCC = new ColorCapacity
+					{
+						Stock = productCCDTO.Stock,
+						Price = productCCDTO.Price,
+						ColorId = colorId,
+						CapacityId = capacityId,
+						Image = imageName,
+						Status = productCCDTO.Status,
+						ProductId = productId
+					};
 
 					await _productCCRepository.AddColorCapacity(productCC);
 				}

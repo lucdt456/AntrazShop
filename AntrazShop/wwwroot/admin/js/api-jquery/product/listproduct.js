@@ -184,7 +184,7 @@ function loadPageTableProduct(products) {
 
         $("#product-list").append(
             `<tr class="antraz-table-list">
-                        <th class="antraz-table-item">
+                        <th class="antraz-table-item" style="display:flex">
                             <div class="image no-bg">
                                 <img style="object-fit: contain; width: 100%;" src="/admin/img/product/${product.imageView}" alt="">
                             </div>

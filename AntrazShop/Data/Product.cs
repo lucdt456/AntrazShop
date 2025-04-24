@@ -14,6 +14,7 @@ namespace AntrazShop.Data
 		public Decimal DiscountAmount { get; set; }
 		public string Description { get; set; }
 		public string ImageView { get; set; }
+		public string ImageFolder { get; set; }
 
 		[ForeignKey("Brand")]
 		public int BrandId { get; set; }
