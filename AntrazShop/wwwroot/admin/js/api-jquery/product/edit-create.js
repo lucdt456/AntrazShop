@@ -4,10 +4,13 @@ $(function () {
 });
 
 //Biến toàn cục
-var colorCheck = "";
+var colorCheck = ""; //2 biến check validate product phân loại
 var capacityCheck = "";
-var arrProductCCs = [];
-var index;
+
+var arrProductCCs = [];//Mảng chứa phân loại
+
+var imageProductCCUrl = ''; //Url ảnh phân loại
+
 
 
 function findH3CreateOrUpdate() {
@@ -49,7 +52,9 @@ $(document).ready(function () {
                 $("#uploadIconCC").hide();
                 $("#imagePreviewCC").closest(".img-preview-product").show();
                 $("#imagePreviewCC").closest(".image-border").css("border", "none");
-                $("#imagePreviewCC").attr("src", e.target.result).show();         
+                imageProductCCUrl = e.target.result;
+                $("#imagePreviewCC").attr("src", imageProductCCUrl).show();
+
             };
             reader.readAsDataURL(fileCC);
         }
@@ -81,6 +86,15 @@ function validateInput() {
         }
     });
 
+    if (arrProductCCs.length == 0) {
+        isValid = false;
+        Swal.fire({
+            icon: "error",
+            title: "Lỗi...",
+            text: "Vui lòng thêm ít nhất 1 phân loại!!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+        });
+    }
 
     //imagefile
     if ($("#imageProductName").val() === '') {
@@ -153,7 +167,7 @@ function CreateProduct() {
             productFormData.append(`ProductCCDTOs[${index}].status`, productCC.status);
             productFormData.append(`ProductCCDTOs[${index}].image`, productCC.image);
         });
-         
+
         console.log(productFormData)
         $.ajax({
             url: 'https://localhost:7092/api/Product/create',
@@ -242,10 +256,15 @@ function loadDataColorCapacity() {
         let status = (productCC.status == 1) ? '<div class="block-available">Đang bán</div>' : '<div class="block-pending">Ngừng bán</div>';
 
         $("#productCC-list").append(
-            ` <tr>
+            ` <tr class="antraz-table-list">
                     <th class="antraz-table-item" style="min-width:0px;">
                         <div class="body-text">${index + 1}</div>
                     </th>
+                    <th class="antraz-table-item">
+                        <div class="image no-bg">
+                             <img style="object-fit: contain; width: 100%;" src="${productCC.imageUrl}" alt="">
+                        </div>
+                    </th> 
                     <th class="antraz-table-item">
                         <div class="body-text">${productCC.colorName}</div>
                     </th>
@@ -285,9 +304,6 @@ $("#modal-cc-open").click(function () {
     $('#modal-cc-title').text('Phân loại sản phẩm');
 });
 
-
-
-
 //Validate form nhập Color Capacity
 function ValidateFormCC() {
     isValid = true;
@@ -299,6 +315,8 @@ function ValidateFormCC() {
             isValid = false;
         }
     });
+
+
 
     let color = $("#color").val();
     let capacity = $("#capacity").val();
@@ -332,54 +350,87 @@ function ResetFormCC() {
     $("#imagePreviewCC").closest(".image-border").removeAttr('style');
     $("#uploadIconCC").show();
     $("#imagePreviewCC").closest(".img-preview-product").hide();
-    $(".error-message").text("");
+    $(".error-message-cc").text("");
+    $("#error-message-imageCC").text('');
 
     colorCheck = "";
     capacityCheck = "";
 }
 
 //Thêm dữ liệu phân loại vào bảng
+
 function AddProductCC() {
     $("#error-text-cc-message").text("");
     $(".error-message").text("");
 
     let isValid = ValidateFormCC();
+    if ($("#imageViewCC").val() == '') {
+        $("#error-message-imageCC").text('Chọn lại ảnh');
+        isValid = false;
+    };
+
     if (isValid) {
+
         let productCC = {
             colorName: $("#color").val(),
             capacityValue: $("#capacity").val(),
             price: $("#price").val(),
             stock: $("#stock").val(),
             status: $("#status").val(),
-            image: $("#imageViewCC")[0].files[0]
+            image: $("#imageViewCC")[0].files[0],
+            imageUrl: imageProductCCUrl
         };
 
         arrProductCCs.push(productCC);
         loadDataColorCapacity();
         $('#productCCModal').modal('hide');
-
+    } else {
+        console.log("Lỗi validate");
     }
-    else console.log("Lỗi validate");
 }
 
 //Xoá dữ liệu bảng phân loại
 function DeleteProductCC(button) {
-    $(button).closest("tr").remove();
+    let currentRow = $(button).closest("tr");
+    let indexDelete = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
+    Swal.fire({
+        title: "Xác nhận xoá?",
+        text: "Sau khi xoá sẽ không thể khôi phục!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Đồng ý"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            arrProductCCs.splice(indexDelete, 1);
+            loadDataColorCapacity();
+            Swal.fire({
+                title: "Đã xoá",
+                text: "Xoá thành công sản phẩm phân loại khỏi danh sách",
+                icon: "success"
+            });
+        }
+    });
 }
 
-//Đưa sản phẩm vào modal
+
+//Biến toàn cục đưa sản phẩm vào modal edit
+var indexEdit;
+
+//Đưa sản phẩm vào modal để edit
 function EditProductCC(button) {
+    $("#error-message-imageCC").text('');
     let currentRow = $(button).closest("tr");
 
-    index = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
+    indexEdit = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
 
-    let color = arrProductCCs[index].colorName;
-    let capacity = arrProductCCs[index].capacityValue;
-    let price = arrProductCCs[index].price;
-    let stock = arrProductCCs[index].stock;
-    let status = arrProductCCs[index].status;
-    let image = arrProductCCs[index].image;
+    let color = arrProductCCs[indexEdit].colorName;
+    let capacity = arrProductCCs[indexEdit].capacityValue;
 
+    $("#imageViewCC").val('');
+
+    //Lấy biến để validate
     colorCheck = color;
     capacityCheck = capacity;
 
@@ -391,34 +442,52 @@ function EditProductCC(button) {
 
     $("#color").val(color);
     $("#capacity").val(capacity);
-    $("#price").val(price);
-    $("#stock").val(stock);
-    $("#status").val(status);
- /*   let imageURL = URL.createObjectURL(image);*/
-    console.log(image.target.result)
-   /* $("#imagePreviewCC").attr("src", imageURL).show(); */
+    $("#price").val(arrProductCCs[indexEdit].price);
+    $("#stock").val(arrProductCCs[indexEdit].stock);
+    $("#status").val(arrProductCCs[indexEdit].status);
 
-  /*  $("#imageViewCC").val(image);*/
+    //Hiển thị ảnh
+    $("#uploadIconCC").hide();
+    $("#imagePreviewCC").closest(".img-preview-product").show();
+    $("#imagePreviewCC").closest(".image-border").css("border", "none");
+    $("#imagePreviewCC").attr("src", arrProductCCs[indexEdit].imageUrl).show();
 }
 
 //SaveEdit CC
 function SaveProductCC() {
-    $(".error-message").text("");
-    let isValid = ValidateFormCC();
-    if (isValid) {
-        let color = $("#color").val();
-        let capacity = $("#capacity").val();
-        let price = $("#price").val();
-        let stock = $("#stock").val();
-        let status = $("#status").val();
+    Swal.fire({
+        title: "Xác nhận lưu?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Lưu",
+        denyButtonText: `Huỷ`
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $(".error-message-cc").text("");
+            $("#error-text-cc-message").text("");
+            let isValid = ValidateFormCC();
+            if (isValid) {
 
-        currentRow.find("th:nth-child(1) .body-text").html(`${color}`);
-        currentRow.find("th:nth-child(2) .body-text").html(`${capacity}`);
-        currentRow.find("th:nth-child(3) .body-text").html(`${price}`);
-        currentRow.find("th:nth-child(4) .body-text").html(`${stock}`);
-        currentRow.find("th:nth-child(5) .body-text").html(`${status}`);
-        $('#productCCModal').modal('hide');
-    }
-    else console.log("Lỗi validate")
+                arrProductCCs[indexEdit] = {
+                    colorName: $("#color").val(),
+                    capacityValue: $("#capacity").val(),
+                    price: $("#price").val(),
+                    stock: $("#stock").val(),
+                    status: $("#status").val()
+                };
 
+                if ($("#imageViewCC").val() != '') {
+                    arrProductCCs[indexEdit].image = $("#imageViewCC")[0].files[0];
+                    arrProductCCs[indexEdit].imageUrl = imageProductCCUrl;
+                }
+                $('#productCCModal').modal('hide');
+                loadDataColorCapacity();
+            }
+            else console.log("Lỗi validate")
+            Swal.fire("Đã lưu", "", "success");
+        } else if (result.isDenied) {
+            Swal.fire("Lưu thất bại", "", "info");
+        }
+    });
 }

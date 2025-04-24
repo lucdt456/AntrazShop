@@ -48,6 +48,10 @@
     background-color: #F8FAFC;
 }
 
+.antraz-table .antraz-table-list:nth-child(2n+1) {
+    background-color: #F8FAFC;
+}
+
 .antraz-table .antraz-table-list {
     padding: 12px;
 }
@@ -57,7 +61,7 @@
     }
 
 .antraz-table-item:first-child {
-    display: flex;
+   /* display: flex;*/
     align-items: center;
     column-gap: 20px;
     padding-left: 12px
