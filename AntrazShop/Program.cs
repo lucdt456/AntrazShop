@@ -115,6 +115,7 @@ builder.Services.AddScoped<IAccountManagerRepository, AccountManagerRepository>(
 builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 
 builder.Services.AddScoped<IProductColorCapacityRepository, ProductColorCapacityRepository>();
+builder.Services.AddScoped<IProductCCService, ProductCCService>();
 
 var app = builder.Build();
 

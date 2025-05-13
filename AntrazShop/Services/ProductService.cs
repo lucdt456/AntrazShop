@@ -57,6 +57,7 @@ namespace AntrazShop.Services
 					DiscountAmount = p.DiscountAmount,
 					Description = p.Description,
 					ImageView = p.ImageView,
+					FolderImage = p.ImageFolder,
 					Brand = p.Brand.Name,
 					Category = p.Category.Name,
 					Rating = Math.Round(
@@ -65,7 +66,7 @@ namespace AntrazShop.Services
 						 .Select(r => r.Rating)
 						 .DefaultIfEmpty(0)
 						 .Average(), 1),
-					ColorCapacityVMs = colorCapacityVMs,
+					ProductCCs = colorCapacityVMs,
 					MinPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Min(x => x.Price) : 0,
 					MaxPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Max(x => x.Price) : 0,
 					TotalStock = totalStock,
@@ -115,6 +116,7 @@ namespace AntrazShop.Services
 					DiscountAmount = p.DiscountAmount,
 					Description = p.Description,
 					ImageView = p.ImageView,
+					FolderImage = p.ImageFolder,
 					Brand = p.Brand.Name,
 					Category = p.Category.Name,
 					Rating = Math.Round(
@@ -123,7 +125,7 @@ namespace AntrazShop.Services
 						 .Select(r => r.Rating)
 						 .DefaultIfEmpty(0)
 						 .Average(), 1),
-					ColorCapacityVMs = colorCapacityVMs,
+					ProductCCs = colorCapacityVMs,
 					MinPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Min(x => x.Price) : 0,
 					MaxPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Max(x => x.Price) : 0,
 					TotalStock = totalStock,
@@ -175,10 +177,11 @@ namespace AntrazShop.Services
 					DiscountAmount = product.DiscountAmount,
 					Description = product.Description,
 					ImageView = product.ImageView,
+					FolderImage = product.ImageFolder,
 					Brand = product.Brand.Name,
 					Category = product.Category.Name,
 					Rating = rating,
-					ColorCapacityVMs = colorCapacityVMs,
+					ProductCCs = colorCapacityVMs,
 					MinPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Min(x => x.Price) : 0,
 					MaxPrice = colorCapacityVMs.Any() ? colorCapacityVMs.Max(x => x.Price) : 0,
 					TotalStock = totalStock,

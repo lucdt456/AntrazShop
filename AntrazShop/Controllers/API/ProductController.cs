@@ -11,12 +11,15 @@ namespace AntrazShop.Controllers.API
 	public class ProductController : ControllerBase
 	{
 		private readonly IProductService _productService;
-		public ProductController(IProductService productService)
+		private readonly IProductCCService _productCCService;
+		public ProductController(IProductService productService, IProductCCService productCCService)
 		{
 			_productService = productService;
+			_productCCService = productCCService;
 		}
 
 		//[Authorize(Policy = "CanViewProducts")]
+		//Lấy sản phẩm
 		[HttpGet]
 		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{
@@ -30,8 +33,9 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//[Authorize]
-		[HttpGet("search")]			
-		public async Task<IActionResult> SearchProducts(string search, int page =1, int size = 10)
+		//Tìm kiếm sản phẩm
+		[HttpGet("search")]
+		public async Task<IActionResult> SearchProducts(string search, int page = 1, int size = 10)
 		{
 			var (products, pagination) = await _productService.SearchProducts(search, page, size);
 			return Ok(new
@@ -41,6 +45,7 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
+		//Lấy 1 sản phẩm
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProduct(int id)
 		{
@@ -52,12 +57,14 @@ namespace AntrazShop.Controllers.API
 			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
 		}
 
+		//Tạo sản phẩm
 		[HttpPost("create")]
 		public async Task<IActionResult> AddProduct([FromForm] ProductDTO newProduct)
 		{
 			return Ok(await _productService.AddProduct(newProduct));
 		}
 
+		//Edit sản phẩm
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDTO productUpdate)
 		{
@@ -69,8 +76,8 @@ namespace AntrazShop.Controllers.API
 			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
 		}
 
+		//Xoá sản phẩm
 		[HttpDelete("{id}")]
-
 		public async Task<IActionResult> DeleteProduct(int id)
 		{
 			bool isDeleted = await _productService.DeleteProduct(id);
@@ -80,5 +87,20 @@ namespace AntrazShop.Controllers.API
 			}
 			return NotFound(new { message = "Không tìm thấy sản phẩm" });
 		}
+
+		//Chỉnh sửa phân loại sản phẩm
+
+		[HttpPut("{productFolder}/{idCC}")]
+		public async Task<IActionResult> EditProductCC(string productFolder, int idCC, [FromForm] ProductColorCapacityDTO dTO)
+		{
+			var response = await _productCCService.EditColorCapacity(productFolder, idCC, dTO);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
+		}
+
+
 	}
 }

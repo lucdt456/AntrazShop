@@ -37,10 +37,11 @@ function loadproducts(page, size) {
             var listProducts = response.products.map(product => ({
                 id: product.id,
                 name: product.name,
-                price: `${product.minPrice} ~ ${product.maxPrice}`,
+                price: `${product.minPrice.toLocaleString('vi-VN')} ~ ${product.maxPrice.toLocaleString('vi-VN')}`,
                 discountAmount: product.discountAmount,
                 description: product.description,
                 imageView: product.imageView,
+                folder: product.folderImage,
                 brand: product.brand,
                 category: product.category,
                 status: product.status,
@@ -91,14 +92,15 @@ function searchProducts(page, size) {
                 var listProducts = response.products.map(product => ({
                     id: product.id,
                     name: product.name,
-                    price: `${product.minPrice} ~ ${product.maxPrice}`,
+                    price: `${product.minPrice.toLocaleString('vi-VN')} ~ ${product.maxPrice.toLocaleString('vi-VN')}`,
                     discountAmount: product.discountAmount,
                     description: product.description,
                     imageView: product.imageView,
+                    folder: product.folderImage,
                     brand: product.brand,
                     category: product.category,
                     status: product.status,
-                    stock: product.stock
+                    stock: product.totalStock
                 }));
 
                 // Xử lý các số chân trang
@@ -186,7 +188,7 @@ function loadPageTableProduct(products) {
             `<tr class="antraz-table-list">
                         <th class="antraz-table-item" style="display:flex">
                             <div class="image no-bg">
-                                <img style="object-fit: contain; width: 100%;" src="/admin/img/product/${product.imageView}" alt="">
+                                <img style="object-fit: contain; width: 100%;" src="/admin/imgs/product/${product.folder}/${product.imageView}" alt="">
                             </div>
                             
                             <div class="name">
@@ -476,7 +478,7 @@ function saveUpdate() {
                 swal.fire({
                     icon: "error",
                     title: "oops...",
-                    text: "lỗi không cập nhật được sản phẩm" + xhr.responsetext,
+                    text: "lỗi không cập nhật được sản phẩm" + xhr.responseText,
                     footer: '<a href="#">why do i have this issue?</a>'
                 });
                 console.error(error);

@@ -14,9 +14,10 @@ namespace AntrazShop.Models.ViewModels
 		public int Status { get; set; }
 		public string Description { get; set; }
 		public string ImageView { get; set; }
+		public string FolderImage { get; set; }
 		public string Brand { get; set; }
 		public string Category { get; set; }
 		public double Rating { get; set; }
-		public List<ProductColorCapacityVM> ColorCapacityVMs { get; set; } = new();
+		public List<ProductColorCapacityVM> ProductCCs { get; set; } = new();
 	}
 }	
