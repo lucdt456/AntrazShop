@@ -1,3 +1,4 @@
+using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using Microsoft.AspNetCore.Authorization;
@@ -89,7 +90,6 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Chỉnh sửa phân loại sản phẩm
-
 		[HttpPut("{productFolder}/{idCC}")]
 		public async Task<IActionResult> EditProductCC(string productFolder, int idCC, [FromForm] ProductColorCapacityDTO dTO)
 		{
@@ -98,9 +98,31 @@ namespace AntrazShop.Controllers.API
 			{
 				return BadRequest(new { errors = response.Errors });
 			}
-			return Ok(response.Data);
+			else return Ok(response.Data);
 		}
 
+		//Tạo phân loại sản phẩm mới
+		[HttpPost("{idProduct}/{productFolder}")]
+		public async Task<IActionResult> CreateProductCC(int idProduct, string productFolder, [FromForm] ProductColorCapacityDTO dTO)
+		{
+			var response = await _productCCService.CreateColorCapacity(idProduct, productFolder, dTO);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			else return Ok(response.Data);
+		}
 
+		//Xoá phân loại sản phẩm
+		[HttpDelete("{id}/{productFolder}")]
+		public async Task<IActionResult> DeleteProductCC(int id, string productFolder)
+		{
+			var response = await _productCCService.DeleteColorCapacity(id, productFolder);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			else return Ok("Xoá thành công!");
+		}
 	}
 }
