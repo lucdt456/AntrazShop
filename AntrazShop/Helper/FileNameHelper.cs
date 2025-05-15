@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AntrazShop.Models
+namespace AntrazShop.Helper
 {
 	public class FileNameHelper
 	{
@@ -15,6 +15,9 @@ namespace AntrazShop.Models
 
 			// chuyển thành chữ thường
 			fileName = fileName.ToLower();
+
+			// Thay thế các ký tự đặc biệt (ví dụ: "đ" thành "d")
+			fileName = ReplaceVietnameseChars(fileName);
 
 			//tách dấu ra khỏi chữ cái
 			fileName = fileName.Normalize(NormalizationForm.FormD);
@@ -41,6 +44,13 @@ namespace AntrazShop.Models
 
 
 			return fileName;
+		}
+
+		private static string ReplaceVietnameseChars(string input)
+		{
+			return input
+			   .Replace("đ", "d")
+			   .Replace("Đ", "D");
 		}
 	}
 }

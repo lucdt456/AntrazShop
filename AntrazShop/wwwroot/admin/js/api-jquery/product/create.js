@@ -1,8 +1,3 @@
-$(function () {
-    findH3CreateOrUpdate();
-    loadDataColorCapacity();
-});
-
 //Biến toàn cục
 var colorCheck = ""; //2 biến check validate product phân loại
 var capacityCheck = "";
@@ -10,22 +5,6 @@ var capacityCheck = "";
 var arrProductCCs = [];//Mảng chứa phân loại
 
 var imageProductCCUrl = ''; //Url ảnh phân loại
-
-
-
-function findH3CreateOrUpdate() {
-    let h3headings = document.querySelectorAll("h3");
-    h3headings.forEach(function (item) {
-        let textH3 = item.textContent.trim();
-        if (textH3 === 'Chỉnh sửa sản phẩm') {
-            document.getElementById("btn_create").style.display = "none";
-            document.getElementById("btn_update").style.display = "inline";
-            let urlParams = new URLSearchParams(window.location.search);
-            let id = urlParams.get('id');
-            loadEdit(id);
-        }
-    });
-}
 
 //xem trước imageView
 $(document).ready(function () {
@@ -107,44 +86,7 @@ function validateInput() {
     return isValid;
 }
 
-function loadEdit(id) {
-    if (id != null) {
-        $("#id-product").append(id);
-        $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (product) {
-                $("#name").val(product.name);
-                $("#price").val(product.price);
-                $("#discountAmount").val(product.discountAmount);
-                $("#categoryid option").each(function () {
-                    if ($(this).text() === product.category) {
-                        $("#categoryid").val($(this).val());
-                    };
-                });
-                $("#brandid option").each(function () {
-                    if ($(this).text() === product.brand) {
-                        $("#brandid").val($(this).val());
-                    }
-                });
-                $("#description").val(product.description);
 
-                $("#imagePreview").attr("src", `/admin/img/product/${product.imageView}`).show();
-                $("#imageProductName").val(product.imageView);
-
-                $("#status").val(product.status);
-                $("#stock").val(product.stock);
-
-            },
-            error: function (xhr, status, error) {
-                alert("Lỗi khi lấy sản phẩm: " + xhr.responseText);
-                console.error(error);
-            }
-        })
-    }
-
-}
 
 function CreateProduct() {
     let isValid = validateInput();
@@ -238,7 +180,7 @@ function saveUpdate() {
                 swal.fire({
                     icon: "error",
                     title: "oops...",
-                    text: "lỗi không cập nhật được sản phẩm" + xhr.responsetext,
+                    text: "lỗi không cập nhật được sản phẩm" + xhr.responseText,
                     footer: '<a href="#">why do i have this issue?</a>'
                 });
                 console.error(error);
@@ -365,7 +307,7 @@ function AddProductCC() {
 
     let isValid = ValidateFormCC();
     if ($("#imageViewCC").val() == '') {
-        $("#error-message-imageCC").text('Chọn lại ảnh');
+        $("#error-message-imageCC").text('Chọn ảnh');
         isValid = false;
     };
 
@@ -422,7 +364,6 @@ var indexEdit;
 function EditProductCC(button) {
     $("#error-message-imageCC").text('');
     let currentRow = $(button).closest("tr");
-
     indexEdit = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
 
     let color = arrProductCCs[indexEdit].colorName;

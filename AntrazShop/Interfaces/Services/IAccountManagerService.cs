@@ -1,4 +1,4 @@
-using AntrazShop.Models;
+using AntrazShop.Helper;
 using AntrazShop.Models.ViewModels;
 
 namespace AntrazShop.Interfaces.Services

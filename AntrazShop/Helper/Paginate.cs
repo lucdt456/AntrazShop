@@ -1,4 +1,4 @@
-namespace AntrazShop.Models
+namespace AntrazShop.Helper
 {
 	public class Paginate
 	{
@@ -36,7 +36,7 @@ namespace AntrazShop.Models
 
 			CurrentPage = currentPage;
 			MaxPagesToShow = 4;
-			int halfPagesToShow = (int)(MaxPagesToShow / 2);
+			int halfPagesToShow = MaxPagesToShow / 2;
 			StartPage = currentPage - halfPagesToShow;
 			EndPage = currentPage + halfPagesToShow;
 
