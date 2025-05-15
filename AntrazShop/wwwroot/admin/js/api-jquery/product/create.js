@@ -307,7 +307,7 @@ function AddProductCC() {
 
     let isValid = ValidateFormCC();
     if ($("#imageViewCC").val() == '') {
-        $("#error-message-imageCC").text('Chọn lại ảnh');
+        $("#error-message-imageCC").text('Chọn ảnh');
         isValid = false;
     };
 
@@ -364,7 +364,6 @@ var indexEdit;
 function EditProductCC(button) {
     $("#error-message-imageCC").text('');
     let currentRow = $(button).closest("tr");
-
     indexEdit = Number(currentRow.find("th:nth-child(1) .body-text").text()) - 1;
 
     let color = arrProductCCs[indexEdit].colorName;
