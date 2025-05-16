@@ -61,6 +61,7 @@ namespace AntrazShop.Services
 							{
 								response.IsSuccess = false;
 								response.Errors.Add("Lỗi khi đổi tên file ảnh!");
+								return response;
 							}
 						}
 						else
@@ -81,6 +82,7 @@ namespace AntrazShop.Services
 							{
 								response.IsSuccess = false;
 								response.Errors.Add("Lỗi khi thay thế file ảnh");
+								return response;
 							}
 						}
 						var colorIdUpdate = await _productCCRepository.AddColor(dTO.ColorName);
@@ -98,20 +100,23 @@ namespace AntrazShop.Services
 						};
 
 						response.Data = await _productCCRepository.EditColorCapacity(id, colorCapacityUpdate);
+						
 					}
 					else
 					{
 						response.IsSuccess = false;
 						response.Errors.Add("Phân loại sản phẩm đã tồn tại!");
+						return response;
 					}
 				}
+				return response;
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
 				response.Errors.Add("Lỗi: " + ex.Message);
+				return response;
 			}
-			return response;
 		}
 
 		public async Task<ServiceResponse<ColorCapacity>> CreateColorCapacity(int idProduct, string productFolder, ProductColorCapacityDTO dTO)
@@ -146,6 +151,7 @@ namespace AntrazShop.Services
 					{
 						response.IsSuccess = false;
 						response.Errors.Add("Không thể lưu hình ảnh sản phẩm");
+						return response;
 					}
 
 					var colorId = await _productCCRepository.AddColor(dTO.ColorName);
@@ -170,20 +176,24 @@ namespace AntrazShop.Services
 					{
 						response.IsSuccess = false;
 						response.Errors.Add("Lỗi khi thêm sản phẩm vào Database");
-					}				
+						return response;
+					}
+					return response;
 				}
 				else
 				{
 					response.IsSuccess = false;
 					response.Errors.Add("Phân loại sản phẩm đã tồn tại!");
+					return response;
 				}
+				
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
 				response.Errors.Add("Lỗi: " + ex.Message);
-			}
-			return response;			
+				return response;
+			}	
 		}
 
 		public async Task<ServiceResponse<bool>> DeleteColorCapacity(int id, string productFolder)

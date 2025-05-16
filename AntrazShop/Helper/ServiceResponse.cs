@@ -1,4 +1,4 @@
-namespace AntrazShop.Models
+namespace AntrazShop.Helper
 {
 	public class ServiceResponse<T>
 	{

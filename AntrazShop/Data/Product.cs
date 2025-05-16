@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AntrazShop.Data
 {
@@ -18,13 +19,15 @@ namespace AntrazShop.Data
 
 		[ForeignKey("Brand")]
 		public int BrandId { get; set; }
+		[JsonIgnore]
 		public Brand Brand { get; set; }
 
 		[ForeignKey("Category")]
 		public int CategoryId { get; set; }
+		[JsonIgnore]
 		public Category Category { get; set; }
 		public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
-		public ICollection<ColorCapacity> ColorCapacities { get; set; } = new List<ColorCapacity>();
+		public ICollection<ColorCapacity>? ColorCapacities { get; set; } = new List<ColorCapacity>();
 
 	}
 }

@@ -67,26 +67,26 @@ namespace AntrazShop.Controllers.API
 
 		//Edit sản phẩm
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDTO productUpdate)
+		public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDTO productUpdate)
 		{
-			var productNew = await _productService.UpdateProduct(id, productUpdate);
-			if (productNew != null)
+			var response = await _productService.UpdateProduct(id, productUpdate);
+			if (!response.IsSuccess)
 			{
-				return Ok(productNew);
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
+			else return Ok(response.Data);
 		}
 
 		//Xoá sản phẩm
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProduct(int id)
 		{
-			bool isDeleted = await _productService.DeleteProduct(id);
-			if (isDeleted)
+			var response = await _productService.DeleteProduct(id);
+			if (!response.IsSuccess)
 			{
-				return Ok(new { message = "Xóa thành công" });
+				return BadRequest(new { errors = response.Errors });
 			}
-			return NotFound(new { message = "Không tìm thấy sản phẩm" });
+			else return Ok("Xoá thành công!");
 		}
 
 		//Chỉnh sửa phân loại sản phẩm

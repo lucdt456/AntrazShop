@@ -86,8 +86,6 @@ function validateInput() {
     return isValid;
 }
 
-
-
 function CreateProduct() {
     let isValid = validateInput();
 

@@ -79,38 +79,35 @@ namespace AntrazShop.Repositories
 			return newProduct.Id;
 		}
 
-		public async Task<Product?> UpdateProduct(int id, ProductDTO productUpdate)
+		public async Task<Product> UpdateProduct(int id, Product productUpdate)
 		{
 			Product product = await _context.Products.FindAsync(id);
 			if (product != null)
 			{
 				product.Name = productUpdate.Name;
-				//product.Price = productUpdate.Price;
 				product.DiscountAmount = productUpdate.DiscountAmount;
 				product.Description = productUpdate.Description;
-				product.ImageView = "1.png";
+				product.ImageView = productUpdate.ImageView;
 				product.BrandId = productUpdate.BrandId;
 				product.CategoryId = productUpdate.CategoryId;
-				//product.Status = productUpdate.status;
-				//product.Stock = productUpdate.Stock;
+				product.ImageFolder = productUpdate.ImageFolder;
 
 				_context.Products.Update(product);
 				await _context.SaveChangesAsync();
 				return product;
 			}
-			else return null;
+			else throw new Exception("Không tìm thấy sản phẩm");
 		}
 
-		public async Task<bool> DeleteProduct(int id)
+		public async Task DeleteProduct(int id)
 		{
 			var product = await _context.Products.FindAsync(id);
 			if (product != null)
 			{
 				_context.Products.Remove(product);
 				await _context.SaveChangesAsync();
-				return true;
 			}
-			else return false;
+			else throw new Exception("Không tìm thấy sản phẩm");
 		}
 
 		public async Task<int> GetTotalProductCount()
