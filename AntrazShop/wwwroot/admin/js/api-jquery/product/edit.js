@@ -5,7 +5,6 @@ $(function () {
 var productEdit = {
     imageView: '',
     folderImage: ''
-
 }
 
 //Ần hiện các phím
@@ -30,6 +29,72 @@ function findH3CreateOrUpdate() {
 
 //biến toàn cục chứa thông tin sản phẩm lấy để chỉnh sửa
 var productX;
+
+//Lưu update sản phẩm
+function saveUpdate() {
+    Swal.fire({
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            let urlParams = new URLSearchParams(window.location.search);
+            let id = urlParams.get('id');
+
+
+            let productFormData = new FormData();
+            productFormData.append('Name', $("#name").val());
+            productFormData.append('Description', $("#description").val());
+            productFormData.append('BrandId', $("#brandid").val());
+            productFormData.append('CategoryId', $("#categoryid").val());
+            productFormData.append('DiscountAmount', $("#discountAmount").val());
+
+            if ($("#imageView").val() == '') {
+                productFormData.append('ImageView', null);
+            }
+            else {
+                productFormData.append('ImageView', $("#imageView")[0].files[0]);
+            }
+
+            $.ajax({
+                url: `https://localhost:7092/api/Product/${id}`,
+                type: 'PUT',
+                data: productFormData,
+                processData: false,
+                contentType: false,
+
+                success: function (response) {
+                    swal.fire({
+                        title: "Thành công!",
+                        icon: "success",
+                        draggable: true
+                    }).then(() => {
+                        window.location.href = '/admin/product';
+                    });
+
+                },
+                error: function (xhr, status, error) {
+                    swal.fire({
+                        icon: "error",
+                        title: "oops...",
+                        text: "Lỗi không cập nhật được sản phẩm" + xhr.responseText,
+                        footer: '<a href="#">Có lỗi xảy ra?</a>'
+                    });
+                    console.error(error);
+                }
+            });
+
+
+
+            Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+        }
+    });
+}
 
 //Load các dữ liệu sản phẩm
 function loadEdit(id) {

@@ -25,9 +25,9 @@ namespace AntrazShop.Helper
 			StringBuilder sb = new StringBuilder();
 
 			//Thêm chữ cái khác dấu vào chuỗi sb
-			foreach(var c in fileName)
+			foreach (var c in fileName)
 			{
-				if(CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+				if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
 				{
 					sb.Append(c);
 				}
@@ -52,5 +52,18 @@ namespace AntrazShop.Helper
 			   .Replace("đ", "d")
 			   .Replace("Đ", "D");
 		}
+
+		private static string EditEmailChars(string input)
+		{
+			return input.Replace("@", "_")
+						.Replace(".", "_");
+		}
+
+		public static string EmailToSlug(string email)
+		{
+			email = ToSlug(email);
+			return EditEmailChars(email);
+		}
 	}
+
 }

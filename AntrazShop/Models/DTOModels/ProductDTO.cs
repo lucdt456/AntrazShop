@@ -6,9 +6,9 @@ namespace AntrazShop.Models.DTOModels
 		public string Description { get; set; }
 		public int BrandId { get; set; }
 		public int CategoryId { get; set; }
-		public IFormFile ImageView { get; set; }
+		public IFormFile? ImageView { get; set; }
 		public decimal DiscountAmount { get; set; }
 
-		public List<ProductColorCapacityDTO> ProductCCDTOs { get; set; }
+		public List<ProductColorCapacityDTO>? ProductCCDTOs { get; set; }
 	}
 }

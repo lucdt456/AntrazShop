@@ -11,7 +11,7 @@ namespace AntrazShop.Interfaces.Services
 		Task<(IEnumerable<ProductVM>, Paginate)> SearchProducts(string search, int pg, int size);
 		Task<ProductVM> GetProduct(int id);
 		Task<List<string>> AddProduct(ProductDTO newProduct);
-		Task<Product> UpdateProduct(int id, ProductDTO productUpdaTe);
-		Task<bool> DeleteProduct(int id);
+		Task<ServiceResponse<Product>> UpdateProduct(int id,  ProductDTO productUpdaTe);
+		Task<ServiceResponse<bool>> DeleteProduct(int id);
 	}
 }

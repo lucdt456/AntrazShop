@@ -26,10 +26,14 @@ namespace AntrazShop.Data
 
 		[ForeignKey("Product")]
 		public int ProductId { get; set; }
+		[JsonIgnore]
 		public Product Product { get; set; }
 
 		public string Image { get; set; }
 		public int Status { get; set; }
+
+		public bool StatusImage { get; set; } = false;
+		public int SalesCount { get; set; } = 0;
 
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
 		public ICollection<WishList> WishLists { get; set; } = new List<WishList>();

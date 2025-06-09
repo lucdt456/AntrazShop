@@ -4,6 +4,7 @@ using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 namespace AntrazShop.Services
 {
 	public class ProductService : IProductService
@@ -267,14 +268,114 @@ namespace AntrazShop.Services
 				return ListErrors;
 			}
 		}
-		public async Task<Product> UpdateProduct(int id, ProductDTO productUpdate)
+		public async Task<ServiceResponse<Product>> UpdateProduct(int id, ProductDTO productUpdate)
 		{
-			return await _productRepository.UpdateProduct(id, productUpdate);
+			var response = new ServiceResponse<Product>();
+			try
+			{
+				var product = await _productRepository.GetProduct(id);
+				string newProductFolder = FileNameHelper.ToSlug(productUpdate.Name);
+				string newProductUrl =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", newProductFolder);
+				string oldProductUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", product.ImageFolder);
+				if (newProductFolder != product.ImageFolder)
+				{
+					try
+					{
+						Directory.Move(oldProductUrl, newProductUrl);
+					}
+					catch
+					{
+						response.IsSuccess = false;
+						response.Errors.Add("Lỗi khi đổi tên folder sản phẩm!");
+						return response;
+					}
+				}
+
+				if(productUpdate.ImageView != null)
+				{
+					var imageViewName = "1" + Path.GetExtension(productUpdate.ImageView.FileName);
+					try
+					{
+						var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), newProductUrl, product.ImageView);
+						var newImagePath = Path.Combine(Directory.GetCurrentDirectory(), newProductUrl, imageViewName);
+						File.Delete(oldImagePath);
+						using (var stream = new FileStream(newImagePath, FileMode.Create))
+						{
+							await productUpdate.ImageView.CopyToAsync(stream);
+						}
+					}
+					catch
+					{
+						response.IsSuccess = false;
+						response.Errors.Add("Không thể cập nhật hình ảnh hiển thị sản phẩm!");
+						return response;
+					}
+
+					var newProduct = new Product
+					{
+						Name = productUpdate.Name,
+						DiscountAmount = productUpdate.DiscountAmount,
+						Description = productUpdate.Description,
+						ImageView = imageViewName,
+						BrandId = productUpdate.BrandId,
+						CategoryId = productUpdate.CategoryId,
+						ImageFolder = newProductFolder
+					};
+
+					response.Data = await _productRepository.UpdateProduct(id, newProduct);
+				}
+				else
+				{
+					var newProduct = new Product
+					{
+						Name = productUpdate.Name,
+						DiscountAmount = productUpdate.DiscountAmount,
+						Description = productUpdate.Description,
+						ImageView = product.ImageView,
+						BrandId = productUpdate.BrandId,
+						CategoryId = productUpdate.CategoryId,
+						ImageFolder = newProductFolder
+					};
+
+					response.Data = await _productRepository.UpdateProduct(id, newProduct);
+				}
+
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add("Lỗi: " + ex.Message);
+				return response;
+			}
+			return response;
 		}
 
-		public async Task<bool> DeleteProduct(int id)
+		public async Task<ServiceResponse<bool>> DeleteProduct(int id)
 		{
-			return await _productRepository.DeleteProduct(id);
+			var response = new ServiceResponse<bool>();
+			var product = await _productRepository.GetProduct(id);
+
+			try
+			{
+				string urlFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", product.ImageFolder);
+				try
+				{
+					Directory.Delete(urlFolder, true);
+				}
+				catch
+				{
+					response.IsSuccess = false;
+					response.Errors.Add("Lỗi khi xoá folder ảnh");
+				}
+
+				await _productRepository.DeleteProduct(id);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add("Lỗi: " + ex.Message);
+			}
+			return response;
 		}
 	}
 }
