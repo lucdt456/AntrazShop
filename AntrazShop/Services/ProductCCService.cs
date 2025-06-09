@@ -34,18 +34,18 @@ namespace AntrazShop.Services
 				{
 
 					var productCCs = await _productCCRepository.GetProductCCsFromCCid(id);
-					var checkExitsCC = false;
+					var checkExistCC = false;
 
 					foreach (var cc in productCCs)
 					{
 						if (FileNameHelper.ToSlug(cc.Color.NameColor) == FileNameHelper.ToSlug(dTO.ColorName)
 						&& FileNameHelper.ToSlug(cc.Capacity.Value) == FileNameHelper.ToSlug(dTO.CapacityValue))
 						{
-							checkExitsCC = true;
+							checkExistCC = true;
 						}
 					}
 
-					if (!checkExitsCC)
+					if (!checkExistCC)
 					{
 						if (dTO.Image == null)
 						{
@@ -125,17 +125,17 @@ namespace AntrazShop.Services
 			try
 			{
 				var productCCs = await _productCCRepository.GetProductCCsFromProductId(idProduct);
-				var checkExitsCC = false;
+				var checkExistCC = false;
 				foreach (var cc in productCCs)
 				{
 					if (FileNameHelper.ToSlug(cc.Color.NameColor) == FileNameHelper.ToSlug(dTO.ColorName)
 					&& FileNameHelper.ToSlug(cc.Capacity.Value) == FileNameHelper.ToSlug(dTO.CapacityValue))
 					{
-						checkExitsCC = true;
+						checkExistCC = true;
 					}
 				}
 
-				if (!checkExitsCC)
+				if (!checkExistCC)
 				{
 					var imageFileName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + Path.GetExtension(dTO.Image.FileName);
 					var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, imageFileName);

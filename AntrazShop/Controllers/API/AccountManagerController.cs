@@ -1,3 +1,4 @@
+using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,22 @@ namespace AntrazShop.Controllers.API
             _accountManagerService = accountManagerService;
         }
 
-        [HttpGet]
+        [HttpGet("{page}/{take}")]
         public async Task<IActionResult> GetUsers(int page = 1, int take = 10)
         {
-            var (users, pagination) = await _accountManagerService.GetUsers(page, take);
-
-            return Ok(new
+            var (response, pagination) = await _accountManagerService.GetUsers(page, take);
+            if (!response.IsSuccess)
             {
-                Users = users,
-                Pagination = pagination
-            });
+                return BadRequest(new { error = response.Errors });
+            }
+            else
+            {
+				return Ok(new
+				{
+					Users = response.Data,
+					Pagination = pagination
+				});
+			}   
         }
     }
 }

@@ -32,6 +32,9 @@ namespace AntrazShop.Data
 		public string Image { get; set; }
 		public int Status { get; set; }
 
+		public bool StatusImage { get; set; } = false;
+		public int SalesCount { get; set; } = 0;
+
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
 		public ICollection<WishList> WishLists { get; set; } = new List<WishList>();
 		public ICollection<Cart> Carts { get; set; } = new List<Cart>();

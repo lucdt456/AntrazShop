@@ -15,11 +15,14 @@ namespace AntrazShop.Repositories
 		public async Task<IEnumerable<User>> GetUsers(int recSkip, int take)
 		{
 			return await _context.Users
+				.Include(u => u.UserRoles)
+				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
 				.Skip(recSkip)
 				.Take(take)
 				.ToListAsync();
 		}
+
 
 		public async Task<int> GetCountUsers()
 		{
@@ -28,12 +31,44 @@ namespace AntrazShop.Repositories
 				.CountAsync();
 		}
 
-		public async Task<List<string>> GetUserRoles(int userId)
+		public async Task<User> CreateAccount(User newUser)
 		{
-			return await _context.UserRoles
-				.Where(ur => ur.UserId == userId)
-				.Select(ur => ur.Role.Name)
-				.ToListAsync();
+			await _context.Users.AddAsync(newUser);
+			await _context.SaveChangesAsync();
+			return newUser;
+		}
+
+		public async Task AddRoles(int userId, List<int> roleIds)
+		{
+			foreach (int roleId in roleIds)
+			{
+				var ur = new UserRole
+				{
+					UserId = userId,
+					RoleId = roleId
+				};
+				await _context.UserRoles.AddAsync(ur);
+			}
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task DeleteRoles(int userId, List<int> roleIds)
+		{
+			foreach (int roleId in roleIds)
+			{
+				var ur = new UserRole
+				{
+					UserId = userId,
+					RoleId = roleId
+				};
+				_context.UserRoles.Remove(ur);
+			}
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<bool> CheckExistEmail(string email)
+		{
+			return _context.Users.Any(u => u.Email.ToLower() == email.ToLower());
 		}
 	}
 }

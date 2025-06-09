@@ -108,6 +108,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
 
 builder.Services.AddScoped<IAuthorizationHandler, PermissionHandler>();
 
@@ -116,6 +117,9 @@ builder.Services.AddScoped<IAccountManagerService, AccountManagerService>();
 
 builder.Services.AddScoped<IProductColorCapacityRepository, ProductColorCapacityRepository>();
 builder.Services.AddScoped<IProductCCService, ProductCCService>();
+
+builder.Services.AddScoped <IRoleResponsive, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 
