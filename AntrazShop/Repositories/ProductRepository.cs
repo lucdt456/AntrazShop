@@ -19,6 +19,7 @@ namespace AntrazShop.Repositories
 		public async Task<IEnumerable<Product>> GetProductsWithDetails(int recSkip, int take)
 		{
 			List<Product> products = await _context.Products
+				.AsNoTracking()
 				.OrderBy(p => p.Id)
 				.Skip(recSkip)
 				.Take(take)
@@ -38,8 +39,9 @@ namespace AntrazShop.Repositories
 		public async Task<IEnumerable<Product>> SearchProducts(string search, int recSkip, int take)
 		{
 			List<Product> products = await _context.Products
+				.AsNoTracking()
 				.OrderBy(p => p.Id)
-				.Where(p => p.Name.Contains(search))
+				.Where(p => p.Name.Contains(search) || p.Id.ToString() == search)
 				.Skip(recSkip)
 				.Take(take)
 				.Include(p => p.Brand)

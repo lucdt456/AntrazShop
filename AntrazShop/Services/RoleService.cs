@@ -38,25 +38,16 @@ namespace AntrazShop.Services
 				};
 				role = await _roleResponsive.CreateRole(role);
 
-				try
+				//Thêm permission cho role
+				foreach (int permissionId in roleDTO.PermissionIds)
 				{
-					foreach (int permissionId in roleDTO.PermissionIds)
+					var rolePermission = new RolePermission
 					{
-						var rolePermission = new RolePermission
-						{
-							RoleId = role.Id,
-							PermissionId = permissionId
-						};
-						await _roleResponsive.AddRolePermission(rolePermission);
-					}
+						RoleId = role.Id,
+						PermissionId = permissionId
+					};
+					await _roleResponsive.AddRolePermission(rolePermission);
 				}
-				catch
-				{
-					response.IsSuccess = false;
-					response.Errors.Add("Không thể thêm Permissions cho Role");
-					return response;
-				}
-
 				role = await _roleResponsive.GetRole(role.Id);
 				ICollection<string> userNames = role.UserRoles
 														.Select(ur => ur.User)
@@ -253,32 +244,16 @@ namespace AntrazShop.Services
 				var newPermissions = permissionIds.Except(oldPermissions).ToList();
 				var permissionsDelete = oldPermissions.Except(permissionIds).ToList();
 
-				try
-				{
-					await _roleResponsive.AddRolePermissions(roleId, newPermissions);
-				}
-				catch
-				{
-					response.IsSuccess = false;
-					response.Errors.Add("Lỗi không thêm được quyền hạn mới");
-					return response;
-				}
+				await _roleResponsive.AddRolePermissions(roleId, newPermissions);
 
-				try
-				{
-					await _roleResponsive.DeleteRolePermission(roleId, permissionsDelete);
-				}
-				catch
-				{
-					response.IsSuccess = false;
-					response.Errors.Add("Lỗi không xoá được quyền hạn loại bỏ");
-					return response;
-				}
+				await _roleResponsive.DeleteRolePermission(roleId, permissionsDelete);
+
 				var role = await _roleResponsive.GetRole(roleId);
 				ICollection<string> userNames = role.UserRoles
 														.Select(ur => ur.User)
 														.Select(u => u.Name)
 														.ToList();
+
 				ICollection<Permission> permissions = role.RolePermissions
 													 .Select(rp => rp.Permission)
 													 .ToList();
