@@ -23,22 +23,42 @@ $(document).ready(function () {
                 password: password
             }),
             success: function (response) {
-                console.log('Đăng nhập thành công');
-                if (response.token) {
-                    localStorage.setItem('authToken', response.token); // Lưu token vào localStorage
-                    alert('Đăng nhập thành công!');
-                    // Có thể chuyển hướng người dùng đến trang Dashboard
-                    window.location.href = '/admin/dashboard';
-                }
+
+                swal.fire({
+                    title: "Đăng nhập thành công",
+                    icon: "success",
+                    draggable: true
+                }).then(() => {
+                    if (response.token) {
+                        localStorage.setItem('token', response.token); // Lưu token vào localStorage
+                        let decoded = jwt_decode(response.token);
+                        if (decoded.IsWorkerAccount == "True") {
+                            window.location.href = '/admin/dashboard';
+                        }
+                        else window.location.href = '/';
+                    }
+                });
             },
             error: function (xhr, status, error) {
-                // Kiểm tra mã lỗi và thông báo
-                if (xhr.status === 401) {
-                    const errorMessage = xhr.responseText || 'Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.';
-                    alert(errorMessage);
-                } else {
-                    console.error('Lỗi hệ thống: ' + error);
+
+                let errorMessage = 'Đăng nhập thất bại.';
+
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.errors && response.errors.length > 0) {
+                        errorMessage = response.errors.join('\n');
+                    }
+                } catch (e) {
+                    console.error("Lỗi phân tích phản hồi:", e);
                 }
+
+                swal.fire({
+                    icon: "error",
+                    title: "oops...",
+                    text: errorMessage,
+                    footer: '<a href="#">Tại sao tôi gặp lỗi này?</a>'
+                });
+                console.error(error);
             }
         });
     });

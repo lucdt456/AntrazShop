@@ -8,9 +8,17 @@ namespace AntrazShop.Data
 	{
 		[Key]
 		public int Id { get; set; }
+
+		[Required]
+		[StringLength(100)]
 		public string Name { get; set; }
+
+		[StringLength(500)]
 		public string Description { get; set; }
+
 		public ICollection<Product> Products { get; set; } = new List<Product>();
-		public string Image { get; set; }
+
+		[StringLength(255)]
+		public string? Image { get; set; }
 	}
 }

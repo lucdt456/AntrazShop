@@ -1,0 +1,1 @@
+sass --watch C:\Users\naim\Dropbox\Matiour\orfarm\assets\scss\main.scss:C:\Users\naim\Dropbox\Matiour\orfarm\assets\css\main.css

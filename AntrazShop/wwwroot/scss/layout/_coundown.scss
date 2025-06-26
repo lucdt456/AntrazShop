@@ -1,0 +1,162 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  14. COUNDOWN CSS
+/*----------------------------------------*/
+
+
+.tpcoundown {
+    padding: 150px 5px 130px 5px;
+    @media #{$xl,$lg,$md,$xs,$sm} {
+        margin-left: 0;
+    }
+    &__bg {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        @media #{$xs} {
+            background-position: right;
+        }
+    }
+    &__bg-green {
+        @media #{$sm} {
+            background-position: left;
+        }
+    }
+    &__count-title {
+        color: var(--tp-common-white);
+        font-size: 14px;
+        line-height: 18px;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    &__countdown {
+        display: flex;
+        align-items: center;
+        margin-bottom: 32px;
+        & span {
+            margin-right: 50px;
+            display: flex;
+            align-items:end;
+            @media #{$xs} {
+                margin-right: 15px;
+            }
+            & p {
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 17px;
+                text-transform: uppercase;
+                color: var(--tp-grey-9);
+                margin-bottom: 0;
+                transform: translateY(-10px);
+                margin-left: 3px;
+                @media #{$xs} {
+                    font-size: 10px;
+                    transform: translateY(-15px);
+                }
+            }
+        }
+        & .time-count {
+            font-weight: 500;
+            font-size: 36px;
+            line-height: 52px;
+            color: #fff;
+            margin-right: 0;
+            @media #{$xs} {
+                font-size: 20px;
+            }
+        }
+    }
+    &__shape {
+        & img{
+            position: absolute;
+            &:hover {
+                @include tp-animation-key;
+            }
+        }
+        &-one {
+            left: -175px;
+            top: 140px;
+        }
+        &-two {
+            right: 600px;
+            bottom: 190px;
+            @media #{$xl} {
+                right: 400px;
+                bottom: 0;
+            }
+            @media #{$lg} {
+                right: 0px;
+                bottom: 0;
+            }
+        }
+        &-three {
+            right: 70px;
+            top: 215px;
+            @media #{$lg} {
+                right: 370px;
+            }
+        }
+        &-four {
+            right: 280px;
+            bottom: 270px;
+            @media #{$xl} {
+                right: 150px;
+            }
+            @media #{$lg} {
+                right: 0px;
+            }
+        }
+    }
+    &__btn {
+        & a {
+            @media #{$xs} {
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    &__themebg{
+        margin-bottom: 26px;
+        & .time-count {
+            font-weight: 500;
+            font-size: 40px;
+            line-height: 52px;
+            color: var(--tp-theme-1);
+            margin-right: 0;
+            @media #{$xl} {
+                font-size: 20px;
+            }
+            @media #{$xs} {
+                font-size: 16px;
+                line-height: 38px;
+            }
+        }
+        & span {
+            margin-right: 20px;
+            display: flex;
+            align-items: end;
+            @media #{$xs} {
+                margin-right: 15px;
+            }
+            & p {
+                font-weight: 500;
+                font-size: 12px;
+                line-height: 17px;
+                text-transform: uppercase;
+                color: var(--tp-theme-1);
+                margin-bottom: 0;
+                transform: translateY(-10px);
+                margin-left: 3px;
+                @media #{$xl} {
+                    line-height: 28px;
+                }
+                @media #{$xs} {
+                    font-size: 10px;
+                    line-height: 12px;
+                }
+            }
+        }
+    }
+}

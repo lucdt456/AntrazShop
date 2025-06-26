@@ -1,0 +1,176 @@
+<svg width="270" height="460" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a23;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1a1a3e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f2557;stop-opacity:1" />
+    </linearGradient>
+    
+    <radialGradient id="glowGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.6" />
+      <stop offset="70%" style="stop-color:#00d4ff;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0" />
+    </radialGradient>
+    
+    <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0" />
+      <stop offset="50%" style="stop-color:#00d4ff;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0" />
+    </linearGradient>
+    
+    <!-- Patterns -->
+    <pattern id="circuitPattern" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="none"/>
+      <path d="M0,15 L30,15" stroke="#00d4ff" stroke-width="0.5" opacity="0.3"/>
+      <path d="M15,0 L15,30" stroke="#00d4ff" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="15" cy="15" r="2" fill="#00d4ff" opacity="0.2"/>
+    </pattern>
+    
+    <!-- Animations -->
+    <animateTransform id="rotate" attributeName="transform" type="rotate" values="0 135 230;360 135 230" dur="20s" repeatCount="indefinite"/>
+    <animateTransform id="pulse" attributeName="transform" type="scale" values="1;1.2;1" dur="4s" repeatCount="indefinite"/>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="270" height="460" fill="url(#mainGradient)"/>
+  
+  <!-- Circuit pattern overlay -->
+  <rect width="270" height="460" fill="url(#circuitPattern)" opacity="0.4"/>
+  
+  <!-- Glow orbs -->
+  <circle cx="50" cy="80" r="40" fill="url(#glowGradient)" opacity="0.6">
+    <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="6s" repeatCount="indefinite"/>
+  </circle>
+  
+  <circle cx="220" cy="180" r="35" fill="url(#glowGradient)" opacity="0.4">
+    <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="8s" repeatCount="indefinite" begin="2s"/>
+  </circle>
+  
+  <circle cx="135" cy="350" r="50" fill="url(#glowGradient)" opacity="0.5">
+    <animateTransform attributeName="transform" type="scale" values="1;1.4;1" dur="10s" repeatCount="indefinite" begin="4s"/>
+  </circle>
+  
+  <!-- Tech elements and circuit lines -->
+  <g stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.7">
+    <!-- Horizontal lines -->
+    <line x1="20" y1="120" x2="100" y2="120">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    </line>
+    <line x1="170" y1="220" x2="250" y2="220">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite" begin="1s"/>
+    </line>
+    <line x1="30" y1="320" x2="120" y2="320">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite" begin="2s"/>
+    </line>
+    
+    <!-- Vertical connecting lines -->
+    <line x1="100" y1="120" x2="170" y2="220">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="4s" repeatCount="indefinite"/>
+    </line>
+    <line x1="120" y1="320" x2="170" y2="220">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="4s" repeatCount="indefinite" begin="1s"/>
+    </line>
+  </g>
+  
+  <!-- Tech device silhouettes -->
+  
+  <!-- Smartphone -->
+  <g transform="translate(40, 40)" opacity="0.6">
+    <rect x="0" y="0" width="25" height="40" rx="4" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <rect x="3" y="5" width="19" height="25" fill="#00d4ff" opacity="0.3"/>
+    <circle cx="12.5" cy="35" r="2" fill="#00d4ff" opacity="0.5"/>
+    <animateTransform attributeName="transform" type="translate" values="40,40; 45,35; 40,40" dur="6s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Laptop -->
+  <g transform="translate(180, 140)" opacity="0.6">
+    <rect x="0" y="10" width="35" height="20" rx="2" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <rect x="0" y="10" width="35" height="12" fill="#00d4ff" opacity="0.2"/>
+    <rect x="5" y="0" width="25" height="10" rx="1" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <animateTransform attributeName="transform" type="translate" values="180,140; 175,145; 180,140" dur="8s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Headphones -->
+  <g transform="translate(60, 280)" opacity="0.6">
+    <path d="M10,0 Q0,0 0,10 L0,20 Q0,25 5,25 L5,20 Q5,15 10,15 L20,15 Q25,15 25,20 L25,25 Q30,25 30,20 L30,10 Q30,0 20,0 Z" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <circle cx="5" cy="20" r="3" fill="#00d4ff" opacity="0.4"/>
+    <circle cx="25" cy="20" r="3" fill="#00d4ff" opacity="0.4"/>
+    <animateTransform attributeName="transform" type="translate" values="60,280; 65,275; 60,280" dur="7s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Smartwatch -->
+  <g transform="translate(200, 320)" opacity="0.6">
+    <rect x="5" y="5" width="15" height="15" rx="3" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <rect x="7" y="7" width="11" height="8" fill="#00d4ff" opacity="0.3"/>
+    <path d="M10,0 Q12,0 12,5 M12,20 Q12,25 10,25 M15,0 Q13,0 13,5 M13,20 Q13,25 15,25" stroke="#00d4ff" stroke-width="1" fill="none"/>
+    <animateTransform attributeName="transform" type="translate" values="200,320; 195,325; 200,320" dur="9s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Gaming controller -->
+  <g transform="translate(30, 380)" opacity="0.6">
+    <ellipse cx="20" cy="10" rx="18" ry="8" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <rect x="15" y="6" width="10" height="8" rx="1" fill="#00d4ff" opacity="0.3"/>
+    <circle cx="10" cy="8" r="2" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <circle cx="30" cy="8" r="2" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <circle cx="12" cy="12" r="1" fill="#00d4ff"/>
+    <circle cx="28" cy="12" r="1" fill="#00d4ff"/>
+    <animateTransform attributeName="transform" type="translate" values="30,380; 35,375; 30,380" dur="5s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Camera -->
+  <g transform="translate(170, 60)" opacity="0.6">
+    <rect x="0" y="5" width="25" height="15" rx="2" fill="none" stroke="#00d4ff" stroke-width="1.5"/>
+    <circle cx="18" cy="12.5" r="5" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <circle cx="18" cy="12.5" r="3" fill="#00d4ff" opacity="0.2"/>
+    <rect x="5" y="0" width="8" height="5" rx="1" fill="none" stroke="#00d4ff" stroke-width="1"/>
+    <animateTransform attributeName="transform" type="translate" values="170,60; 175,55; 170,60" dur="6s" repeatCount="indefinite"/>
+  </g>
+  
+  <!-- Floating particles -->
+  <g opacity="0.8">
+    <circle cx="25" cy="150" r="1.5" fill="#00d4ff">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 10,-20; 0,0" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="245" cy="100" r="1" fill="#ff0080">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -15,-15; 0,0" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="135" cy="250" r="1.5" fill="#00ff80">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 20,-10; 0,0" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="80" cy="400" r="1" fill="#ffff00">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -10,-25; 0,0" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="7s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Hexagonal tech elements -->
+  <g opacity="0.4">
+    <polygon points="50,200 60,195 70,200 70,210 60,215 50,210" fill="none" stroke="#00d4ff" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="0 60 205;360 60 205" dur="15s" repeatCount="indefinite"/>
+    </polygon>
+    <polygon points="190,280 200,275 210,280 210,290 200,295 190,290" fill="none" stroke="#ff0080" stroke-width="1">
+      <animateTransform attributeName="transform" type="rotate" values="360 200 285;0 200 285" dur="12s" repeatCount="indefinite"/>
+    </polygon>
+  </g>
+  
+  <!-- Glowing border effect -->
+  <rect x="2" y="2" width="266" height="456" fill="none" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.6" rx="8">
+    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Corner accent elements -->
+  <g opacity="0.7">
+    <!-- Top left corner -->
+    <path d="M15,15 L25,15 M15,15 L15,25" stroke="#00d4ff" stroke-width="2" fill="none"/>
+    <!-- Top right corner -->
+    <path d="M255,15 L245,15 M255,15 L255,25" stroke="#00d4ff" stroke-width="2" fill="none"/>
+    <!-- Bottom left corner -->
+    <path d="M15,445 L25,445 M15,445 L15,435" stroke="#00d4ff" stroke-width="2" fill="none"/>
+    <!-- Bottom right corner -->
+    <path d="M255,445 L245,445 M255,445 L255,435" stroke="#00d4ff" stroke-width="2" fill="none"/>
+  </g>
+</svg>

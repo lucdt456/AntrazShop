@@ -1,0 +1,174 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  24. CONTACT CSS
+/*----------------------------------------*/
+
+
+.tpcontact {
+    &-inner {
+        &-sub-title {
+            font-weight: 500;
+            font-size: 10px;
+            line-height: 1;
+            text-transform: uppercase;
+            color: var(--tp-common-white);
+            background-color: var(--tp-heading-secondary);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 30px;
+        }
+        &-title {
+            font-family: 'Quicksand';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 36px;
+            line-height: 40px;
+            letter-spacing: -0.03em;
+            color: var(--tp-heading-primary);
+            @media #{$xs} {
+                font-size: 28px;
+            }
+        }
+        &-text {
+            & p {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                line-height: 22px;
+                color: var(--tp-text-body);
+                font-family: var(--tp-ff-jost);
+            }
+        }
+    }
+    &__img {
+        & img {
+            border-radius: 10px;
+        }
+    }
+}
+.tpmap {
+    &__box {
+        position: relative;
+    }
+    &__wrapper {
+        position: absolute;
+        bottom: -25px;
+        left: 0;
+        top: 0;
+        width: 50%;
+        z-index: -1;
+        @media #{$xs} {
+            position: static;
+            width: 100%;
+            height: 400px;
+            margin-bottom: 75px;
+        }
+        & iframe {
+            height: 100%;
+            width: 100%;
+        }
+    }
+    
+}
+.tpform {
+    &__title {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        letter-spacing: -0.03em;
+        text-transform: uppercase;
+        color: var(--tp-heading-primary);
+    }
+    &__wrapper {
+        @media #{$xs} {
+            padding-top: 0;
+            margin-left: 0;
+        }
+        & p {
+            font-family: var(--tp-ff-jost);
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 22px;
+            color: var(--tp-text-body);
+            margin-bottom: 25px;
+        }
+    }
+    &__input {
+        & input {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #EBEFF4;
+            border-radius: 30px;
+            padding: 5px 20px;
+            &::placeholder {
+                font-family: var(--tp-ff-jost);
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                color: #8A94AC;
+            }
+            &:focus {
+                border: 1px solid var(--tp-heading-primary);
+            }
+        }
+    }
+    &__textarea {
+        & textarea {
+            width: 100%;
+            height: 200px;
+            padding: 20px;
+            border: 1px solid #EBEFF4;
+            border-radius: 20px;
+            resize: none;
+            padding: 5px 20px;
+            &::placeholder {
+                font-family: var(--tp-ff-jost);
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                color: #8A94AC;
+            }
+            &:focus {
+                border: 1px solid var(--tp-heading-primary);
+                outline: 0;
+            }
+        }
+        & button {
+            font-family: var(--tp-ff-jost);
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 19px;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--tp-common-white);
+            background-color: var(--tp-heading-secondary);
+            display: inline-block;
+            padding: 16px 50px;
+            border-radius: 30px;
+        }
+    }
+    &__textarea-check {
+        & .form-check-input:checked {
+            background-color: var(--tp-heading-secondary);
+            border-color: transparent;
+        }
+        & .form-check-input:focus {
+            border: 1px solid #EBEFF4;
+            box-shadow: none;
+            cursor: pointer;
+        }
+        & .form-check-label {
+            font-family: var(--tp-ff-jost);
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 22px;
+            color: var(--tp-text-body);
+            & a {
+                color: var(--tp-heading-secondary);
+                text-decoration: underline;
+            }
+        }
+    }
+}

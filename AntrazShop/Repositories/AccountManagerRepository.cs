@@ -32,7 +32,7 @@ namespace AntrazShop.Repositories
 				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
 				.Where(u => u.workerAccount == true)
-				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search))
+				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search) || u.Email.Contains(search))
 				.Skip(recSkip)
 				.Take(take)
 				.ToListAsync();
@@ -46,7 +46,7 @@ namespace AntrazShop.Repositories
 				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
 				.Where(u => u.workerAccount == false)
-				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search))
+				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search) || u.Email.Contains(search))
 				.Skip(recSkip)
 				.Take(take)
 				.ToListAsync();
@@ -64,7 +64,7 @@ namespace AntrazShop.Repositories
 			return await _context.Users
 				.AsNoTracking()
 				.Where(u => u.workerAccount == true)
-				.Where(u => u.Name.Contains(search) || u.Id.ToString() == search)
+				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search) || u.Email.Contains(search))
 				.CountAsync();
 		}
 
@@ -73,7 +73,7 @@ namespace AntrazShop.Repositories
 			return await _context.Users
 				.AsNoTracking()
 				.Where(u => u.workerAccount == false)
-				.Where(u => u.Name.Contains(search) || u.Id.ToString() == search)
+				.Where(u => u.Name.Contains(search) || u.Id.ToString().Contains(search) || u.Email.Contains(search))
 				.CountAsync();
 		}
 
@@ -143,6 +143,7 @@ namespace AntrazShop.Repositories
 		{
 			var user = await _context.Users
 				.AsNoTracking()
+				.Include(u => u.UserAuthInfo)
 				.Include(u => u.UserRoles)
 				.ThenInclude(ur => ur.Role)
 				.FirstOrDefaultAsync(u => u.Id == userId);
@@ -169,7 +170,19 @@ namespace AntrazShop.Repositories
 
 			return user;
 		}
+		public async Task AddLoginHistory(LoginHistory loginHistory)
+		{
+			_context.LoginHistories.Add(loginHistory);
+			await _context.SaveChangesAsync();
+		}
 
-
+		public async Task<List<LoginHistory>> GetLoginHistories(int userId)
+		{
+			return await _context.LoginHistories
+					.OrderByDescending(h => h.Id)
+					.Where(h => h.UserId == userId)
+					.Take(50)
+					.ToListAsync();
+		}
 	}
 }

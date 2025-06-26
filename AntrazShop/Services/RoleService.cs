@@ -38,16 +38,20 @@ namespace AntrazShop.Services
 				};
 				role = await _roleResponsive.CreateRole(role);
 
-				//Thêm permission cho role
-				foreach (int permissionId in roleDTO.PermissionIds)
+				if(roleDTO.PermissionIds != null)
 				{
-					var rolePermission = new RolePermission
+					//Thêm permission cho role
+					foreach (int permissionId in roleDTO.PermissionIds)
 					{
-						RoleId = role.Id,
-						PermissionId = permissionId
-					};
-					await _roleResponsive.AddRolePermission(rolePermission);
+						var rolePermission = new RolePermission
+						{
+							RoleId = role.Id,
+							PermissionId = permissionId
+						};
+						await _roleResponsive.AddRolePermission(rolePermission);
+					}
 				}
+
 				role = await _roleResponsive.GetRole(role.Id);
 				ICollection<string> userNames = role.UserRoles
 														.Select(ur => ur.User)

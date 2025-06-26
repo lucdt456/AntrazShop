@@ -9,11 +9,5 @@ namespace AntrazShop.Areas.Admin.Controllers
         {
             return View();
         }
-
-        public IActionResult Product()
-        {
-            return View();
-        }
     }
-
 }

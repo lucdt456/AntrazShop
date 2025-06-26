@@ -1,0 +1,105 @@
+/* 01. ========= shape animation ========== */
+@keyframes lara {
+	0% {
+        transform: translateY(-1px);
+    }
+	25% {
+        transform: translateY(-5px);
+    }
+    50% {
+        transform: translateY(-7px);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(-1px);
+    }
+}
+@keyframes chara {
+	100% {
+        transform: translateY(-8px);
+    }
+}
+
+/* 01. ========= animation plus ========== */
+@keyframes animation-plus {
+    25% {
+        transform: scale(1.1);
+      }
+      75% {
+        transform: scale(0.9);
+    }
+}
+
+/* 01. ========= animation plus ========== */
+@keyframes shakenext {
+    25% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(-3px, 0, 0);
+    }
+    75% {
+        transform: translate3d(3px, 0, 0);
+    }
+}
+
+/* 01. ========= shape animation ========== */
+@keyframes slider-anim {
+	0% {
+        transform: translateX(-1px);
+    }
+	25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(-1px);
+    }
+}
+
+/* 01. ========= up-down animation ========== */
+@keyframes up-down {
+	0% {
+        transform: translateY(0px);
+    }
+	25% {
+        transform: translateY(-5px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    75% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+/* 01. ========= up-down animation ========== */
+@keyframes left-right {
+	0% {
+        transform: translateX(3px);
+    }
+    
+    25% {
+        transform: translateX(7px);
+    }
+    50% {
+        transform: translateX(15px);
+    }
+    75% {
+        transform: translateX(7px);
+    }
+    100% {
+        transform: translateX(2px);
+    }
+}

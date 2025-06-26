@@ -7,7 +7,8 @@
         <div class="modal-content" style="">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLabel"></h4>
+                <h5>ID: # </h5>
+                <h5 id="id-user"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
             </div>
             <!-- Modal Body -->
@@ -15,112 +16,151 @@
                 <form class="tf-section-2 form-add-product">
                     <div class="wg-box">
                         <fieldset>
-                            <label class="body-title mb-10">
-                                ID sản phẩm
-                            </label>
-                            <input style="background-color: #E2E8F0" class="mb-10 validate-name" type="text" disabled tabindex="0" id="id-product">
-                            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+
+                            <div class="upload-image">
+                                <div class="item">
+                                    <img id="avatar-image" style="object-fit: contain;" alt="">
+                                </div>
+
+                            </div>
+                        </fieldset>
+                        <fieldset style="padding:0px 50px">
+                            <div class="antraz-info-row">
+                                <p>Email</p>
+                                <p id="user-email"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Tên tài khoản</p>
+                                <p id="user-name"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Ngày sinh</p>
+                                <p id="user-birthday"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Giới tính</p>
+                                <p id="user-gender"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Địa chỉ</p>
+                                <p id="user-address"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Quê quán</p>
+                                <p id="user-hometown"></p>
+                            </div>
+
+                            <div class="antraz-info-row">
+                                <p>Ngày tạo tài khoản</p>
+                                <p id="user-create-at"></p>
+                            </div>
+
+                            <div style="text-align:right">
+                                <a onclick="historyLogin()" class="body-text tf-color">Lịch sử đăng nhập</a>
+                            </div>
                         </fieldset>
 
-                        <fieldset>
-                            <label for="name" class="body-title mb-10">Tên sản phẩm</label>
-                            <input class="mb-10 validate-name" type="text" placeholder="Điền tên sản phẩm" tabindex="0" id="name">
-                            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                        </fieldset>
-
-                        <div class="gap22 cols">
-                            <fieldset>
-                                <label for="price" class="body-title mb-10">Giá sản phẩm</label>
-                                <input class="mb-10 validate-name" type="number" placeholder="Điền giá sản phẩm" id="price" tabindex="0">
-                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                            </fieldset>
-                            <fieldset>
-                                <label for="discountAmount" class="body-title mb-10">Giảm giá</label>
-                                <input class="mb-10 validate-name" type="number" placeholder="Giảm giá sản phẩm" id="discountAmount" tabindex="0">
-                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                            </fieldset>
-                        </div>
-
-                        <div class="gap22 cols">
-                            <fieldset>
-                                <label for="categoryid" class="body-title mb-10">Danh mục </label>
-                                <div class="select validate-name">
-                                    <select id="categoryid" class="">
-                                        <option value="">Chọn danh mục</option>
-                                        <option value="1">Smart Phone</option>
-                                        <option value="2">Laptop</option>
-                                    </select>
-                                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                                </div>
-
-                            </fieldset>
-                            <fieldset>
-                                <label for="brandid" class="body-title mb-10">Thương hiệu </label>
-                                <div class="select validate-name">
-                                    <select id="brandid" class="">
-                                        <option value="">Chọn thương hiệu</option>
-                                        <option value="1">Apple</option>
-                                        <option value="2">Samsung</option>
-                                        <option value="3">Dell</option>
-                                    </select>
-
-                                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                                </div>
-
-                            </fieldset>
-                        </div>
-                        <div class="gap22 cols">
-                            <fieldset>
-                                <label for="status" class="body-title mb-10">Trạng thái</label>
-                                <div class="select">
-                                    <select id="status" class="validate-name">
-                                        <option value="">Chọn trạng thái</option>
-                                        <option value="1">Hiện</option>
-                                        <option value="0">Ẩn</option>
-                                        <option value="3">Còn hàng</option>
-                                        <option value="4">Hết hàng</option>
-                                    </select>
-                                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                                </div>
-                            </fieldset>
-                            <fieldset>
-                                <label for="stock" class="body-title mb-10">Tồn kho</label>
-                                <input class="mb-10 validate-name" type="number" placeholder="Số lượng tồn kho" id="stock" tabindex="0">
-                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                            </fieldset>
+                        @* Bảng lịch sử đăng nhập *@
+                        <div class="table-responsive" style="max-height:250px; overflow-y: auto;">
+                            <table id="table-history-visiable" class="table table-striped table-hover" style="display:none;">
+                                <thead style=" background: white; font-size:14px; position: sticky; top: 0; z-index: 1;">
+                                    <tr>
+                                        <th style="width:170px; border:none;">Thời gian</th>
+                                        <th style="width:100px; border:none;">Địa chỉ IP</th>
+                                        <th style="border:none">Thông tin</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-history">
+                                </tbody>
+                            </table>
                         </div>
 
                     </div>
                     <input id="imageProductName" type="hidden" />
                     <div class="wg-box">
-                        <fieldset>
-                            <label class="body-title mb-10">Ảnh đại diện sản phẩm</label>
-                            <div class="upload-image mb-16">
-                                <div class="item">
-                                    <img id="imagePreview" style="object-fit: contain;" alt="">
-                                </div>
-                                <div class="item up-load">
-                                    <label class="uploadfile" for="imageView">
-                                        <span class="icon">
-                                            <i class="icon-upload-cloud"></i>
-                                        </span>
-
-                                        <input class="form-control-plaintext" type="file" id="imageView" accept="image/*">
-                                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                                    </label>
-                                </div>
+                        <div class="container">
+                            <!--Trạng thái tài khoản-->
+                            <div style="display: flex; align-items: center; margin-bottom:20px;">
+                                <h5>Trạng thái</h5>
+                                <label class="switch" style="margin-left: auto;">
+                                    <input type="checkbox" id="isActive">
+                                    <span class="slider"></span>
+                                </label>
                             </div>
-                        </fieldset>
 
-                        <fieldset>
-                            <label for="description" class="body-title mb-10">Mô tả</label>
-                            <textarea class="mb-10 validate-name" id="description" placeholder="Điền mô tả sản phẩm" tabindex="0"></textarea>
-                            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                        </fieldset>
+                            <div style="display: flex; justify-content:space-between">
+                                <h6 class="mb-4">Chức vụ: </h6>
+                                <p id="user-list-roles"></p>
+                            </div>
+
+                            <!--Gán vai trò-->
+                            <div class="row">
+
+                                <fieldset class="col-6 mb-24">
+                                    <div class="body-title mb-10">Update product</div>
+                                    <div class="radio-buttons">
+                                        <div class="item">
+                                            <input class="" type="radio" name="update-product" id="update-product1">
+                                            <label class="" for="update-product1"><span class="body-title-2">Allow</span></label>
+                                        </div>
+                                        <div class="item">
+                                            <input class="" type="radio" name="update-product" id="update-product2" checked>
+                                            <label class="" for="update-product2"><span class="body-title-2">Deny</span></label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="col-6 mb-24">
+                                    <div class="body-title mb-10">Delete product</div>
+                                    <div class="radio-buttons">
+                                        <div class="item">
+                                            <input class="" type="radio" name="delete-product" id="delete-product1" checked>
+                                            <label class="" for="delete-product1"><span class="body-title-2">Allow</span></label>
+                                        </div>
+                                        <div class="item">
+                                            <input class="" type="radio" name="delete-product" id="delete-product2">
+                                            <label class="" for="delete-product2"><span class="body-title-2">Deny</span></label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="col-6 mb-24">
+                                    <div class="body-title mb-10">Apply discount</div>
+                                    <div class="radio-buttons">
+                                        <div class="item">
+                                            <input class="" type="radio" name="apply-product" id="apply-product1">
+                                            <label class="" for="apply-product1"><span class="body-title-2">Allow</span></label>
+                                        </div>
+                                        <div class="item">
+                                            <input class="" type="radio" name="apply-product" id="apply-product2" checked>
+                                            <label class="" for="apply-product2"><span class="body-title-2">Deny</span></label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset class="col-6 mb-24">
+                                    <div class="body-title mb-10">Create coupon</div>
+                                    <div class="radio-buttons">
+                                        <div class="item">
+                                            <input class="" disabled type="radio" name="create-product" id="create-product1">
+                                            <label class="" for="create-product1"><span class="body-title-2">Allow</span></label>
+                                        </div>
+                                        <div class="item">
+                                            <input class="" disabled type="radio" name="create-product" id="create-product2" checked>
+                                            <label class="" for="create-product2"><span class="body-title-2">Deny</span></label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+
+                        </div>
                     </div>
                 </form>
             </div>
-            <!-- Modal Footer -->
+            @*  <!-- Modal Footer -->
             <div class="modal-footer">
                 <div class="col-7"></div>
                 <div class="col-5" style="display: flex; gap: 10px;">
@@ -128,11 +168,12 @@
                     <button type="button" class="tf-button w-full" id="btn-edit">Chỉnh sửa</button>
                     <button type="button" class="tf-button w-full" onclick="saveUpdate()" id="btn-save">Lưu thay đổi</button>
                 </div>
-            </div>
+            </div> *@
         </div>
     </div>
 </div>
 <div class="main-content-inner">
+
     <!-- main-content-wrap -->
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
@@ -156,11 +197,12 @@
                 </li>
             </ul>
         </div>
-        <!-- product-list -->
+
+        <!-- table data -->
         <div class="wg-box" style="overflow:auto;">
             <div class="title-box">
                 <i class="icon-coffee"></i>
-                <div class="body-text">Tìm kiếm theo tên sản phẩm ...</div>
+                <div class="body-text">Tìm kiếm theo tên, email, Id tài khoản ...</div>
             </div>
             <div class="flex items-center justify-between gap10 flex-wrap">
 
@@ -168,7 +210,7 @@
                     <div class="show">
                         <div class="text-tiny">Hiển thị</div>
                         <div class="select">
-                            <select id="sizePage">
+                            <select id="numberShowing">
                                 <option>5</option>
                                 <option>10</option>
                                 <option>20</option>
@@ -178,7 +220,7 @@
                     </div>
                     <form class="form-search">
                         <fieldset class="name">
-                            <input type="text" placeholder="Tìm kiếm ..." class="" id="searchInput" tabindex="2">
+                            <input type="text" placeholder="Tìm kiếm ..." class="" id="search" tabindex="2">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
@@ -192,38 +234,36 @@
                     <tr class="antraz-table-title">
                         <th>Họ tên</th>
                         <th>Mã NV</th>
-                        <th>Email</th>
-                        <th>Role</th>
+                        <th style="width:20%">Email</th>
+                        <th style="width:15%">Role</th>
                         <th>Giới tính</th>
                         <th>Ngày sinh</th>
                         <th>Hành động</th>
 
                     </tr>
                 </thead>
-                <tbody id="account-list">
-                    <tr>
-                    </tr>
+                <tbody id="table-data">
                 </tbody>
             </table>
 
 
             <div class="divider"></div>
             <div class="flex items-center justify-between flex-wrap gap10">
-                <div class="text-tiny" id="totalProduct"></div>
+                <div class="text-tiny" id="totalItem"></div>
                 <ul class="wg-pagination" id="pageNumber">
                     <li>
                         <a id="firstPageButton"><i class="fas fa-angle-double-left"></i></a>
                     </li>
 
                     <li>
-                        <a id="leftPageButton"><i class="fa-solid fa-angle-left"></i></a>
+                        <a id="prevPageButton"><i class="fa-solid fa-angle-left"></i></a>
                     </li>
 
                     <li>
-                        <a id="rightPageButton"><i class="fa-solid fa-angle-right"></i></a>
+                        <a id="nextPageButton"><i class="fa-solid fa-angle-right"></i></a>
                     </li>
                     <li>
-                        <a id="endPageButton"><i class="fa-solid fa-angles-right"></i></a>
+                        <a id="lastPageButton"><i class="fa-solid fa-angles-right"></i></a>
                     </li>
                 </ul>
             </div>
@@ -232,4 +272,5 @@
     </div>
     <!-- /main-content-wrap -->
 </div>
-<script src="~/admin/js/api-jquery/account/listUser.js"></script>
+<script src="~/admin/js/api-jquery/Base/pagination-base.js"></script>
+<script src="~/admin/js/api-jquery/account/listWorkerAccount.js"></script>

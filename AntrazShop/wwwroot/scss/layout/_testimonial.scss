@@ -1,0 +1,175 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  19. TESTIMONIAL CSS
+/*----------------------------------------*/
+
+
+.tptestimonial {
+    &__avata {
+        & img{
+            height: 70px;
+            width: 70px;
+            border-radius: 50px;
+        }
+    }
+    &__content {
+        & p {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 26px;
+            padding-bottom: 5px;
+            @media #{$xs} {
+                font-size: 16px;
+            }
+            & br {
+                @media #{$md,$xs} {
+                  display: none;  
+                }
+            }
+        }
+    }
+    &__rating {
+        color: var(--tp-text-1);
+        & a {
+            margin: 0 -3px;
+        }
+    }
+    &__title {
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--tp-heading-primary);
+        text-transform: uppercase;
+        margin-bottom: 0;
+    }
+    &__content2 {
+        & p {
+            font-size: 16px;
+            & br {
+                @media #{$xl,$xs} {
+                    display: none;
+                }
+            }
+        }
+    }
+    &__bg {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        &:hover {
+            & .tptestimonial__prv,
+            & .tptestimonial__nxt {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+.testimonial {
+    &__shape {
+        & img {
+            position: absolute;
+        }
+        &-one{
+            top: -25px;
+            left: 230px;
+            animation: slider-anim 2s infinite linear alternate;
+        }
+        &-two{
+            top: -85px;
+            right: 335px;
+            animation: up-down 3s infinite linear alternate;
+        }
+        &-three{
+            bottom: -440px;
+            left: 420px;
+            animation: up-down 2.5s infinite linear alternate;
+        }
+    }
+}
+.testi-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99;
+    & i {
+        height: 50px;
+        width: 50px;
+        background-color: var(--tp-heading-secondary);
+        opacity: .3;
+        line-height: 50px;
+        border-radius: 50%;
+        font-size: 14px;
+        color: var(--tp-common-white);
+        display: inline-block;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    &.tptestimonial-arrow-left {
+        left: 250px;
+        @media #{$xl,$lg} {
+            left: 150px; 
+        }
+        @media #{$md} {
+            left: 15px; 
+        }
+    }
+    &.tptestimonial-arrow-right {
+        right: 250px;
+        left: 0 auto;
+        @media #{$xl} {
+           right: 150px; 
+        }
+        @media #{$lg} {
+           right: 150px; 
+        }
+        @media #{$md} {
+           right: 15px; 
+        }
+    }
+}
+.tptestimonial {
+    &__prv {
+        left: 220px;
+        opacity: 0;
+        visibility: hidden;
+        @media #{$xxxl} {
+            left: 60px; 
+        }
+        @media #{$xxl,$xl} {
+            left: 5px; 
+        }
+        @media #{$lg,$md} {
+            left: 150px; 
+        }
+        @media #{$md} {
+            left: 100px; 
+        }
+    }
+    &__nxt {
+        right: 220px;
+        left: 0 auto;
+        opacity: 0;
+        visibility: hidden;
+        @media #{$xxxl} {
+            right: 60px; 
+        }
+        @media #{$xxl,$xl} {
+            right: 5px; 
+        }
+        @media #{$lg,$md} {
+           right: 150px; 
+        }
+        @media #{$md} {
+           right: 100px; 
+        }
+    }
+}
+.tptestimonial-active3 {
+    & .tptestimonial__item {
+        border: 1px solid #EBEFF4;
+        border-radius: 10px;
+        padding: 40px 30px 35px 30px;
+    }
+}

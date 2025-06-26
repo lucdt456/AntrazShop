@@ -1,0 +1,63 @@
+@use '../utils' as *;
+
+.tpnavtab {
+    &__area {
+        & nav {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            & .nav-link.active {
+                color: var(--tp-heading-secondary);
+                background-color: transparent;
+                border: none;
+            }
+            & .nav-tabs {
+                border-bottom: none;
+            }
+            & .nav-link {
+                color: var(--tp-text-body);
+                font-weight: 500;
+                font-size: 16px;
+                margin-bottom: 0;
+                background: 0 0;
+                border: none;
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+                padding: 0 22px;
+                margin-bottom: 8px;
+                @media #{$xs} {
+                    padding: 0 8px;
+                }
+                @media #{$sm} {
+                    padding: 0 12px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    &__newitem {
+        display: flex;
+        align-items: flex-start;
+        &.tpnavtab__area nav .nav-link.active {
+            color: var(--tp-heading-primary);
+        }
+        &.tpnavtab__area nav .nav-link {
+            color: var(--tp-text-3);
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 0;
+            background: 0 0;
+            border: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            padding:0 0;
+            margin-right: 28px;
+            margin-bottom: 10px;
+            font-family: 'Quicksand';
+        }
+    }
+}
+#nav-tabContent-tp {
+    position: relative;
+    z-index: 9999;
+}

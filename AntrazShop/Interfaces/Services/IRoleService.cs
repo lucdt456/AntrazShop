@@ -1,4 +1,3 @@
-using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;

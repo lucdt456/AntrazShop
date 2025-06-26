@@ -1,6 +1,5 @@
-using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
+using AntrazShop.Models.DTOModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -16,47 +15,63 @@ namespace AntrazShop.Controllers.API
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCategories(int page = 1, int size = 10)
+		public async Task<IActionResult> GetCategories()
 		{
-			var (categories, pagination) = await _categoryService.GetCategories(page, size);
-			return Ok(new
+			var response = await _categoryService.GetCategories();
+
+			if (!response.IsSuccess)
 			{
-				Categories = categories,
-				Pagination = pagination
-			});
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetCategory(int id)
 		{
-			var brand = await _categoryService.GetCategory(id);
-			if (brand != null)
+			var response = await _categoryService.GetCategory(id);
+
+			if (!response.IsSuccess)
 			{
-				return Ok(brand);
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO dto)
+		{
+			var response = await _categoryService.CreateCategory(dto);
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateCategory(int id, [FromBody] Category newCategory)
+		public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDTO dto)
 		{
-			var category = await _categoryService.UpdateCategory(id, newCategory);
-			if (category != null)
+			var response = await _categoryService.UpdateCategory(id, dto);
+
+			if (!response.IsSuccess)
 			{
-				return Ok();
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCategory(int id)
 		{
-			var isDelete = await _categoryService.DeleteCategory(id);
-			if (isDelete == true)
+			var response = await _categoryService.DeleteCategory(id);
+
+			if (!response.IsSuccess)
 			{
-				return Ok();
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
 		}
 	}
 }

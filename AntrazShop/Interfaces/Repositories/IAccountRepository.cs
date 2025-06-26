@@ -1,5 +1,4 @@
 using AntrazShop.Data;
-using AntrazShop.Models.ViewModels;
 
 namespace AntrazShop.Interfaces.Repositories
 {
@@ -7,5 +6,8 @@ namespace AntrazShop.Interfaces.Repositories
 	{
 		Task<User> CreateUser(User newUser);
 		Task<User> FindUser(string email);
+		Task<bool> CheckExistEmail(string email);
+		Task CreateUserAuthInfo(UserAuthInfo auth);
+		Task SetUserAuthInfo(UserAuthInfo auth);
 	}
 }

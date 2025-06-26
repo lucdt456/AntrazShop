@@ -1,7 +1,6 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -16,35 +15,27 @@ namespace AntrazShop.Controllers.API
 			_accountService = accountService;
 		}
 
-		[HttpPost("register")]
-		public async Task<IActionResult> Register(UserDTO newUser)
+		[HttpPost("Register")]
+		public async Task<IActionResult> Register([FromBody] UserDTO newUser)
 		{
-			if (newUser == null)
-			{
-				return BadRequest("Invalid data.");
-			}
+			var response = await _accountService.CreateUser(newUser);
 
-			return Ok(await _accountService.CreateUser(newUser));
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
 		}
 
 		[HttpPost("Login")]
 		public async Task<IActionResult> Login([FromBody] Login userlg)
 		{
-			if (userlg == null)
+			var response = await _accountService.AuthenticateAsync(userlg);
+			if (!response.IsSuccess)
 			{
-				return BadRequest("Không có data.");
+				return BadRequest(new { errors = response.Errors });
 			}
-
-			try
-			{
-				var token = await _accountService.AuthenticateAsync(userlg);
-				return Ok(new { Token = token });
-			}
-			catch (UnauthorizedAccessException ex)
-			{
-				return Unauthorized(ex.Message);
-			}
-
+			return Ok(new { Token = response.Data });
 		}
 	}
 }

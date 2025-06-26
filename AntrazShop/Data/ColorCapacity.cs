@@ -9,31 +9,49 @@ namespace AntrazShop.Data
 	{
 		[Key]
 		public int Id { get; set; }
+
+		[Required]
+		[Range(0, int.MaxValue)]
 		public int Stock { get; set; }
+
+		[Required]
+		[Range(0, double.MaxValue)]
 		[Column(TypeName = "decimal(18,2)")]
 		public decimal Price { get; set; }
 
+		[Required]
 		[ForeignKey("Color")]
 		public int ColorId { get; set; }
+
 		[JsonIgnore]
 		public Color Color { get; set; }
 
+		[Required]
 		[ForeignKey("Capacity")]
 		public int CapacityId { get; set; }
 
 		[JsonIgnore]
 		public Capacity Capacity { get; set; }
 
+		[Required]
 		[ForeignKey("Product")]
 		public int ProductId { get; set; }
+
 		[JsonIgnore]
 		public Product Product { get; set; }
 
+		[Required]
+		[StringLength(255)]
 		public string Image { get; set; }
+
+		[Required]
 		public int Status { get; set; }
 
+		[Required]
 		public bool StatusImage { get; set; } = false;
-		public int SalesCount { get; set; } = 0;
+
+		[Range(0, int.MaxValue)]
+		public int SoldAmount { get; set; } = 0;
 
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
 		public ICollection<WishList> WishLists { get; set; } = new List<WishList>();
@@ -41,4 +59,3 @@ namespace AntrazShop.Data
 		public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 	}
 }
-	

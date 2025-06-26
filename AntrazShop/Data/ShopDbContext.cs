@@ -26,20 +26,54 @@ namespace AntrazShop.Data
 		public DbSet<Color> Colors { get; set; }
 		public DbSet<Capacity> Capacities { get; set; }
 		public DbSet<ColorCapacity> ColorCapacities { get; set; }
+		public DbSet<UserAuthInfo> UserAuthInfos { get; set; }
+		public DbSet<LoginHistory> LoginHistories { get; set; }
+		public DbSet<Sale> Sales { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<WishList>().HasKey(w => new { w.UserId, w.ColorCapacityId });
-			modelBuilder.Entity<Cart>().HasKey(c => new { c.UserId, c.ColorCapacityId });
-			modelBuilder.Entity<UserRole>().HasKey(u => new { u.UserId, u.RoleId });
-			modelBuilder.Entity<RolePermission>().HasKey(r => new { r.RoleId, r.PermissionId });
-			modelBuilder.Entity<OrderDetail>().HasKey(od => new { od.OrderCode, od.ColorCapacityId });
-			modelBuilder.Entity<Review>().HasKey(rv => new { rv.UserId, rv.ColorCapacityId });
+			modelBuilder.Entity<WishList>()
+						.HasKey(w => new { w.UserId, w.ColorCapacityId });
+
+			modelBuilder.Entity<Cart>()
+						.HasKey(c => new { c.UserId, c.ColorCapacityId });
+
+			modelBuilder.Entity<UserRole>()
+						.HasKey(u => new { u.UserId, u.RoleId });
+
+			modelBuilder.Entity<RolePermission>()
+						.HasKey(r => new { r.RoleId, r.PermissionId });
+
+			modelBuilder.Entity<OrderDetail>()
+						.HasKey(od => new { od.OrderCode, od.ColorCapacityId });
+
+			modelBuilder.Entity<Review>()
+						.HasKey(rv => new { rv.UserId, rv.ColorCapacityId });
+
 			modelBuilder.Entity<UserPermission>().HasKey(up => new { up.UserId, up.PermissionId });
 
+			modelBuilder.Entity<Product>()
+						.HasOne(p => p.Sale)
+						.WithMany(s => s.Products)
+						.HasForeignKey(p => p.SaleId)
+						.OnDelete(DeleteBehavior.SetNull);
+		
 			modelBuilder.Entity<Order>().Property(o => o.CreatedAt).HasDefaultValueSql("GETDATE()");
+
 			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Entity<User>()
+					.HasOne(u => u.UserAuthInfo)
+					.WithOne(a => a.User)
+					.HasForeignKey<UserAuthInfo>(a => a.UserId)
+					.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<LoginHistory>()
+						.HasOne(l => l.UserAuthInfo)
+						.WithMany(u => u.LoginHistories)
+						.HasForeignKey(l => l.UserId)
+						.OnDelete(DeleteBehavior.Cascade);
 		}
 	}
 }

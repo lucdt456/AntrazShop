@@ -22,6 +22,7 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<User> GetUser(int userId);
 		Task<User> UpdateUser(int userId, User userUpdate);
 
-
+		Task AddLoginHistory(LoginHistory loginHistory);
+		Task<List<LoginHistory>> GetLoginHistories(int userId);
 	}
 }

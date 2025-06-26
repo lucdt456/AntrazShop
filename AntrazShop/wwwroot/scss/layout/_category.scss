@@ -1,0 +1,92 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  10. CATEGORY CSS
+/*----------------------------------------*/
+
+
+.category {
+    &__item {
+        text-align: center;
+        background-color: var(--tp-common-white);
+        border-radius: 10px;
+        padding: 30px 10px 25px 10px;
+        &:hover {
+            & .category__thumb {
+                &::after {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                &::before {
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    opacity: 1;
+                    transform: scale3d(1.08, 1.08, 1.08);
+                }
+            }
+        }
+    }
+    &__thumb {
+        display: inline-block;
+        border-radius: 50%;
+        position: relative;
+        &::after {
+            content: "";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(#ffffff 0 0), linear-gradient(#ffffff 0 0);
+            background-position: center;
+            background-size: 100% 1px, 1px 100%;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 11;
+            pointer-events: none;
+        }
+        &::before {
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            background-color: rgba(0, 0, 0, 0.4);
+            content: "";
+            z-index: 2;
+            right: 50%;
+            bottom: 50%;
+            opacity: 0;
+            transition: all 240ms linear 0s;
+            pointer-events: none;
+        }
+        
+        & img {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+        }
+    }
+    &__title {
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 1.1;
+        color: var(--tp-heading-primary);
+        margin-bottom: 0;
+        font-family: 'Jost', sans-serif ;
+        & a {
+            &:hover {
+                color: var(--tp-heading-secondary);
+            }
+        }
+    }
+    &__count {
+        font-weight: 400;
+        font-size: 13px;
+        color: var(--tp-text-body);
+    }
+}

@@ -4,6 +4,7 @@ using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace AntrazShop.Services
@@ -11,9 +12,13 @@ namespace AntrazShop.Services
 	public class AccountManagerService : IAccountManagerService
 	{
 		private IAccountManagerRepository _accountManagerRepository;
-		public AccountManagerService(IAccountManagerRepository accountManagerRepository)
+		private readonly IAccountRepository _accountRepository;
+		private readonly IMapper _mapper;
+		public AccountManagerService(IAccountManagerRepository accountManagerRepository, IMapper mapper, IAccountRepository accountRepository)
 		{
 			_accountManagerRepository = accountManagerRepository;
+			_mapper = mapper;
+			_accountRepository = accountRepository;
 		}
 
 		// Hàm lấy danh sách người dùng
@@ -29,37 +34,13 @@ namespace AntrazShop.Services
 
 				var users = await _accountManagerRepository.GetUsers(recskip, take);
 
-				var usersVMs = new List<AccountVM>();
-
-				foreach (var user in users)
-				{
-					List<string> userRoles = user.UserRoles
-								  .Select(ur => ur.Role.Name)
-								  .ToList();
-
-					var userVM = new AccountVM
-					{
-						Id = user.Id,
-						Name = user.Name,
-						Email = user.Email,
-						Gender = user.Gender,
-						Address = user.Address,
-						Birthday = user.Birthday,
-						Hometown = user.Hometown,
-						Avatar = user.Avatar,
-						workerAccount = user.workerAccount,
-						CreateAt = user.CreatedAt,
-						Roles = userRoles
-					};
-					usersVMs.Add(userVM);
-				}
-				response.Data = usersVMs;
+				response.Data = _mapper.Map<List<AccountVM>>(users);
 				return (response, pagination);
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add(ex.Message);
 				return (response, null);
 			}
 		}
@@ -84,37 +65,15 @@ namespace AntrazShop.Services
 
 				var users = await _accountManagerRepository.SearchWorkerAccounts(search, recskip, take);
 
-				var usersVMs = new List<AccountVM>();
+				var usersVMs = _mapper.Map<List<AccountVM>>(users);
 
-				foreach (var user in users)
-				{
-					List<string> userRoles = user.UserRoles
-								  .Select(ur => ur.Role.Name)
-								  .ToList();
-
-					var userVM = new AccountVM
-					{
-						Id = user.Id,
-						Name = user.Name,
-						Email = user.Email,
-						Gender = user.Gender,
-						Address = user.Address,
-						Birthday = user.Birthday,
-						Hometown = user.Hometown,
-						Avatar = user.Avatar,
-						workerAccount = user.workerAccount,
-						CreateAt = user.CreatedAt,
-						Roles = userRoles
-					};
-					usersVMs.Add(userVM);
-				}
 				response.Data = usersVMs;
 				return (response, pagination);
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add(ex.Message);
 				return (response, null);
 			}
 		}
@@ -139,37 +98,13 @@ namespace AntrazShop.Services
 
 				var users = await _accountManagerRepository.SearchCustomerAccounts(search, recskip, take);
 
-				var usersVMs = new List<AccountVM>();
-
-				foreach (var user in users)
-				{
-					List<string> userRoles = user.UserRoles
-								  .Select(ur => ur.Role.Name)
-								  .ToList();
-
-					var userVM = new AccountVM
-					{
-						Id = user.Id,
-						Name = user.Name,
-						Email = user.Email,
-						Gender = user.Gender,
-						Address = user.Address,
-						Birthday = user.Birthday,
-						Hometown = user.Hometown,
-						Avatar = user.Avatar,
-						workerAccount = user.workerAccount,
-						CreateAt = user.CreatedAt,
-						Roles = userRoles
-					};
-					usersVMs.Add(userVM);
-				}
-				response.Data = usersVMs;
+				response.Data = _mapper.Map<List<AccountVM>>(users);
 				return (response, pagination);
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add(ex.Message);
 				return (response, null);
 			}
 		}
@@ -220,46 +155,40 @@ namespace AntrazShop.Services
 					Address = dto.Address.Trim(),
 					Hometown = dto.Hometown.Trim(),
 					workerAccount = dto.IsWorkerAccount,
+					CreatedAt = DateTime.Now
 				};
 
 				//Tạo tài khoản
 				user = await _accountManagerRepository.CreateAccount(user);
 
-				await _accountManagerRepository.AddRoles(user.Id, dto.Roles);
-
-				//Truyền lại viewmodel
-				var userVM = new AccountVM
+				// Thêm role cho tài khoản
+				if (dto.Roles != null)
 				{
-					Id = user.Id,
-					Name = user.Name,
-					Email = user.Email,
-					Gender = user.Gender,
-					Address = user.Address,
-					Birthday = user.Birthday,
-					Hometown = user.Hometown,
-					Avatar = user.Avatar,
-					workerAccount = user.workerAccount,
-					CreateAt = user.CreatedAt
+					await _accountManagerRepository.AddRoles(user.Id, dto.Roles);
 				};
-				response.Data = userVM;
+
+				//Thêm bảng Auth cho tài khoản
+				var auth = new UserAuthInfo()
+				{
+					UserId = user.Id,
+					IsActive = true,
+					FailedAttempts = 5
+				};
+
+				await _accountRepository.CreateUserAuthInfo(auth);
+
+				response.Data = _mapper.Map<AccountVM>(user);
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add(ex.Message);
 			}
 			return response;
 		}
 
-		/// <summary>
-		/// Hàm sửa Tài khoản
-		/// </summary>
-		/// <param name="userId"></param>
-		/// <param name="dTO"></param>
-		/// <returns></returns>
 		public async Task<ServiceResponse<AccountVM>> EditAccount(int userId, AccountDTO dTO)
 		{
-			// CHƯA FIX NẾU FILE ẢNH LÀ NULL MÀ TÊN NGƯỜI DÙNG THAY ĐỔI => ĐỔI TÊN
 			var response = new ServiceResponse<AccountVM>();
 			try
 			{
@@ -288,7 +217,6 @@ namespace AntrazShop.Services
 					}
 				}
 
-
 				//Cập nhật dữ liệu
 				user.Name = dTO.Name;
 				user.Gender = dTO.Gender;
@@ -300,35 +228,66 @@ namespace AntrazShop.Services
 				user.workerAccount = dTO.IsWorkerAccount;
 
 				user = await _accountManagerRepository.UpdateUser(userId, user);
-
-				//Update roles
-				var listCurrentRoles = user.UserRoles.Select(ur => ur.Role.Id);
-				var newRoles = dTO.Roles.Except(listCurrentRoles).ToList();
-				var rolesDelete = listCurrentRoles.Except(dTO.Roles).ToList();
-
-				await _accountManagerRepository.DeleteRoles(userId, rolesDelete);
-				await _accountManagerRepository.AddRoles(userId, newRoles);
-
-
-				var userVM = new AccountVM
-				{
-					Id = user.Id,
-					Name = user.Name,
-					Email = user.Email,
-					Gender = user.Gender,
-					Address = user.Address,
-					Birthday = user.Birthday,
-					Hometown = user.Hometown,
-					Avatar = user.Avatar,
-					workerAccount = user.workerAccount,
-					CreateAt = user.CreatedAt
-				};
-				response.Data = userVM;
+				response.Data = _mapper.Map<AccountVM>(user);
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<List<int>>> EditUserRoles(int userId, List<int> roleIds)
+		{
+			var response = new ServiceResponse<List<int>>();
+			try
+			{
+				var user = await _accountManagerRepository.GetUser(userId);
+				var listCurrentRoles = user.UserRoles.Select(ur => ur.Role.Id);
+				var newRoles = roleIds.Except(listCurrentRoles).ToList();
+				var rolesDelete = listCurrentRoles.Except(roleIds).ToList();
+
+				await _accountManagerRepository.DeleteRoles(userId, rolesDelete);
+				await _accountManagerRepository.AddRoles(userId, newRoles);
+
+				response.Data = roleIds;
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<AccountVM>> GetUser(int userId)
+		{
+			var response = new ServiceResponse<AccountVM>();
+			try
+			{
+				var user = await _accountManagerRepository.GetUser(userId);
+				response.Data = _mapper.Map<AccountVM>(user);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<List<LoginHistory>>> GetLoginHistories(int userId)
+		{
+			var response = new ServiceResponse<List<LoginHistory>>();
+			try
+			{
+				response.Data = await _accountManagerRepository.GetLoginHistories(userId);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
 			}
 			return response;
 		}

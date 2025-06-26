@@ -1,6 +1,5 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -15,10 +14,10 @@ namespace AntrazShop.Controllers.API
 			_roleService = roleService;
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> CreateRole([FromBody] RoleDTO dTo)
+		[HttpPost("Create")]
+		public async Task<IActionResult> CreateRole([FromBody] RoleDTO dto)
 		{
-			var response = await _roleService.CreateRole(dTo);
+			var response = await _roleService.CreateRole(dto);
 			if (!response.IsSuccess)
 			{
 				return BadRequest(new { errors = response.Errors });
