@@ -11,61 +11,54 @@ namespace AntrazShop.Repositories
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<Category>> GetCategorys(int recskip, int take)
+
+		public async Task<IEnumerable<Category>> GetCategories()
 		{
-			return await _context.Categories.Skip(recskip).Take(take).ToListAsync();
+			return await _context.Categories
+				.AsNoTracking()
+				.Include(c => c.Products)
+				.ToListAsync();
 		}
 
 		public async Task<Category> GetCategory(int id)
 		{
-			return await _context.Categories.FindAsync(id);
+			var category = await _context.Categories
+				.AsNoTracking()
+				.Include(c => c.Products)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+			if (category == null) throw new Exception("Không tìm thấy danh mục");
+
+			return category;
 		}
 
-		public async Task CreateCategory(Category category)
+		public async Task<Category> CreateCategory(Category category)
 		{
-			if (category != null)
-			{
-				await _context.Categories.AddAsync(category);
-				await _context.SaveChangesAsync();
-			}
+			_context.Categories.Add(category);
+			await _context.SaveChangesAsync();
+			return category;
 		}
 
-		public async Task<Category> UpdateCategory(int id, Category newCategory)
+		public async Task<Category> UpdateCategory(Category categoryUpdate)
+		{
+			var category = await _context.Categories.FindAsync(categoryUpdate.Id);
+			if (category == null) throw new Exception("Không tìm thấy danh mục");
+
+			category.Name = categoryUpdate.Name;
+			category.Description = categoryUpdate.Description;
+			category.Image = categoryUpdate.Image;
+
+			await _context.SaveChangesAsync();
+			return category;
+		}
+
+		public async Task DeletecCategory(int id)
 		{
 			var category = await _context.Categories.FindAsync(id);
-			if (category != null)
-			{
-				category.Name = newCategory.Name;
-				category.Description = newCategory.Description;
-				category.Image = newCategory.Image;
+			if (category == null) throw new Exception("Không tìm thấy danh mục");
 
-				_context.Categories.Update(category);
-				await _context.SaveChangesAsync();
-				return category;
-			}
-			else return null;
-		}
-
-		public async Task<bool> DeleteCategory(int id)
-		{
-			var category = await _context.Categories.FindAsync(id);
-			if(category != null)
-			{
-				_context.Remove(category);
-				await _context.SaveChangesAsync();
-				return true;
-			}
-			return false;
-		}
-
-		public async Task<int> getTotalCategories()
-		{
-			return await _context.Categories.CountAsync();
-		}
-
-		public async Task<int> getCategoryProductCounts(int id)
-		{
-			return await _context.Products.CountAsync(p => p.CategoryId == id);
+			_context.Categories.Remove(category);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

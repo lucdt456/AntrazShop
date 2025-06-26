@@ -1,0 +1,147 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  23. SHOP-LOCATION CSS
+/*----------------------------------------*/
+
+
+.tplocation {
+    &__thumb {
+        & img {
+            border-radius: 10px 10px 0 0;
+        }
+    }
+    &__content {
+        background-color: #F7F7F9;
+        border: 1px solid #EBEFF4;
+        border-radius:0 0 10px 10px;
+        padding: 65px 40px 50px 40px;
+        @media #{$xs} {
+            padding: 50px 15px 40px 15px;
+        }
+        & ul {
+            & li { 
+                list-style: none;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 23px;
+                color: var(--tp-text-body);
+                margin-bottom: 2px;
+                @media #{$xs} {
+                    font-size: 15px;
+                }
+                & br {
+                    @media #{$xs} {
+                        display: none;
+                    }
+                }
+                & a {
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 23px;
+                    color: var(--tp-text-body);
+                    @media #{$xs} {
+                        font-size: 15px;
+                    }
+                }
+                & .tplocation__button {
+                    font-weight: 600;
+                    font-size: 13px;
+                    line-height: 19px;
+                    text-transform: uppercase;
+                    color: var(--tp-common-white) !important;
+                    background-color: var(--tp-heading-secondary);
+                    display: inline-block;
+                    padding: 16px 47px;
+                    border-radius: 30px;
+                    &:hover {
+                        background-color: #859A00;
+                    }
+                }
+                & span {
+                    color: var(--tp-heading-secondary);
+                    display: inline-block;
+                }
+            }
+        }
+    }
+    &__content-two {
+        background-color: transparent;
+        border: none;
+        padding:0;
+    }
+    &__text-title {
+        font-family: 'Quicksand';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 19px;
+        text-transform: uppercase;
+        color: var(--tp-heading-primary);
+    }
+    &__wrapper {
+        border: 1px solid #EBEFF4;
+        padding: 20px 30px 20px 20px;
+        border-radius: 10px;
+        height: 772px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: var(--tp-heading-secondary) #E2E6EB;
+        @media #{$xs} {
+            padding: 20px 15px 20px 15px;
+        }
+    }
+    &__item {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #E6EAF0;
+        margin-bottom: 40px;
+        &:hover {
+            & .tplocation__text-title {
+                color: var(--tp-heading-secondary);
+            }
+        }
+        @media #{$xl,$lg,$xs} {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+        &:last-child {
+            padding-bottom: 0;
+            border: none;
+            margin-bottom: 0;
+        }
+    }
+    &__img {
+        @media #{$xl,$lg,$xs} {
+            margin-bottom: 20px;
+        }
+        
+        & img {
+            border-radius: 10px;
+            @media #{$xs} {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+.tplocation__wrapper::-webkit-scrollbar-thumb {
+    background-color: blue;   
+    border-radius: 20px;      
+    border: 3px solid orange;  
+}
+
+.tpcontactmap {
+    height: 770px;
+    @media #{$lg} {
+        height: 650px;
+    }
+    @media #{$xs} {
+        height: 350px;
+    }
+    & iframe {
+        height: 100%;
+        border-radius: 10px;
+        width: 100%;
+    }
+}

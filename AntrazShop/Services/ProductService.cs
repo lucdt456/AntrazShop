@@ -78,9 +78,16 @@ namespace AntrazShop.Services
 			return (productVMs, pagination);
 		}
 
-
-		public async Task<(IEnumerable<ProductVM>, Paginate)> SearchProducts(string search, int pg, int size)
+		/// <summary>
+		/// Tìm kiếm sản phẩm
+		/// </summary>
+		/// <param name="search"></param>
+		/// <param name="pg"></param>
+		/// <param name="size"></param>
+		/// <returns></returns>
+		public async Task<(IEnumerable<ProductVM>, Paginate)> SearchProducts(string? search, int pg, int size)
 		{
+			search ??= "";
 			var count = await _productRepository.GetTotalProductCountSearch(search);
 			var panigation = new Paginate(count, pg, size);
 			int recSkip = (pg - 1) * size;
@@ -275,29 +282,22 @@ namespace AntrazShop.Services
 			{
 				var product = await _productRepository.GetProduct(id);
 				string newProductFolder = FileNameHelper.ToSlug(productUpdate.Name);
-				string newProductUrl =  Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", newProductFolder);
+				string newProductUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", newProductFolder);
 				string oldProductUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", product.ImageFolder);
 				if (newProductFolder != product.ImageFolder)
 				{
-					try
-					{
-						Directory.Move(oldProductUrl, newProductUrl);
-					}
-					catch
-					{
-						response.IsSuccess = false;
-						response.Errors.Add("Lỗi khi đổi tên folder sản phẩm!");
-						return response;
-					}
+					Directory.Move(oldProductUrl, newProductUrl);
 				}
 
-				if(productUpdate.ImageView != null)
+				if (productUpdate.ImageView != null)
 				{
 					var imageViewName = "1" + Path.GetExtension(productUpdate.ImageView.FileName);
 					try
 					{
 						var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), newProductUrl, product.ImageView);
+
 						var newImagePath = Path.Combine(Directory.GetCurrentDirectory(), newProductUrl, imageViewName);
+
 						File.Delete(oldImagePath);
 						using (var stream = new FileStream(newImagePath, FileMode.Create))
 						{

@@ -16,6 +16,8 @@ namespace AntrazShop.Interfaces.Repositories
 		Task AddRolePermissions(int roleId, List<int> permissionIds);
 		Task DeleteRolePermission(int roleId, List<int> permissionIds);
 		Task<bool> CheckExistRole(string roleName);
+		Task<int> getRoleIdFromRoleName(string roleName);
+		Task AddRoleUser(UserRole ur);
 	}
 }
 	

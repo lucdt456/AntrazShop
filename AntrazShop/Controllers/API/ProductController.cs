@@ -36,7 +36,7 @@ namespace AntrazShop.Controllers.API
 		//[Authorize]
 		//Tìm kiếm sản phẩm
 		[HttpGet("search")]
-		public async Task<IActionResult> SearchProducts(string search, int page = 1, int size = 10)
+		public async Task<IActionResult> SearchProducts(string? search, int page = 1, int size = 10)
 		{
 			var (products, pagination) = await _productService.SearchProducts(search, page, size);
 			return Ok(new

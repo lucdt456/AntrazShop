@@ -2,60 +2,106 @@ using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
+using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
+using AntrazShop.Repositories;
+using AutoMapper;
 
 namespace AntrazShop.Services
 {
 	public class CategoryService : ICategoryService
 	{
 		private readonly ICategoryRepository _categoryRepository;
-		public CategoryService(ICategoryRepository categoryRepository)
+		private readonly IMapper _mapper;
+
+		public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
 		{
 			_categoryRepository = categoryRepository;
+			_mapper = mapper;
 		}
 
-		public async Task<(IEnumerable<CategoryVM>, Paginate)> GetCategories( int pg, int size)
+		public async Task<ServiceResponse<CategoryVM>> CreateCategory(CategoryDTO dto)
 		{
-			var categoryCount = await _categoryRepository.getTotalCategories();
-			var pagination = new Paginate(categoryCount, pg, size);
-			int recskip = (pg - 1) * size;
-			var categpories = await _categoryRepository.GetCategorys(recskip, size);
-			var categoryVMs = new List<CategoryVM>();
-			foreach (var c in categpories)
+			var response = new ServiceResponse<CategoryVM>();
+			try
 			{
-				var productCount = await _categoryRepository.getCategoryProductCounts(c.Id);
-				categoryVMs.Add(new CategoryVM
-				{
-					Id = c.Id,
-					Name  = c.Name,
-					Description = c.Description,
-					Image = c.Image,
-					ProductCount = productCount
-				});
-			};
-			return (categoryVMs, pagination);
+				var category = _mapper.Map<Category>(dto);
+				category = await _categoryRepository.CreateCategory(category);
+				response.Data = _mapper.Map<CategoryVM>(category);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task CreateCategory(Category category)
+		public async Task<ServiceResponse<string>> DeleteCategory(int id)
 		{
-			await _categoryRepository.CreateCategory(category);
+			var response = new ServiceResponse<string>();
+			try
+			{
+				await _categoryRepository.DeletecCategory(id);
+				response.Data = "Xoá danh mục thành công!";
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task<bool> DeleteCategory(int id)
+
+		public async Task<ServiceResponse<IEnumerable<CategoryVM>>> GetCategories()
 		{
-			return await _categoryRepository.DeleteCategory(id);
+			var response = new ServiceResponse<IEnumerable<CategoryVM>>();
+			try
+			{
+				var categories = await _categoryRepository.GetCategories();
+				response.Data = _mapper.Map<List<CategoryVM>>(categories);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task<Category> GetCategory(int id)
+		public async Task<ServiceResponse<CategoryVM>> GetCategory(int id)
 		{
-			return await _categoryRepository.GetCategory(id);
+			var response = new ServiceResponse<CategoryVM>();
+			try
+			{
+				var category = await _categoryRepository.GetCategory(id);
+				response.Data = _mapper.Map<CategoryVM>(category);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-
-
-		public async Task<Category> UpdateCategory(int id, Category newCategory)
+		public async Task<ServiceResponse<CategoryVM>> UpdateCategory(int id, CategoryDTO dto)
 		{
-			return await _categoryRepository.UpdateCategory(id, newCategory);
+			var response = new ServiceResponse<CategoryVM>();
+			try
+			{
+				var category = _mapper.Map<Category>(dto);
+				category.Id = id;
+				category = await _categoryRepository.UpdateCategory(category);
+				response.Data = _mapper.Map<CategoryVM>(category);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace AntrazShop.Repositories
 				.Include(r => r.RolePermissions)
 					.ThenInclude(rp => rp.Permission)
 				.Include(r => r.UserRoles)
-					.ThenInclude(ur => ur.User) 
+					.ThenInclude(ur => ur.User)
 				.ToListAsync();
 		}
 
@@ -97,13 +97,14 @@ namespace AntrazShop.Repositories
 					PermissionId = permissionId,
 				};
 				_context.RolePermissions.Add(rp);
-			};
+			}
+			;
 			await _context.SaveChangesAsync();
 		}
 
 		public async Task DeleteRolePermission(int roleId, List<int> permissionIds)
 		{
-			foreach(int permissionId in permissionIds)
+			foreach (int permissionId in permissionIds)
 			{
 				var rolePermission = await _context.RolePermissions
 					   .FirstOrDefaultAsync(rp => rp.RoleId == roleId && rp.PermissionId == permissionId);
@@ -129,6 +130,19 @@ namespace AntrazShop.Repositories
 		public async Task<bool> CheckExistRole(string roleName)
 		{
 			return _context.Roles.Any(r => r.Name.ToLower() == roleName.ToLower());
+		}
+
+		public async Task<int> getRoleIdFromRoleName(string roleName)
+		{
+			var role = await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
+			if (role == null) throw new Exception($"Không tìm thấy role {roleName} trong danh sách role!");
+			return role.Id;
+		}
+
+		public async Task AddRoleUser(UserRole ur)
+		{
+			_context.UserRoles.Add(ur);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

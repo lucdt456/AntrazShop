@@ -1,5 +1,5 @@
-using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
+using AntrazShop.Models.DTOModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -15,48 +15,63 @@ namespace AntrazShop.Controllers.API
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetBrands(int page = 1, int size = 10)
+		public async Task<IActionResult> GetBrands()
 		{
-			var (brands, pagination) = await _brandService.GetBrands(page, size);
+			var response = await _brandService.GetBrands();
 
-			return Ok(new
+			if (!response.IsSuccess)
 			{
-				Brands = brands,
-				Pagination = pagination
-			});
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
 		}
 
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetBrand(int id)
 		{
-			var brand = await _brandService.GetBrand(id);
-			if (brand != null)
+			var response = await _brandService.GetBrand(id);
+
+			if (!response.IsSuccess)
 			{
-				return Ok(brand);
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateCategory([FromBody] BrandDTO dto)
+		{
+			var response = await _brandService.CreateBrand(dto);
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateBrand(int id, [FromBody] Brand newBrand)
+		public async Task<IActionResult> UpdateBrand(int id, [FromBody] BrandDTO dto)
 		{
-			var brand = await _brandService.UpdateBrand(id, newBrand);
-			if (brand != null)
+			var response = await _brandService.UpdateBrand(id, dto);
+
+			if (!response.IsSuccess)
 			{
-				return Ok();
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
 		}
 
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBrand(int id)
 		{
-			var isDelete = await _brandService.DeleteBrand(id);
-			if (isDelete == true)
+			var response = await _brandService.DeleteBrand(id);
+
+			if (!response.IsSuccess)
 			{
-				return Ok();
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound();
+			return Ok(response.Data);
 		}
 	}
 }

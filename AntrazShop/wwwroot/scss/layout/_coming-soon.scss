@@ -1,0 +1,134 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  22. COMING-SOON CSS
+/*----------------------------------------*/
+
+
+.tpsoon {
+    &__sub-title {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        text-transform: uppercase;
+        color: var(--tp-heading-secondary);
+    }
+    &__title {
+        font-family: 'Quicksand';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 40px;
+        letter-spacing: -0.03em;
+        color: var(--tp-heading-primary);
+        @media #{$lg} {
+            font-size: 36px;
+        }
+        & br {
+            @media #{$lg,$md,$xs} {
+                display: none;
+            }
+        }
+    }
+    & p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 23px;
+        color: var(--tp-text-body);
+        margin-bottom: 50px;
+        & br {
+            @media #{$xl,$lg,$md,$xs} {
+                display: none;
+            }
+        }
+    }
+    &__input {
+        position: relative;
+        & input {
+            height: 50px;
+            width: 330px;
+            background-color: var(--tp-common-white);
+            border: none;
+            border-radius: 30px;
+            padding: 5px 45px;
+            @include tp-placeholder {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--tp-border-2);
+            }
+            @media #{$xs} {
+                width: 100%;
+            }
+        }
+        & span {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 20px;
+        }
+    }
+    &__submit-wrapper {
+        display: flex;
+        align-items: center;
+        @media #{$lg,$md,$xs} {
+            flex-wrap: wrap;
+        }
+    }
+    &__copyright {
+        & a {
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 23px;
+            color: var(--tp-heading-secondary);
+        }
+    }
+    &__shape {
+        &-one {
+            position: absolute;
+            top: 145px;
+            left: 140px;
+        }
+        &-two {
+            position: absolute;
+            bottom: 240px;
+            right: 35px;
+        }
+    }
+}
+.rainbow {
+    &__social {
+        & a {
+            & i {
+                height: 35px;
+                width: 35px;
+                line-height: 35px;
+                text-align: center;
+                background-color: #3C5B9B;
+                border-radius: 50%;
+                color: var(--tp-common-white);
+                margin-right: 6px;
+            }
+        }
+        & .rainbow__facebook {
+            & i {
+                background-color: #40C1DF;
+            }
+        }
+        & .rainbow__pin {
+            & i {
+                background-color: #EB281D;
+            }
+        }
+        & .rainbow__skype {
+            & i {
+                background-color: #21A7C6;
+            }
+        }
+        & .rainbow__youtube {
+            & i {
+                background-color: #ED3C32;
+            }
+        }
+    }
+}

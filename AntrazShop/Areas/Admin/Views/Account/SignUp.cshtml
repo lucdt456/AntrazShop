@@ -13,8 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Đăng ký</title>
 
-
-
     <!-- Theme Style -->
     <link rel="stylesheet" type="text/css" href="~/admin/css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="~/admin/css/animation.css">
@@ -22,7 +20,6 @@
     <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-select.min.css">
     <link rel="stylesheet" type="text/css" href="~/admin/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
     <!-- Font -->
     <link rel="stylesheet" href="~/admin/font/fonts.css">
 
@@ -31,6 +28,7 @@
 
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="~/img/Logo/LogoAntrazIcon.png">
+
     <script src="~/admin/js/jquery.min.js"></script>
 </head>
 <body>
@@ -51,7 +49,17 @@
                                     <input id="name" class="flex-grow flex gap10 validate-input" type="text" placeholder="Nhập tên của bạn" tabindex="0">
                                     <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
                                 </fieldset>
-                                <fieldset style="width: 40%">
+                            </div>
+
+                            <fieldset class="email">
+                                <label for="email" class="body-title mb-10">Emai</label>
+                                <input autocomplete="username" id="email" class="flex-grow validate-input" type="email" placeholder="Nhập địa chỉ email" tabindex="0" value="">
+                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                            </fieldset>
+
+                            <div class="gap22 cols">
+
+                                <fieldset>
                                     <label for="gender" class="body-title mb-10">Giới tính</label>
                                     <div class="select">
                                         <select id="gender" class="validate-name validate-input">
@@ -62,13 +70,14 @@
                                         <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
                                     </div>
                                 </fieldset>
-                            </div>
 
-                            <fieldset class="email">
-                                <label for="email" class="body-title mb-10">Emai</label>
-                                <input autocomplete="username" id="email" class="flex-grow validate-input" type="email" placeholder="Nhập địa chỉ email" tabindex="0" value="">
-                                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
-                            </fieldset>
+                                <fieldset>
+                                    <label for="birthday" class="body-title mb-10">Ngày sinh</label>
+                                    <input id="birthday" class="flex-grow flex gap10 validate-input" type="date" placeholder="Nhập tên của bạn" tabindex="0">
+                                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                                </fieldset>
+                               
+                            </div>
 
                             <fieldset class="password">
                                 <label for="password" class="body-title mb-10">Mật khẩu</label>
@@ -79,6 +88,7 @@
                                 </span>
                                 <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
                             </fieldset>
+
                             <fieldset class="password">
                                 <label for="repassword" class="body-title mb-10">Xác nhận mật khẩu </label>
                                 <input id="repassword" autocomplete="new-password" class="password-input validate-input" type="password" placeholder="Nhập lại mật khẩu" tabindex="0" value="">
@@ -100,8 +110,13 @@
                                 <input id="address" class="flex-grow validate-input" type="text" placeholder="Nhập số điện thoại" tabindex="0">
                                 <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
                             </fieldset>
-                            <button type="button" id="btn_create" onclick="createUser()" class="tf-button w-full">Đăng ký</button>
+                            <button type="button" id="btn_create" onclick="createUser()" class="tf-button w-full mt-4">Đăng ký</button>
                         </form>
+
+                        <div class="body-text text-center">
+                            Bạn đã có tài khoản?
+                            <a href="/admin/account/login" class="body-text tf-color">Đăng nhập</a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,83 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  26. FAQ CSS
+/*----------------------------------------*/
+
+
+.tpfaq {
+    &__title {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.03em;
+        color: #2D2A6E;
+    }
+    &__content {
+        border-bottom: 1px solid var(--tp-border-1);
+        margin-bottom: 60px;
+        padding-bottom: 35px;
+        @media #{$md,$xs} {
+            margin-right: 0;
+        }
+        & p ,
+        & span {
+            font-family: var(--tp-ff-jost);
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 28px;
+            color: #4D5574;
+        }
+        & span {
+            display: block;
+        }
+        & ul {
+            margin-bottom: 20px;
+            & li {
+                list-style: none;
+                margin-bottom: 20px;
+            }
+        }
+    }
+    &__item {
+        & .accordion-button:not(.collapsed) {
+            color: var(--tp-heading-secondary);
+        }
+        & .accordion-button {
+            color: var(--tp-text-body);
+            font-family: var(--tp-ff-jost);
+            background-color: transparent;
+            box-shadow: none;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 20px 0 20px 0;
+            @media #{$lg} {
+                font-size: 17px;
+            }
+            &::after {
+                content: '\f078';
+                font-family: 'Font Awesome 5 Pro';
+                background-image: none;
+            }
+        }
+        & .accordion {
+            --bs-accordion-border-width: 0;
+            --bs-accordion-border-radius: 0;
+            
+        }
+        & .accordion-item {
+            color: #b52727;
+            border-bottom: 1px solid #E6ECF0;
+            font-family: var(--tp-ff-jost);
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--tp-text-body);
+        }
+        & .accordion-body {
+            padding: 0 30px 30px 0;
+        }
+        & .accordion-button:not(.collapsed)::after {
+            background-image: none;
+            // transform: rotate(0deg);
+        }
+    }
+}

@@ -93,6 +93,7 @@ builder.Services.AddAuthorization(options =>
 	options.AddPolicy("CanViewProducts", policy => policy.Requirements.Add(new PermissionRequirement("ViewProducts")));
 	options.AddPolicy("CanEditProducts", policy => policy.Requirements.Add(new PermissionRequirement("EditProducts")));
 	options.AddPolicy("CanDeleteProducts", policy => policy.Requirements.Add(new PermissionRequirement("DeleteProducts")));
+	options.AddPolicy("CanGetUserWorkers", policy => policy.Requirements.Add(new PermissionRequirement("GetUserWorkers")));
 });
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -120,6 +121,8 @@ builder.Services.AddScoped<IProductCCService, ProductCCService>();
 
 builder.Services.AddScoped <IRoleResponsive, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

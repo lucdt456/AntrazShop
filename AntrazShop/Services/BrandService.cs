@@ -2,62 +2,105 @@ using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
+using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
+using AutoMapper;
 
 namespace AntrazShop.Services
 {
 	public class BrandService : IBrandService
 	{
 		private readonly IBrandRepository _brandRepository;
-		public BrandService(IBrandRepository brandRepository)
+		private readonly IMapper _mapper;
+		public BrandService(IBrandRepository brandRepository, IMapper mapper)
 		{
 			_brandRepository = brandRepository;
+			_mapper = mapper;
 		}
 
-		public async Task<(IEnumerable<BrandVM>, Paginate)> GetBrands(int pg, int size)
+		public async Task<ServiceResponse<BrandVM>> CreateBrand(BrandDTO dto)
 		{
-			var brandCount = await _brandRepository.GetTotalBrands();
-
-			var pagination = new Paginate(brandCount, pg, size);
-			int recskip = (pg - 1) * size;
-			var brands = await _brandRepository.GetBrands(recskip, size);
-			var brandVMs = new List<BrandVM>();
-			foreach (var b in brands)
+			var response = new ServiceResponse<BrandVM>();
+			try
 			{
-				var productCount = await _brandRepository.GetBrandProductCounts(b.Id);
-				brandVMs.Add(new BrandVM
-				{
-					Id = b.Id,
-					Name = b.Name,
-					Description = b.Description,
-					Logo = b.Logo,
-					ProductCount = productCount
-				});
+				var brand = _mapper.Map<Brand>(dto); 
+
+				brand = await _brandRepository.CreateBrand(brand);
+
+				response.Data = _mapper.Map<BrandVM>(brand);
 			}
-			return (brandVMs, pagination);
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task CreateBrand(Brand brand)
+		public async Task<ServiceResponse<string>> DeleteBrand(int id)
 		{
-			await _brandRepository.CreateBrand(brand);
+			var response = new ServiceResponse<string>();
+			try
+			{
+				await _brandRepository.DeleteBrand(id);
+				response.Data = "Xoá thành công!";
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task<bool> DeleteBrand(int id)
+		public async Task<ServiceResponse<BrandVM>> GetBrand(int id)
 		{
-			return await _brandRepository.DeleteBrand(id);
+			var response = new ServiceResponse<BrandVM>();
+			try
+			{
+				var brand = await _brandRepository.GetBrand(id);
+				response.Data = _mapper.Map<BrandVM>(brand);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-		public async Task<BrandVM> GetBrand(int id)
+		public async Task<ServiceResponse<IEnumerable<BrandVM>>> GetBrands()
 		{
-			return await _brandRepository.GetBrand(id);
+			var response = new ServiceResponse<IEnumerable<BrandVM>> ();
+			try
+			{
+				var brands = await _brandRepository.GetBrands();
+				response.Data = _mapper.Map<List<BrandVM>>(brands);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
 
-
-
-		public async Task<Brand> UpdateBrand(int id, Brand newBrand)
+		public async Task<ServiceResponse<BrandVM>> UpdateBrand(int id, BrandDTO dto)
 		{
-			return await _brandRepository.UpdateBrand(id, newBrand);
+			var response = new ServiceResponse<BrandVM>();
+			try
+			{
+				var brand = _mapper.Map<Brand>(dto);
+				brand.Id = id;
+				brand = await _brandRepository.UpdateBrand(brand);
+				response.Data = _mapper.Map<BrandVM>(brand);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
 		}
-
 	}
 }

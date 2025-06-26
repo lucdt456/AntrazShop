@@ -1,0 +1,163 @@
+@use '../utils' as *;
+
+/*----------------------------------------*/
+/*  09. EFFECT CSS
+/*----------------------------------------*/
+
+
+.tpcolor {
+    &__purple {
+        & a {
+            & i {
+                background-color: var(--tp-grey-3);
+            }
+        }
+    }
+    &__yellow {
+        & a {
+            & i {
+                background-color: var(--tp-grey-4);
+            }
+        }
+    }
+    &__greenish {
+        & a {
+            & i {
+                background-color: var(--tp-grey-5);
+            }
+        }
+    }
+    &__oasis {
+        & a,
+        & button {
+            & i {
+                background-color: var(--tp-grey-6);
+            }
+        }
+    }
+}
+.tperror {
+    &__thumb {
+        & > img {
+            animation: left-right 3s infinite linear;
+            max-width: 100%;
+        }
+    }
+    &__shape {
+        position: absolute;
+        bottom: -22px;
+        left: 50%;
+        transform: translateX(-60%);
+        z-index: -1;
+        & img {
+            max-width: 100%;
+        }
+    }
+    &__title {
+        font-family: 'Quicksand';
+        font-weight: 700;
+        font-size: 48px;
+        line-height: 40px;
+        letter-spacing: -0.03em;
+        color: var(--tp-heading-primary);
+        @media #{$xs} {
+            font-size: 22px;
+        }
+    }
+    &__content {
+        & p {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 23px;
+            color: var(--tp-text-body);
+            margin-bottom: 45px;
+        }
+    }
+    &__btn {
+        & a {
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 19px;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--tp-common-white);
+            background-color: var(--tp-heading-secondary);
+            display: inline-block;
+            padding: 16px 35px;
+            border-radius: 30px;
+            &:hover {
+                background-color:  #859A00;
+            }
+        }
+    }
+}
+.tpvideo {
+    &__bg {
+        & img {
+            border-radius: 10px;
+            max-width: 100%;
+        }
+    }
+    &__video-btn {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        transform: translateY(-50%);
+        & i {
+            height: 60px;
+            width: 60px;
+            line-height: 55px;
+            text-align: center;
+            background-color: rgb(255, 255, 255, .3);
+            display: inline-block;
+            border-radius: 50%;
+            border: 1px solid var(--tp-common-white);
+            @media #{$xs} {
+                height: 40px;
+                width: 40px;
+                line-height: 37px;
+            }
+        }
+    }
+    &__icon {
+        & i {
+            font-family: var(--tp-ff-jost);
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 35px;
+            text-transform: uppercase;
+            color: #96AE00;
+            display: flex;
+            align-items: baseline;
+            & img {
+                max-width: 100%;
+                flex: 0 0 auto;
+                margin-right: 5px;
+            }
+        }
+    }
+    &__title {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 25px;
+        color: var(--tp-heading-primary);
+    }
+    &__content {
+        & p {
+            font-family: var(--tp-ff-jost);
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 23px;
+            color: var(--tp-text-body);
+            & br {
+                @media #{$xl,$lg} {
+                    display: none;
+                }
+            }
+        }
+    }
+}

@@ -9,6 +9,7 @@ $(function () {
     $("#sizePage").val(10);
     size = $("#sizePage").val();
     loadproducts(1, size);
+    loadproduct123();
 });
 
 // Chọn số lưognj sản phẩm trong 1 trang
@@ -172,7 +173,7 @@ function loadPageTableProduct(products) {
             case 2:
                 statusText = '<div class="block-not-available">Hết hàng</div>';
                 break;
-            default: 
+            default:
                 status = "---";
         }
 
@@ -265,7 +266,7 @@ $("#firstPageButton").click(function () {
 
 //Chuyển đến trang cuối cùng
 $("#endPageButton").click(function () {
-   
+
     size = $("#sizePage").val();
     pager.currentPage = pager.totalPage;
     if ($("#searchInput").val() === '') {
@@ -276,7 +277,7 @@ $("#endPageButton").click(function () {
 
 //Chuyển trang bên trái
 $("#leftPageButton").click(function () {
-  
+
     pager.currentPage = pager.currentPage - 1;
     size = $("#sizePage").val();
     if (pager.currentPage < 1) {
@@ -290,7 +291,7 @@ $("#leftPageButton").click(function () {
 
 //chuyển trang bên phải
 $("#rightPageButton").click(function () {
-   
+
     pager.currentPage = pager.currentPage + 1;
     if (pager.currentPage > pager.totalPage) {
         pager.currentPage = pager.totalPage;
@@ -433,7 +434,7 @@ function closeView() {
         loadproducts(pager.currentPage, pager.size);
     } else
         $(".error-message").text("");
-        searchProducts(pager.currentPage, pager.size);
+    searchProducts(pager.currentPage, pager.size);
 }
 
 //save update
