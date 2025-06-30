@@ -5,7 +5,7 @@ $(function () {
 //get
 function loadproducts() {
     $.ajax({
-        url: 'https://localhost:7092/api/Brand',
+        url: window.API_URL + `/Brand`,
         type: 'GET',
         dataType: 'json',
         success: function (response) {

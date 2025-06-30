@@ -292,6 +292,20 @@ namespace AntrazShop.Services
 			return response;
 		}
 
-
+		public async Task<ServiceResponse<string>> DeleteAccount(int userId)
+		{
+			var response = new ServiceResponse<string>();
+			try
+			{
+				await _accountManagerRepository.DeleteAccount(userId);
+				response.Data = "Xoá thành công!";
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
 	}
 }

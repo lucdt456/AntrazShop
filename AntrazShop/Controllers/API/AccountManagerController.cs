@@ -53,6 +53,7 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
+		//[Authorize(Policy = "CanGetUserCustomer")]
 		//Lấy - Tìm kiếm tài khoản khách hàng
 		[HttpGet("Customer/{page}/{take}")]
 		public async Task<IActionResult> GetCustomerAccounts(string search = "", int page = 1, int take = 10)
@@ -139,6 +140,19 @@ namespace AntrazShop.Controllers.API
 		public async Task<IActionResult> EditAuthUser(int userId, [FromBody] bool isActive)
 		{
 			var response = await _accountService.SetUserAuthInfo(userId, isActive);
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
+		}
+
+		//
+		[HttpDelete("{userId}")]
+		public async Task<IActionResult> DeleteAccount(int userId)
+		{
+			var response = await _accountManagerService.DeleteAccount(userId);
 
 			if (!response.IsSuccess)
 			{

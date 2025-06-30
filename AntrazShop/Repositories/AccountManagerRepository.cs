@@ -184,5 +184,13 @@ namespace AntrazShop.Repositories
 					.Take(50)
 					.ToListAsync();
 		}
+
+		public async Task DeleteAccount(int userId)
+		{
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null) throw new Exception("Không tìm thấy tài khoản!");
+			_context.Users.Remove(user);
+			await _context.SaveChangesAsync();
+		}
 	}
 }

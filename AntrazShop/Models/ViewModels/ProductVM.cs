@@ -18,6 +18,9 @@ namespace AntrazShop.Models.ViewModels
 		public string Brand { get; set; }
 		public string Category { get; set; }
 		public double Rating { get; set; }
+		public int SoldAmount { get; set; }
+		public DateTime CreateAt { get; set; }
 		public List<ProductColorCapacityVM> ProductCCs { get; set; } = new();
+
 	}
 }	

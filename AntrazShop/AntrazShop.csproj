@@ -7,6 +7,71 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Migrations\20250309054209_CreateDatabase.cs" />
+    <Content Include="Migrations\20250309054209_CreateDatabase.Designer.cs" />
+    <Content Include="Migrations\20250312164405_editProduct.cs" />
+    <Content Include="Migrations\20250312164405_editProduct.Designer.cs" />
+    <Content Include="Migrations\20250313163517_addstockproduct.cs" />
+    <Content Include="Migrations\20250313163517_addstockproduct.Designer.cs" />
+    <Content Include="Migrations\20250313164011_addstockproduct2.cs" />
+    <Content Include="Migrations\20250313164011_addstockproduct2.Designer.cs" />
+    <Content Include="Migrations\20250317092228_phanquyen.cs" />
+    <Content Include="Migrations\20250317092228_phanquyen.Designer.cs" />
+    <Content Include="Migrations\20250317112620_genderUser.cs" />
+    <Content Include="Migrations\20250317112620_genderUser.Designer.cs" />
+    <Content Include="Migrations\20250317201231_deleteRoleTableUser.cs" />
+    <Content Include="Migrations\20250317201231_deleteRoleTableUser.Designer.cs" />
+    <Content Include="Migrations\20250318091112_updadatePhanQuyen.cs" />
+    <Content Include="Migrations\20250318091112_updadatePhanQuyen.Designer.cs" />
+    <Content Include="Migrations\20250322142217_logobrandcategory.cs" />
+    <Content Include="Migrations\20250322142217_logobrandcategory.Designer.cs" />
+    <Content Include="Migrations\20250330161030_UpdateModelNN.cs" />
+    <Content Include="Migrations\20250330161030_UpdateModelNN.Designer.cs" />
+    <Content Include="Migrations\20250401104012_AddAvataUser.cs" />
+    <Content Include="Migrations\20250401104012_AddAvataUser.Designer.cs" />
+    <Content Include="Migrations\20250401111212_DeleteControllerActionsPermissions.cs" />
+    <Content Include="Migrations\20250401111212_DeleteControllerActionsPermissions.Designer.cs" />
+    <Content Include="Migrations\20250402055252_AddColorAndCapacityToProduct.cs" />
+    <Content Include="Migrations\20250402055252_AddColorAndCapacityToProduct.Designer.cs" />
+    <Content Include="Migrations\20250402070620_a.cs" />
+    <Content Include="Migrations\20250402070620_a.Designer.cs" />
+    <Content Include="Migrations\20250402083256_AddNameColor.cs" />
+    <Content Include="Migrations\20250402083256_AddNameColor.Designer.cs" />
+    <Content Include="Migrations\20250402092213_AddTableColorCapacity.cs" />
+    <Content Include="Migrations\20250402092213_AddTableColorCapacity.Designer.cs" />
+    <Content Include="Migrations\20250402093447_ProductColorCapacity.cs" />
+    <Content Include="Migrations\20250402093447_ProductColorCapacity.Designer.cs" />
+    <Content Include="Migrations\20250402095433_UpdateCapacityTable.cs" />
+    <Content Include="Migrations\20250402095433_UpdateCapacityTable.Designer.cs" />
+    <Content Include="Migrations\20250403073941_AddColorCapaciyTabeDbset.cs" />
+    <Content Include="Migrations\20250403073941_AddColorCapaciyTabeDbset.Designer.cs" />
+    <Content Include="Migrations\20250424125944_AddFolderChoProduct.cs" />
+    <Content Include="Migrations\20250424125944_AddFolderChoProduct.Designer.cs" />
+    <Content Include="Migrations\20250516035319_BoSungUserVaProductCC.cs" />
+    <Content Include="Migrations\20250516035319_BoSungUserVaProductCC.Designer.cs" />
+    <Content Include="Migrations\20250624105930_AddAuthAcount.cs" />
+    <Content Include="Migrations\20250624105930_AddAuthAcount.Designer.cs" />
+    <Content Include="Migrations\20250625104359_AddSaleTable.cs" />
+    <Content Include="Migrations\20250625104359_AddSaleTable.Designer.cs" />
+    <Content Include="Migrations\20250626145110_EditTableCC.cs" />
+    <Content Include="Migrations\20250626145110_EditTableCC.Designer.cs" />
+    <Content Include="Migrations\20250626150530_AddValidateTable.cs" />
+    <Content Include="Migrations\20250626150530_AddValidateTable.Designer.cs" />
+    <Content Include="Migrations\20250626195645_AddCreateAt.cs" />
+    <Content Include="Migrations\20250626195645_AddCreateAt.Designer.cs" />
+    <Content Include="Migrations\20250627024450_EditTableCartTotal.cs" />
+    <Content Include="Migrations\20250627024450_EditTableCartTotal.Designer.cs" />
+    <Content Include="Migrations\ShopDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />

@@ -86,7 +86,7 @@ function setting() {
 
 function loadCategoryData() {
     $.ajax({
-        url: `https://localhost:7092/api/Category`,
+        url: window.API_URL + `/Category`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
@@ -126,7 +126,7 @@ function loadCategoryData() {
 
 function loadBrandData() {
     $.ajax({
-        url: `https://localhost:7092/api/Brand`,
+        url: window.API_URL + `/Brand`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token

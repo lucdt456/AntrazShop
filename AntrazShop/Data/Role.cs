@@ -15,6 +15,7 @@ namespace AntrazShop.Data
 
 		[StringLength(255)]
 		public string Description { get; set; }
+		public DateTime CreateAt { get; set; }
 
 		public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 		public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();

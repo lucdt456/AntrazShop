@@ -94,81 +94,30 @@
                             </div>
 
                             <div style="display: flex; justify-content:space-between">
-                                <h6 class="mb-4">Chức vụ: </h6>
+                                <h6 class="mb-4" style="min-width:100px">Chức vụ: </h6>
                                 <p id="user-list-roles"></p>
                             </div>
 
-                            <!--Gán vai trò-->
-                            <div class="row">
-
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Update product</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="update-product" id="update-product1">
-                                            <label class="" for="update-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="update-product" id="update-product2" checked>
-                                            <label class="" for="update-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Delete product</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="delete-product" id="delete-product1" checked>
-                                            <label class="" for="delete-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="delete-product" id="delete-product2">
-                                            <label class="" for="delete-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Apply discount</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="apply-product" id="apply-product1">
-                                            <label class="" for="apply-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="apply-product" id="apply-product2" checked>
-                                            <label class="" for="apply-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Create coupon</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" disabled type="radio" name="create-product" id="create-product1">
-                                            <label class="" for="create-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" disabled type="radio" name="create-product" id="create-product2" checked>
-                                            <label class="" for="create-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
+                            <div style="text-align:right">
+                                <a onclick="startEditRoles()" style="cursor: pointer;" id="a-edit-role" class="body-text tf-color">Chỉnh sửa vai trò</a>
                             </div>
 
 
+                            <!--Gán vai trò-->
+                            <div class="row" id="list-roles" style="max-height: 380px; overflow-y: auto; overflow-x: hidden; margin-top:10px; display:none">
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
-            @*  <!-- Modal Footer -->
+            <!-- Modal Footer -->
             <div class="modal-footer">
                 <div class="col-7"></div>
                 <div class="col-5" style="display: flex; gap: 10px;">
-                    <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="closeView()">Đóng</button>
-                    <button type="button" class="tf-button w-full" id="btn-edit">Chỉnh sửa</button>
-                    <button type="button" class="tf-button w-full" onclick="saveUpdate()" id="btn-save">Lưu thay đổi</button>
+                    <button type="button" id="btn-cancle" class="tf-button style-1 w-full" onclick="cancleEditRole()">Huỷ</button>
+                    <button type="button" class="tf-button w-full" onclick="saveSetRoles()" id="btn-save">Lưu thay đổi</button>
                 </div>
-            </div> *@
+            </div>
         </div>
     </div>
 </div>
@@ -227,7 +176,6 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="/admin/product/create"><i class="icon-plus"></i>Thêm mới</a>
             </div>
             <table class="antraz-table">
                 <thead>

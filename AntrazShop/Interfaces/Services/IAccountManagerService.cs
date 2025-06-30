@@ -15,5 +15,6 @@ namespace AntrazShop.Interfaces.Services
 		Task<ServiceResponse<AccountVM>> GetUser(int userId);
 		Task<ServiceResponse<List<LoginHistory>>> GetLoginHistories(int userId);
 		Task<ServiceResponse<List<int>>> EditUserRoles(int userId, List<int> roleIds);
+		Task<ServiceResponse<string>> DeleteAccount(int userId);
 	}
 }

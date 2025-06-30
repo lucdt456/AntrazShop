@@ -26,6 +26,7 @@ namespace AntrazShop.Services
 			try
 			{
 				var category = _mapper.Map<Category>(dto);
+				category.CreateAt = DateTime.Now;
 				category = await _categoryRepository.CreateCategory(category);
 				response.Data = _mapper.Map<CategoryVM>(category);
 			}

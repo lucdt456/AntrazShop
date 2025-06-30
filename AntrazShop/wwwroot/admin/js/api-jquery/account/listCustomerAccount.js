@@ -14,8 +14,11 @@ function initializeData() {
 function loadData() {
     setPagerData();
     $.ajax({
-        url: `https://localhost:7092/api/AccountManager/Customer/${pager.currentPage}/${pager.numberShowing}?search=${pager.search}`,
+        url: window.API_URL + `/AccountManager/Customer/${pager.currentPage}/${pager.numberShowing}?search=${pager.search}`,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         dataType: 'json',
         success: function (response) {
             console.log(response);
@@ -89,9 +92,6 @@ function loadData() {
                                 <div class="item eye" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewProduct(${user.id})">
                                  <i class="icon-eye"></i>
                                  </div>
-                                <div class="item edit" onclick="goToEdit(${user.id})">
-                                    <i class="icon-edit-3"></i>
-                                </div>
                                 <div class="item trash" onclick="deleteProduct(${user.id})">
                                     <i class="icon-trash-2"></i>
                                 </div>
@@ -104,7 +104,7 @@ function loadData() {
             });
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
+            handleAjaxError(xhr, status, error, "Lỗi khi load dữ liệu!");
         }
     })
 }

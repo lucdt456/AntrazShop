@@ -9,6 +9,7 @@ using AntrazShop.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,7 +87,10 @@ builder.Services.AddAuthentication(options =>
 	};
 });
 
-
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+	options.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 builder.Services.AddAuthorization(options =>
 {
@@ -121,6 +125,12 @@ builder.Services.AddScoped<IProductCCService, ProductCCService>();
 
 builder.Services.AddScoped <IRoleResponsive, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IShopService, ShopService>();
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

@@ -1,7 +1,5 @@
-using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -24,8 +22,13 @@ namespace AntrazShop.Controllers.API
 		[HttpGet]
 		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{
-			var (products, pagination) = await _productService.GetProducts(page, size);
+			var response = await _productService.GetProducts(page, size);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
 
+			var (products, pagination) = response.Data;
 			return Ok(new
 			{
 				Products = products,
@@ -38,7 +41,13 @@ namespace AntrazShop.Controllers.API
 		[HttpGet("search")]
 		public async Task<IActionResult> SearchProducts(string? search, int page = 1, int size = 10)
 		{
-			var (products, pagination) = await _productService.SearchProducts(search, page, size);
+			var response = await _productService.SearchProducts(search, page, size);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+
+			var (products, pagination) = response.Data;
 			return Ok(new
 			{
 				Products = products,
@@ -50,19 +59,28 @@ namespace AntrazShop.Controllers.API
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProduct(int id)
 		{
-			var product = await _productService.GetProduct(id);
-			if (product != null)
+			var response = await _productService.GetProduct(id);
+			if (!response.IsSuccess)
 			{
-				return Ok(product);
+				// Kiểm tra xem có phải là "not found" không
+				if (response.Errors.Any(e => e.Contains("Không tìm thấy")))
+					return NotFound(new { errors = response.Errors });
+
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
+			return Ok(response.Data);
 		}
 
 		//Tạo sản phẩm
 		[HttpPost("create")]
 		public async Task<IActionResult> AddProduct([FromForm] ProductDTO newProduct)
 		{
-			return Ok(await _productService.AddProduct(newProduct));
+			var response = await _productService.AddProduct(newProduct);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			else return Ok(response.Data);
 		}
 
 		//Edit sản phẩm

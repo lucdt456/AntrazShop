@@ -15,7 +15,7 @@ $(document).ready(function () {
 
         // Gửi dữ liệu (AJAX)
         $.ajax({
-            url: 'https://localhost:7092/api/Account/Login',
+            url: window.API_URL + '/Account/Login',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
@@ -40,25 +40,7 @@ $(document).ready(function () {
                 });
             },
             error: function (xhr, status, error) {
-
-                let errorMessage = 'Đăng nhập thất bại.';
-
-                try {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.errors && response.errors.length > 0) {
-                        errorMessage = response.errors.join('\n');
-                    }
-                } catch (e) {
-                    console.error("Lỗi phân tích phản hồi:", e);
-                }
-
-                swal.fire({
-                    icon: "error",
-                    title: "oops...",
-                    text: errorMessage,
-                    footer: '<a href="#">Tại sao tôi gặp lỗi này?</a>'
-                });
-                console.error(error);
+                handleAjaxError(xhr, status, error, "Đăng nhập không thành công!");
             }
         });
     });

@@ -11,6 +11,7 @@ namespace AntrazShop.Models.ViewModels
 		public Decimal Price { get; set; }
 		public int Stock { get; set; }
 		public int Status { get; set; }
+		public DateTime? CreateAt { get; set; }
 		public List<ProductReviewVM> Reviews { get; set; } = new();
 	}
 }

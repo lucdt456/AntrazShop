@@ -1,4 +1,5 @@
 using AntrazShop.Data;
+using AntrazShop.Helper;
 using AntrazShop.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace AntrazShop.Repositories
 		{
 			List<Product> products = await _context.Products
 				.AsNoTracking()
-				.OrderBy(p => p.Id)
+				.OrderByDescending(p => p.Id)
 				.Skip(recSkip)
 				.Take(take)
 				.Include(p => p.Brand)
@@ -37,7 +38,7 @@ namespace AntrazShop.Repositories
 		{
 			List<Product> products = await _context.Products
 				.AsNoTracking()
-				.OrderBy(p => p.Id)
+				.OrderByDescending(p => p.Id)
 				.Where(p => p.Name.Contains(search) || p.Id.ToString() == search)
 				.Skip(recSkip)
 				.Take(take)
@@ -68,6 +69,7 @@ namespace AntrazShop.Repositories
 						.ThenInclude(r => r.User)
 				.FirstOrDefaultAsync(p => p.Id == id);
 
+			if (product == null) throw new Exception("Không tim thấy sản phẩm");
 			return product;
 		}
 
@@ -117,6 +119,12 @@ namespace AntrazShop.Repositories
 		public async Task<int> GetTotalProductCountSearch(string search)
 		{
 			return await _context.Products.Where(p => p.Name.Contains(search)).CountAsync();
+		}
+
+		public async Task<bool> CheckProductNameExist(string name)
+		{
+			var products = await _context.Products.Select(p => p.Name).ToListAsync();
+			return products.Any(p => FileNameHelper.ToSlug(p) == FileNameHelper.ToSlug(name));
 		}
 	}
 }

@@ -50,6 +50,8 @@ namespace AntrazShop.Data
 		[JsonIgnore]
 		public Sale? Sale { get; set; }
 
+		public DateTime CreateAt { get; set; }
+
 		public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
 		public ICollection<ColorCapacity>? ColorCapacities { get; set; } = new List<ColorCapacity>();
 	}

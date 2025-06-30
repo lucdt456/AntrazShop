@@ -28,8 +28,11 @@ $("#sizePage").change(function () {
 //hàm api lấy ds tất cả sản phẩm
 function loadproducts(page, size) {
     $.ajax({
-        url: `https://localhost:7092/api/Product?page=${page}&size=${size}`,
+        url: window.API_URL + `/Product?page=${page}&size=${size}`,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         dataType: 'json',
         success: function (response) {
             console.log(response);
@@ -83,8 +86,11 @@ function searchProducts(page, size) {
     }
     else {
         $.ajax({
-            url: `https://localhost:7092/api/Product/search?search=${searchQuery}&page=${page}&size=${size}`,
+            url: window.API_URL + `/Product/search?search=${searchQuery}&page=${page}&size=${size}`,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             dataType: 'json',
             success: function (response) {
                 console.log(response);
@@ -324,8 +330,11 @@ function deleteProduct(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `https://localhost:7092/api/Product/${id}`,
+                url: window.API_URL + `/Product/${id}`,
                 type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
                 success: function (response) {
                     swalWithBootstrapButtons.fire({
                         title: "Deleted!",
@@ -375,8 +384,11 @@ function viewProduct(id) {
     if (id != null) {
         $("#id-product").append(id);
         $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
+            url: window.API_URL + `/Product/${id}`,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             dataType: 'json',
             success: function (product) {
 
@@ -437,56 +449,6 @@ function closeView() {
     searchProducts(pager.currentPage, pager.size);
 }
 
-//save update
-function saveUpdate() {
-    let urlParams = new URLSearchParams(window.location.search);
-    let id = $("#id-product").val().substring(1);
-    console.log(id);
-    let isValid = validateInput();
-    let imageNameNew = $("#imageView").val().split("\\").pop();
-
-    if (imageNameNew === "") {
-        imageNameNew = $("#imageProductName").val();
-    }
-    if (isValid == true) {
-        let product = {
-            name: $("#name").val(),
-            price: $("#price").val(),
-            discountAmount: $("#discountAmount").val(),
-            description: $("#description").val(),
-            imageView: imageNameNew,
-            brandId: $("#brandid").val(),
-            categoryId: $("#categoryid").val(),
-            status: $("#status").val(),
-            stock: $("#stock").val()
-        }
-        productJson = JSON.stringify(product);
-        $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: productJson,
-            success: function (response) {
-                swal.fire({
-                    title: "Cập nhật thành công",
-                    icon: "success",
-                    draggable: true
-                }).then(() => {
-                    viewProduct(id);
-                });
-            },
-            error: function (xhr, status, error) {
-                swal.fire({
-                    icon: "error",
-                    title: "oops...",
-                    text: "lỗi không cập nhật được sản phẩm" + xhr.responseText,
-                    footer: '<a href="#">why do i have this issue?</a>'
-                });
-                console.error(error);
-            }
-        });
-    }
-}
 //validate
 function validateInput() {
     $(".error-message").text("");

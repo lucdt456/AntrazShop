@@ -2,9 +2,7 @@ using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
-using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
-using System.Drawing;
 
 namespace AntrazShop.Services
 {
@@ -22,99 +20,102 @@ namespace AntrazShop.Services
 		{
 			var response = new ServiceResponse<ColorCapacity>();
 			try
-			{				
-				
+			{
 				var productCC = await _productCCRepository.GetProductCC(id);
 				string oldImageName = productCC.Image;
 				string oldImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, oldImageName);
-				string newImageName = "";
 
-				if (FileNameHelper.ToSlug(productCC.Color.NameColor) != FileNameHelper.ToSlug(dTO.ColorName)
-					|| FileNameHelper.ToSlug(productCC.Capacity.Value) != FileNameHelper.ToSlug(dTO.CapacityValue))
+				// Kiểm tra có thay đổi màu/capacity không
+				bool isColorChanged = FileNameHelper.ToSlug(productCC.Color.NameColor) != FileNameHelper.ToSlug(dTO.ColorName);
+				bool isCapacityChanged = FileNameHelper.ToSlug(productCC.Capacity.Value) != FileNameHelper.ToSlug(dTO.CapacityValue);
+
+				if (isColorChanged || isCapacityChanged)
 				{
-
+					// Kiểm tra trùng lặp
 					var productCCs = await _productCCRepository.GetProductCCsFromCCid(id);
-					var checkExistCC = false;
+					var checkExistCC = productCCs.Any(cc =>
+						FileNameHelper.ToSlug(cc.Color.NameColor) == FileNameHelper.ToSlug(dTO.ColorName) &&
+						FileNameHelper.ToSlug(cc.Capacity.Value) == FileNameHelper.ToSlug(dTO.CapacityValue));
 
-					foreach (var cc in productCCs)
-					{
-						if (FileNameHelper.ToSlug(cc.Color.NameColor) == FileNameHelper.ToSlug(dTO.ColorName)
-						&& FileNameHelper.ToSlug(cc.Capacity.Value) == FileNameHelper.ToSlug(dTO.CapacityValue))
-						{
-							checkExistCC = true;
-						}
-					}
-
-					if (!checkExistCC)
-					{
-						if (dTO.Image == null)
-						{
-							newImageName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + Path.GetExtension(oldImageName);
-
-							string newImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, newImageName);
-
-							try
-							{
-								File.Move(oldImageUrl, newImageUrl);
-							}
-							catch
-							{
-								response.IsSuccess = false;
-								response.Errors.Add("Lỗi khi đổi tên file ảnh!");
-								return response;
-							}
-						}
-						else
-						{
-							newImageName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + Path.GetExtension(dTO.Image.FileName);
-
-							string newImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, newImageName);
-
-							try
-							{
-								File.Delete(oldImageUrl);
-								using (var stream = new FileStream(newImageUrl, FileMode.Create))
-								{
-									await dTO.Image.CopyToAsync(stream);
-								}
-							}
-							catch
-							{
-								response.IsSuccess = false;
-								response.Errors.Add("Lỗi khi thay thế file ảnh");
-								return response;
-							}
-						}
-						var colorIdUpdate = await _productCCRepository.AddColor(dTO.ColorName);
-
-						var capacityIdUpdate = await _productCCRepository.AddCapacity(dTO.CapacityValue);
-
-						var colorCapacityUpdate = new ColorCapacity
-						{
-							Stock = dTO.Stock,
-							Price = dTO.Price,
-							ColorId = colorIdUpdate,
-							CapacityId = capacityIdUpdate,
-							Status = dTO.Status,
-							Image = newImageName
-						};
-
-						response.Data = await _productCCRepository.EditColorCapacity(id, colorCapacityUpdate);
-						
-					}
-					else
+					if (checkExistCC)
 					{
 						response.IsSuccess = false;
 						response.Errors.Add("Phân loại sản phẩm đã tồn tại!");
 						return response;
 					}
+
+					string newImageName = "";
+					if (dTO.Image == null)
+					{
+						newImageName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + $"{DateTime.Now:yyyyMMddHHmmss}" + Path.GetExtension(oldImageName);
+						string newImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, newImageName);
+
+						File.Move(oldImageUrl, newImageUrl);
+					}
+					else
+					{
+						newImageName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + $"{DateTime.Now:yyyyMMddHHmmss}" + Path.GetExtension(dTO.Image.FileName);
+						string newImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, newImageName);
+
+						File.Delete(oldImageUrl);
+						using (var stream = new FileStream(newImageUrl, FileMode.Create))
+						{
+							await dTO.Image.CopyToAsync(stream);
+						}
+					}
+
+					var colorIdUpdate = await _productCCRepository.AddColor(dTO.ColorName);
+					var capacityIdUpdate = await _productCCRepository.AddCapacity(dTO.CapacityValue);
+
+					var colorCapacityUpdate = new ColorCapacity
+					{
+						Stock = dTO.Stock,
+						Price = dTO.Price,
+						ColorId = colorIdUpdate,
+						CapacityId = capacityIdUpdate,
+						Status = dTO.Status,
+						Image = newImageName
+					};
+
+					response.Data = await _productCCRepository.EditColorCapacity(id, colorCapacityUpdate);
 				}
+				else
+				{
+					string finalImageName = oldImageName;
+
+					if (dTO.Image != null)
+					{
+						// Có ảnh mới, thay thế
+						finalImageName = Path.GetFileNameWithoutExtension(oldImageName) + $"{DateTime.Now:yyyyMMddHHmmss}" + Path.GetExtension(dTO.Image.FileName);
+						string newImageUrl = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, finalImageName);
+
+						File.Delete(oldImageUrl);
+						using (var stream = new FileStream(newImageUrl, FileMode.Create))
+						{
+							await dTO.Image.CopyToAsync(stream);
+						}
+					}
+
+					var colorCapacityUpdate = new ColorCapacity
+					{
+						Stock = dTO.Stock,
+						Price = dTO.Price,
+						ColorId = productCC.ColorId,
+						CapacityId = productCC.CapacityId,
+						Status = dTO.Status,
+						Image = finalImageName
+					};
+
+					response.Data = await _productCCRepository.EditColorCapacity(id, colorCapacityUpdate);
+				}
+
+				response.IsSuccess = true;
 				return response;
 			}
 			catch (Exception ex)
 			{
 				response.IsSuccess = false;
-				response.Errors.Add("Lỗi: " + ex.Message);
+				response.Errors.Add("Lỗi không cập nhật được sản phẩm: " + ex.Message);
 				return response;
 			}
 		}
@@ -137,7 +138,7 @@ namespace AntrazShop.Services
 
 				if (!checkExistCC)
 				{
-					var imageFileName = FileNameHelper.ToSlug(dTO.ColorName) + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + Path.GetExtension(dTO.Image.FileName);
+					var imageFileName = FileNameHelper.ToSlug(dTO.ColorName) + $"{DateTime.Now:yyyyMMddHHmmss}" + '_' + FileNameHelper.ToSlug(dTO.CapacityValue) + Path.GetExtension(dTO.Image.FileName);
 					var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "product", productFolder, imageFileName);
 
 					try
@@ -166,7 +167,8 @@ namespace AntrazShop.Services
 						CapacityId = capacityId,
 						ProductId= idProduct,
 						Status = dTO.Status,
-						Image = imageFileName
+						Image = imageFileName,
+						CreateAt = DateTime.Now
 					};
 					try
 					{

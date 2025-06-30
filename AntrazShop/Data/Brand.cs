@@ -19,4 +19,5 @@ public class Brand
 
 	[StringLength(255)]
 	public string? Logo { get; set; }
+	public DateTime CreateAt { get; set; }
 }

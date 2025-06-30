@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AntrazShop.Data
 {
+	// Ví dụ Entity User
 	[Table("Users")]
 	public class User
 	{

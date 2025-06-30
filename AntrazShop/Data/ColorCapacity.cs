@@ -53,9 +53,15 @@ namespace AntrazShop.Data
 		[Range(0, int.MaxValue)]
 		public int SoldAmount { get; set; } = 0;
 
+		public DateTime? CreateAt { get; set; }
+
+		[JsonIgnore]
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
+		[JsonIgnore]
 		public ICollection<WishList> WishLists { get; set; } = new List<WishList>();
+		[JsonIgnore]
 		public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+		[JsonIgnore]
 		public ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 	}
 }

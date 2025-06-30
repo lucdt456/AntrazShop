@@ -1,9 +1,9 @@
 //chạy lúc load trang
 $(function () {
     initializeData();
+    loadRoles();
     loadData();
     setPaginationButtonStyle();
-    viewUser(1006);
 });
 
 //hàm khởi tạo biến ban đầu
@@ -18,14 +18,13 @@ var idTarget = 1000;
 function loadData() {
     setPagerData();
     $.ajax({
-        url: `https://localhost:7092/api/AccountManager/Worker/${pager.currentPage}/${pager.numberShowing}?search=${pager.search}`,
+        url: window.API_URL + `/AccountManager/Worker/${pager.currentPage}/${pager.numberShowing}?search=${pager.search}`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
         },
         dataType: 'json',
         success: function (response) {
-            console.log(response);
             $("#table-data").empty();
             $('#pageNumber li:nth-child(n+3):nth-last-child(n+3)').remove();
 
@@ -64,6 +63,7 @@ function loadData() {
                     rolesString = rolesString + "...";
                 }
 
+
                 //Hiển thị data
                 $("#table-data").append(
                     `<tr class="antraz-table-list">
@@ -96,9 +96,6 @@ function loadData() {
                                 <div class="item eye" data-bs-target="#viewModal" onclick="viewUser(${user.id})">
                                  <i class="icon-eye"></i>
                                  </div>
-                                <div class="item edit" onclick="goToEdit(${user.id})">
-                                    <i class="icon-edit-3"></i>
-                                </div>
                                 <div class="item trash" onclick="deleteProduct(${user.id})">
                                     <i class="icon-trash-2"></i>
                                 </div>
@@ -111,23 +108,25 @@ function loadData() {
             });
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
+            handleAjaxError(xhr, status, error, "Lỗi khi tải danh sách người dùng!");
         }
     })
 }
 
 function viewUser(id) {
-    document.getElementById("table-history-visiable").style.display = "none";
+    $("#list-roles").hide();
+    $("#table-history-visiable").hide();
     idTarget = id;
     $('#viewModal').modal('show');
     $.ajax({
-        url: `https://localhost:7092/api/AccountManager/${idTarget}`,
+        url: window.API_URL + `/AccountManager/${idTarget}`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
         },
         dataType: 'json',
         success: function (response) {
+            console.log(response);
             $("#user-email").text(response.email);
             $("#user-name").text(response.name);
             $("#user-birthday").text(response.birthday);
@@ -140,18 +139,25 @@ function viewUser(id) {
             $('#avatar-image').attr('src', `/admin/imgs/avatar/${response.avatar}`);
 
             document.getElementById("isActive").checked = response.isActive;
+
+            $.each(response.roles, function (index, role) {
+                let rolenameId = 'role-id-' + role.id;
+                $(`input[name="${rolenameId}"][value="${role.id}"]`).prop('checked', true);
+            });
+        
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
+            handleAjaxError(xhr, status, error, "Lỗi khi load thông tin người dùng!");
         }
     })
 }
 
+//Lịch sử đăng nhập
 function historyLogin() {
-    document.getElementById("table-history-visiable").style.display = "table";
+    $("#table-history-visiable").show();
 
     $.ajax({
-        url: `https://localhost:7092/api/AccountManager/LoginHistory/${idTarget}`,
+        url: window.API_URL + `/AccountManager/LoginHistory/${idTarget}`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token
@@ -175,12 +181,102 @@ function historyLogin() {
                         </th>
                     </tr>`
                 )
-
-                setPaginationButtonStyle();
             });
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
+            handleAjaxError(xhr, status, error, "Lỗi khi load lịch sử đăng nhập!");
         }
     })
 }
+
+function loadRoles() {
+    document.getElementById("table-history-visiable").style.display = "table";
+
+    $.ajax({
+        url: window.API_URL + `/Role/1/100`,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        dataType: 'json',
+        success: function (response) {
+            $("#list-roles").empty();
+            console.log(response);
+
+            $.each(response.roles, function (index, role) {
+                let idRoleName = 'role-id-' + role.id;
+                $("#list-roles").append(
+                    ` <fieldset class="col-6 mb-24">
+                                    <div class="body-title mb-10">${role.name}</div>
+                                    <div class="radio-buttons">
+                                        <div class="item">
+                                            <input class="" type="radio" value="${role.id}" name="${idRoleName}" id="${idRoleName}-on">
+                                            <label class="" for="${idRoleName}-on"><span class="body-title-2">Bật</span></label>
+                                        </div>
+                                        <div class="item">
+                                            <input class="" type="radio" name="${idRoleName}" value="0" id="${idRoleName}-off" checked>
+                                            <label class="" for="${idRoleName}-off"><span class="body-title-2">Tẳt</span></label>
+                                        </div>
+                                    </div>
+                                </fieldset>`
+                )
+            });
+        },
+        error: function (xhr, status, error) {
+
+            handleAjaxError(xhr, status, error, "Lỗi khi load trò!");
+        }
+    })
+}
+
+function saveSetRoles() {
+    let selectedRoles = [];
+    $('input[type="radio"]:checked').each(function () {
+        let value = $(this).val();
+        if (value != "0") {
+            selectedRoles.push(parseInt(value));
+        }
+    });
+
+    $.ajax({
+        url: window.API_URL + `/AccountManager/EditUserRoles/${idTarget}`,
+        type: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(selectedRoles),
+        success: function (response) {
+            swal.fire({
+                title: "Cập nhật vai trò thành công!",
+                icon: "success",
+                draggable: true
+            }).then(() => {
+                viewUser(idTarget);
+            });
+        },
+        error: function (xhr, status, error) {
+            handleAjaxError(xhr, status, error, "Lỗi khi cập nhật vai trò!");
+        }
+    });
+}
+
+//Hàm mở edit roles
+function startEditRoles() {
+    $("#list-roles").show();
+    $("#btn-cancle").show();
+    $("#btn-save").show();
+}
+function cancleEditRole() {
+    $("#list-roles").hide();
+    $("#btn-cancle").hide();
+    $("#btn-save").hide();
+}
+
+//Hàm khi đóng modal
+$('#viewModal').on('hide.bs.modal', function () {
+    loadData();
+    $("#list-roles").hide();
+    $("#btn-cancle").hide();
+    $("#btn-save").hide();
+});

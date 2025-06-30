@@ -1,6 +1,4 @@
 using AntrazShop.Data;
-using AntrazShop.Models.DTOModels;
-using AntrazShop.Models.ViewModels;
 
 namespace AntrazShop.Interfaces.Repositories
 {
@@ -14,5 +12,6 @@ namespace AntrazShop.Interfaces.Repositories
 		Task DeleteProduct(int id);
 		Task<IEnumerable<Product>> GetProductsWithDetails(int recSkip, int take);
 		Task<int> GetTotalProductCountSearch(string search);
+		Task<bool> CheckProductNameExist(string name);
 	}
 }
