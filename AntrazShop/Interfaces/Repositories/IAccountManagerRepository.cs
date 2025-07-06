@@ -25,5 +25,6 @@ namespace AntrazShop.Interfaces.Repositories
 		Task AddLoginHistory(LoginHistory loginHistory);
 		Task<List<LoginHistory>> GetLoginHistories(int userId);
 		Task DeleteAccount(int userId);
+		Task DeleteAuthAccount(int userId);
 	}
 }

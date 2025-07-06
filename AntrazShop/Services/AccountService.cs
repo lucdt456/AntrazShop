@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity.Data;
 
 namespace AntrazShop.Services
 {
@@ -42,6 +43,7 @@ namespace AntrazShop.Services
 				{
 					response.IsSuccess = false;
 					response.Errors.Add("Email đã tổn tại!!");
+					return response;
 				}
 
 				var passwordHasher = new PasswordHasher<User>();
@@ -251,6 +253,59 @@ namespace AntrazShop.Services
 				response.Errors.Add(ex.Message);
 			}
 			return response;
+		}
+
+		public async Task<ServiceResponse<string>> SetPassword(int userId, string password)
+		{
+			var response = new ServiceResponse<string>();
+			try
+			{
+				var user = await _accountManagerRepository.GetUser(userId);
+				var passwordHasher = new PasswordHasher<User>();
+				string stringPasswordHash = passwordHasher.HashPassword(new User(), password);
+				await _accountRepository.SetUserPassword(userId, stringPasswordHash);
+				response.Data = "Đổi mật khẩu thành công";
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<string>> ChangePassword(ChangePasswordDTO dto)
+		{
+			var response = new ServiceResponse<string>();
+			try
+			{
+				var passwordHasher = new PasswordHasher<User>();
+				var user = await _accountRepository.FindUser(dto.Email);
+				//Check tồn tại
+				if (user == null)
+				{
+					response.IsSuccess = false;
+					response.Errors.Add("Email không tồn tại!");
+					return response;
+				}
+				var result = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
+
+				if (result == PasswordVerificationResult.Failed)
+				{
+					response.IsSuccess = false;
+					response.Errors.Add("Mật khẩu không chính xác!");
+					return response;
+				};
+
+				return  await SetPassword(user.Id, dto.NewPassword);
+			}
+
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+				return response;
+			}		
 		}
 	}
 }

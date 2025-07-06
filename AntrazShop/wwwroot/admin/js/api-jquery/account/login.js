@@ -23,21 +23,23 @@ $(document).ready(function () {
                 password: password
             }),
             success: function (response) {
-
-                swal.fire({
-                    title: "Đăng nhập thành công",
+                Swal.fire({
+                    position: "center",
                     icon: "success",
-                    draggable: true
-                }).then(() => {
+                    title: "Đăng nhập thành công!",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+                setTimeout(() => {
                     if (response.token) {
-                        localStorage.setItem('token', response.token); // Lưu token vào localStorage
+                        localStorage.setItem('token', response.token);
                         let decoded = jwt_decode(response.token);
                         if (decoded.IsWorkerAccount == "True") {
                             window.location.href = '/admin/dashboard';
                         }
                         else window.location.href = '/';
                     }
-                });
+                }, 1000);
             },
             error: function (xhr, status, error) {
                 handleAjaxError(xhr, status, error, "Đăng nhập không thành công!");

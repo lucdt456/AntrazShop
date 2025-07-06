@@ -1,5 +1,6 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -36,7 +37,6 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
-		//[Authorize]
 		//Tìm kiếm sản phẩm
 		[HttpGet("search")]
 		public async Task<IActionResult> SearchProducts(string? search, int page = 1, int size = 10)
@@ -62,16 +62,13 @@ namespace AntrazShop.Controllers.API
 			var response = await _productService.GetProduct(id);
 			if (!response.IsSuccess)
 			{
-				// Kiểm tra xem có phải là "not found" không
-				if (response.Errors.Any(e => e.Contains("Không tìm thấy")))
-					return NotFound(new { errors = response.Errors });
-
 				return BadRequest(new { errors = response.Errors });
 			}
 			return Ok(response.Data);
 		}
 
 		//Tạo sản phẩm
+		[Authorize(Policy = "CanAddProduct")]
 		[HttpPost("create")]
 		public async Task<IActionResult> AddProduct([FromForm] ProductDTO newProduct)
 		{
@@ -84,6 +81,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Edit sản phẩm
+		[Authorize(Policy = "CanUpdateProduct")]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDTO productUpdate)
 		{
@@ -95,6 +93,7 @@ namespace AntrazShop.Controllers.API
 			else return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanDeleteProduct")]
 		//Xoá sản phẩm
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProduct(int id)
@@ -108,6 +107,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Chỉnh sửa phân loại sản phẩm
+		[Authorize(Policy = "CanEditProductCC")]
 		[HttpPut("{productFolder}/{idCC}")]
 		public async Task<IActionResult> EditProductCC(string productFolder, int idCC, [FromForm] ProductColorCapacityDTO dTO)
 		{
@@ -120,6 +120,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Tạo phân loại sản phẩm mới
+		[Authorize(Policy = "CanCreateProductCC")]
 		[HttpPost("{idProduct}/{productFolder}")]
 		public async Task<IActionResult> CreateProductCC(int idProduct, string productFolder, [FromForm] ProductColorCapacityDTO dTO)
 		{
@@ -132,6 +133,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Xoá phân loại sản phẩm
+		[Authorize(Policy = "CanDeleteProductCC")]
 		[HttpDelete("{id}/{productFolder}")]
 		public async Task<IActionResult> DeleteProductCC(int id, string productFolder)
 		{

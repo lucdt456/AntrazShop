@@ -1,7 +1,6 @@
 $(function () {
     findH3CreateOrUpdate();
 });
-
 var productEdit = {
     imageView: '',
     folderImage: ''

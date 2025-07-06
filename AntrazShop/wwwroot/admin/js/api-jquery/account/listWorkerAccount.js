@@ -25,6 +25,7 @@ function loadData() {
         },
         dataType: 'json',
         success: function (response) {
+            console.log(response);
             $("#table-data").empty();
             $('#pageNumber li:nth-child(n+3):nth-last-child(n+3)').remove();
 
@@ -63,6 +64,18 @@ function loadData() {
                     rolesString = rolesString + "...";
                 }
 
+                let isActive = '';
+                switch (user.isActive) {
+                    case true:
+                        isActive = `<div class="body-text" style="color: #22c55e; font-weight: bold; background-color: #dcfce7; padding: 8px 12px; border-radius: 6px; text-align: center; margin-right: 15px; display: inline-block; min-width: 100px;">Hoạt động</div>`;
+                        break;
+                    case false:
+                        isActive = `<div class="body-text" style="color: #ef4444; font-weight: bold; background-color: #fee2e2; padding: 8px 12px; border-radius: 6px; text-align: center; margin-right: 15px; display: inline-block; min-width: 100px;">Đang khóa</div>`;
+                        break;
+                    default:
+                        isActive = `<div class="body-text" style="color: #6b7280; font-weight: bold; background-color: #f3f4f6; padding: 8px 12px; border-radius: 6px; text-align: center; margin-right: 15px; display: inline-block; min-width: 100px;">Không xác định</div>`;
+                        break;
+                }
 
                 //Hiển thị data
                 $("#table-data").append(
@@ -86,6 +99,9 @@ function loadData() {
                             <div class="body-text">${rolesString}</div>
                         </th>
                         <th class="antraz-table-item">
+                           ${isActive}
+                        </th>
+                        <th class="antraz-table-item">
                             <div class="body-text">${user.gender}</div>
                         </th>
                         <th class="antraz-table-item">
@@ -96,16 +112,15 @@ function loadData() {
                                 <div class="item eye" data-bs-target="#viewModal" onclick="viewUser(${user.id})">
                                  <i class="icon-eye"></i>
                                  </div>
-                                <div class="item trash" onclick="deleteProduct(${user.id})">
+                                <div class="item trash" onclick="deleteAccount(${user.id})">
                                     <i class="icon-trash-2"></i>
                                 </div>
                             </div>
                         </th>   
                     </tr>`
                 )
-
-                setPaginationButtonStyle();
             });
+            setPaginationButtonStyle();
         },
         error: function (xhr, status, error) {
             handleAjaxError(xhr, status, error, "Lỗi khi tải danh sách người dùng!");
@@ -114,6 +129,7 @@ function loadData() {
 }
 
 function viewUser(id) {
+    $("#a-edit-role").show();
     $("#list-roles").hide();
     $("#table-history-visiable").hide();
     idTarget = id;
@@ -215,7 +231,7 @@ function loadRoles() {
                                         </div>
                                         <div class="item">
                                             <input class="" type="radio" name="${idRoleName}" value="0" id="${idRoleName}-off" checked>
-                                            <label class="" for="${idRoleName}-off"><span class="body-title-2">Tẳt</span></label>
+                                            <label class="" for="${idRoleName}-off"><span class="body-title-2">Tắt</span></label>
                                         </div>
                                     </div>
                                 </fieldset>`
@@ -266,17 +282,92 @@ function startEditRoles() {
     $("#list-roles").show();
     $("#btn-cancle").show();
     $("#btn-save").show();
+    $("#a-edit-role").hide();
 }
 function cancleEditRole() {
     $("#list-roles").hide();
     $("#btn-cancle").hide();
     $("#btn-save").hide();
+    $("#a-edit-role").show();
 }
 
 //Hàm khi đóng modal
 $('#viewModal').on('hide.bs.modal', function () {
     loadData();
+    $('input[type="radio"][value="0"]').prop('checked', true);
     $("#list-roles").hide();
     $("#btn-cancle").hide();
     $("#btn-save").hide();
 });
+
+
+//Xoá tài khoản
+function deleteAccount(userId) {
+    Swal.fire({
+        title: "Chắc chắn xoá?",
+        text: "Sau khi xoá không thể khôi phục!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Đồng ý"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: window.API_URL + `/AccountManager/${userId}`,
+                type: 'Delete',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                success: function (response) {
+                    swal.fire({
+                        title: "Xoá thành công",
+                        icon: "success",
+                        draggable: true
+                    }).then(() => {
+                        loadData();
+                    });
+                },
+                error: function (xhr, status, error) {
+                    handleAjaxError(xhr, status, error, "Lỗi khi xoá tài khoản!");
+                }
+            });
+            Swal.fire({
+                title: "Đã xoá!",
+                text: "Tài khoản đã được xoá.",
+                icon: "success"
+            });
+        }
+    });
+}
+
+$("#isActive").on('change', function () {
+    let isActiveValue = $(this).is(':checked');
+    let alertActive = (isActiveValue)? "Kích hoạt tài khoản thành công" : "Khoá tài khoản thành công!"
+    $.ajax({
+        url: window.API_URL + `/AccountManager/EditUserAuth/${idTarget}`,
+        type: 'PUT',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(isActiveValue),
+        success: function (response) {
+            swal.fire({
+                title: `${alertActive}`,
+                icon: "success",
+                draggable: true
+            }).then(() => {
+                viewUser(idTarget);
+            });
+        },
+        error: function (xhr, status, error) {
+            handleAjaxError(xhr, status, error, "Lỗi khi cập nhật vai trò!");
+        }
+    });
+});
+
+function openModalCreate() {
+    $('#createAccountModal').modal('show');
+    loadRolesCreate();
+}

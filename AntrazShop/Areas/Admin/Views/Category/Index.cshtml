@@ -1,3 +1,69 @@
 @{
-    ViewBag.Title = "Danh sách danh mục";
+    ViewBag.Title = "Danh sách thương hiệu";
 }
+
+<div class="modal fade" id="create-modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            @Html.Partial("_ModalCreateEdit")
+        </div>
+    </div>
+</div>
+
+<div class="flex items-center flex-wrap justify-between gap20 mb-27">
+    <h3 style="margin-left:20px; margin-top:10px;">Danh sách thương hiệu</h3>
+    <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+        <li>
+            <a href="index.html"><div class="text-tiny">Admin</div></a>
+        </li>
+        <li>
+            <i class="icon-chevron-right"></i>
+        </li>
+        <li>
+            <a href="#"><div class="text-tiny">Danh mục</div></a>
+        </li>
+        <li>
+            <i class="icon-chevron-right"></i>
+        </li>
+        <li>
+            <div class="text-tiny">Danh sách danh mục</div>
+        </li>
+    </ul>
+</div>
+<!-- all-category -->
+<div class="wg-box" style="margin:20px">
+    <div class="flex items-center justify-between gap10 flex-wrap">
+        <div class="wg-filter flex-grow">
+
+            <form class="form-search">
+                <fieldset class="name">
+                    <input type="text" placeholder="Tìm kiếm..." class="" name="name" tabindex="2" value="" aria-required="true" required="">
+                </fieldset>
+                <div class="button-submit">
+                    <button class="" type="submit"><i class="icon-search"></i></button>
+                </div>
+            </form>
+        </div>
+        <a class="tf-button style-1 w208" onclick="openModalCreate()"><i class="icon-plus"></i>Tạo mới</a>
+    </div>
+    <table class="antraz-table">
+        <thead>
+            <tr class="antraz-table-title">
+                <th style="width:30%">Tên thương hiệu</th>
+                <th style="width:15%">Id</th>
+                <th style="width:35%">Mô tả</th>
+                <th style="width:20%">Số lượng sản phẩm</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody id="table-data">
+        </tbody>
+    </table>
+
+    <div class="divider"></div>
+    <div class="flex items-center justify-between flex-wrap gap10">
+        <div class="text-tiny" id="total-item"></div>
+    </div>
+</div>
+
+<script src="/admin/js/api-jquery/brand-category/category.js"></script>

@@ -10,5 +10,8 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<Cart> GetCartItem(int userId, int colorCapacityId);
 		Task<Cart> UpdateCartItemQuantity(int userId, int colorCapacityId, int quantity);
 		Task<bool> RemoveFromCart(int userId, int colorCapacityId);
+		Task CreateCheckout(Order order);
+		Task CreateOrderDetail(List<OrderDetail> details);
+		Task RemoveAllFromCart(int userId);
 	}
 }

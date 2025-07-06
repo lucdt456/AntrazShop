@@ -3,7 +3,6 @@ var pager = {
     totalPage: 2,
     size: 10
 };
-
 //chạy lúc load trang
 $(function () {
     $("#sizePage").val(10);
@@ -225,7 +224,7 @@ function loadPageTableProduct(products) {
                         </th>
                         <th class="antraz-table-item">
                             <div class="list-icon-function">
-                                <div class="item eye" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewProduct(${product.id})">
+                                <div class="item eye" onclick="viewProduct(${product.id})">
                                  <i class="icon-eye"></i>
                                  </div>
                                 <div class="item edit" onclick="goToEdit(${product.id})">
@@ -368,59 +367,60 @@ function goToEdit(id) {
 
 //Hàm ấn vào mắt xem chi tiết sản phẩm
 function viewProduct(id) {
+    alert('Cập nhật lại sau')
 
-    $("#exampleModalLabel").text("Chi tiết sản phẩm")
-    document.getElementById("btn-save").style.display = "none";
-    document.getElementById("btn-edit").style.display = "inline";
-    $('#name').prop('disabled', true);
-    $('#price').prop('disabled', true);
-    $('#discountAmount').prop('disabled', true);
-    $('#categoryid').prop('disabled', true);
-    $('#brandid').prop('disabled', true);
-    $('#description').prop('disabled', true);
-    $('#imageProductName').prop('disabled', true);
-    $('#status').prop('disabled', true);
-    $('#stock').prop('disabled', true);
-    if (id != null) {
-        $("#id-product").append(id);
-        $.ajax({
-            url: window.API_URL + `/Product/${id}`,
-            type: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            dataType: 'json',
-            success: function (product) {
+    //$("#exampleModalLabel").text("Chi tiết sản phẩm")
+    //document.getElementById("btn-save").style.display = "none";
+    //document.getElementById("btn-edit").style.display = "inline";
+    //$('#name').prop('disabled', true);
+    //$('#price').prop('disabled', true);
+    //$('#discountAmount').prop('disabled', true);
+    //$('#categoryid').prop('disabled', true);
+    //$('#brandid').prop('disabled', true);
+    //$('#description').prop('disabled', true);
+    //$('#imageProductName').prop('disabled', true);
+    //$('#status').prop('disabled', true);
+    //$('#stock').prop('disabled', true);
+    //if (id != null) {
+    //    $("#id-product").append(id);
+    //    $.ajax({
+    //        url: window.API_URL + `/Product/${id}`,
+    //        type: 'GET',
+    //        headers: {
+    //            'Authorization': 'Bearer ' + token
+    //        },
+    //        dataType: 'json',
+    //        success: function (product) {
 
-                $("#id-product").val('#' + product.id);
-                $("#name").val(product.name);
-                $("#price").val(product.price);
-                $("#discountAmount").val(product.discountAmount);
-                $("#categoryid option").each(function () {
-                    if ($(this).text() === product.category) {
-                        $("#categoryid").val($(this).val());
-                    };
-                });
-                $("#brandid option").each(function () {
-                    if ($(this).text() === product.brand) {
-                        $("#brandid").val($(this).val());
-                    }
-                });
-                $("#description").val(product.description);
+    //            $("#id-product").val('#' + product.id);
+    //            $("#name").val(product.name);
+    //            $("#price").val(product.price);
+    //            $("#discountAmount").val(product.discountAmount);
+    //            $("#categoryid option").each(function () {
+    //                if ($(this).text() === product.category) {
+    //                    $("#categoryid").val($(this).val());
+    //                };
+    //            });
+    //            $("#brandid option").each(function () {
+    //                if ($(this).text() === product.brand) {
+    //                    $("#brandid").val($(this).val());
+    //                }
+    //            });
+    //            $("#description").val(product.description);
 
-                $("#imagePreview").attr("src", `/admin/img/product/${product.imageView}`).show();
-                $("#imageProductName").val(product.imageView);
+    //            $("#imagePreview").attr("src", `/admin/img/product/${product.imageView}`).show();
+    //            $("#imageProductName").val(product.imageView);
 
-                $("#status").val(product.status);
-                $("#stock").val(product.stock);
+    //            $("#status").val(product.status);
+    //            $("#stock").val(product.stock);
 
-            },
-            error: function (xhr, status, error) {
-                alert("Lỗi khi lấy sản phẩm: " + xhr.responseText);
-                console.error(error);
-            }
-        })
-    }
+    //        },
+    //        error: function (xhr, status, error) {
+    //            alert("Lỗi khi lấy sản phẩm: " + xhr.responseText);
+    //            console.error(error);
+    //        }
+    //    })
+    //}
 }
 
 //btn- edit click

@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5" id="title-modal"></h1>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form class="form-login flex flex-column gap24" id="form-create-edit" style="padding:10px;">
+         <fieldset>
+                <label for="form-name" class="body-title mb-10">Tên <span class="tf-color-1">*</span></label>
+            <input id="form-name" class="mb-10 validate-input" type="text" placeholder="Nhập tên" tabindex="0">
+                <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+            </fieldset>
+
+        <fieldset>
+            <label for="form-description" class="body-title mb-10">Mô tả <span class="tf-color-1">*</span></label>
+            <textarea id="form-description" class="mb-10 validate-input" placeholder="Nhập mô tả" tabindex="0" rows="4"></textarea>
+            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+        </fieldset>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" style="max-width:200px;" class="tf-button w-full" id="btn-create">Tạo mới</button>
+    <button type="button" style="max-width:200px;" class="tf-button w-full" id="btn-save">Lưu</button>
+</div>

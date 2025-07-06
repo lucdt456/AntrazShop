@@ -1,6 +1,7 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace AntrazShop.Controllers.API
             _permissionService = permissionService;
         }
 
+		[Authorize(Policy = "CanGetPermissions")]
 		[HttpGet("Permission/{pg}/{size}")]
 		public async Task<IActionResult> GetPermissions(int pg = 1, int size = 10)
 		{
@@ -31,21 +33,19 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
-		[HttpGet("Permission/{controllerName}/{pg}/{size}")]
-		public async Task<IActionResult> GetPermissions(string controllerName, int pg = 1, int size = 10)
+		[Authorize(Policy = "CanGetPermissionGroups")]
+		[HttpGet("Groups")]
+		public async Task<IActionResult> GetPermissionGroups()
 		{
-			var (response, pagination) = await _permissionService.GetAllPermissionsInController(controllerName, pg, size);
+			var response = await _permissionService.GetPermissionGroups();
 			if (!response.IsSuccess)
 			{
 				return BadRequest(new { errors = response.Errors });
 			}
-			else return Ok(new
-			{
-				Roles = response.Data,
-				Pagination = pagination
-			});
+			else return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanCreatePermissions")]
 		[HttpPost]
 		public async Task<IActionResult> CreatePermissions([FromBody] PermissionDTO dTO)
 		{

@@ -47,5 +47,13 @@ namespace AntrazShop.Repositories
 
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task SetUserPassword(int userId, string passwordHash)
+		{
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null) throw new Exception("Không tìm thấy tài khoản");
+			user.PasswordHash = passwordHash;
+			await _context.SaveChangesAsync();
+		}
 	}
 }

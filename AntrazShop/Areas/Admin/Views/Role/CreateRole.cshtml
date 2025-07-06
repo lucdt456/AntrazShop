@@ -1,0 +1,57 @@
+@{
+    ViewBag.Title = "Tạo chức vụ";
+}
+<!-- main-content-wrap -->
+<div class="main-content-inner">
+    <!-- main-content-wrap -->
+    <div class="main-content-wrap">
+        <div class="flex items-center flex-wrap justify-between gap20 mb-27">
+            <h3>Tạo vai trò mới</h3>
+            <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                <li>
+                    <a href="index.html"><div class="text-tiny">Dashboard</div></a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <a href="#"><div class="text-tiny">Role</div></a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <div class="text-tiny">Edit role</div>
+                </li>
+            </ul>
+        </div>
+        <!-- create-roles -->
+        <form class="form-create-role">
+            <div class="wg-box mb-24">
+                <fieldset class="name">
+                    <div class="body-title mb-10">Tên vai trò</div>
+                    <input id="role-name-form" class="flex-grow" type="text" placeholder="Nhập tên vai trò" name="name" tabindex="0" value="" aria-required="true" required="">
+                </fieldset>
+
+                <fieldset class="description">
+                    <div class="body-title mb-10">Mô tả</div>
+                    <input id="role-description-form" class="flex-grow" type="text" placeholder="Nhập mô tả" name="description" tabindex="0" value="" aria-required="true" required="">
+                </fieldset>
+                <div class="wg-table table-create-role" id="list-permission-group">
+                    <ul class="table-title flex gap20 mb-14">
+                        <li>
+                            <div class="body-title">Danh sách quyền</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bot">
+                <button type="button" class="tf-button w180" onclick="createRole()">Lưu vai trò</button>
+            </div>
+        </form>
+        <!-- /create-roles -->
+    </div>
+    <!-- /main-content-wrap -->
+</div>
+<!-- /main-content-wrap -->
+<script src="~/admin/js/api-jquery/role/create-role.js"></script>

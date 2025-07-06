@@ -16,6 +16,7 @@ namespace AntrazShop.Repositories
 		{
 			return await _context.Users
 				.AsNoTracking()
+				.Include(u => u.UserAuthInfo)
 				.Include(u => u.UserRoles)
 				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
@@ -28,6 +29,7 @@ namespace AntrazShop.Repositories
 		{
 			return await _context.Users
 				.AsNoTracking()
+				.Include(u => u.UserAuthInfo)
 				.Include(u => u.UserRoles)
 				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
@@ -42,6 +44,7 @@ namespace AntrazShop.Repositories
 		{
 			return await _context.Users
 				.AsNoTracking()
+				.Include(u => u.UserAuthInfo)
 				.Include(u => u.UserRoles)
 				.ThenInclude(u => u.Role)
 				.OrderBy(u => u.Id)
@@ -190,6 +193,14 @@ namespace AntrazShop.Repositories
 			var user = await _context.Users.FindAsync(userId);
 			if (user == null) throw new Exception("Không tìm thấy tài khoản!");
 			_context.Users.Remove(user);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task DeleteAuthAccount(int userId)
+		{
+			var auth = await _context.UserAuthInfos.FindAsync(userId);
+			if (auth == null) throw new Exception("Không tìm thấy bảng Auth tài khoản!");
+			_context.UserAuthInfos.Remove(auth);
 			await _context.SaveChangesAsync();
 		}
 	}

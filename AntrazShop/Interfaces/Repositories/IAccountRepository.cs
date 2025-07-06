@@ -9,5 +9,6 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<bool> CheckExistEmail(string email);
 		Task CreateUserAuthInfo(UserAuthInfo auth);
 		Task SetUserAuthInfo(UserAuthInfo auth);
+		Task SetUserPassword(int userId, string passwordHash);
 	}
 }

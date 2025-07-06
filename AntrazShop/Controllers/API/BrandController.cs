@@ -1,5 +1,6 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -38,8 +39,9 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanCreateBrand")]
 		[HttpPost]
-		public async Task<IActionResult> CreateCategory([FromBody] BrandDTO dto)
+		public async Task<IActionResult> CreateBrand([FromBody] BrandDTO dto)
 		{
 			var response = await _brandService.CreateBrand(dto);
 
@@ -50,6 +52,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanUpdateBrand")]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateBrand(int id, [FromBody] BrandDTO dto)
 		{
@@ -62,6 +65,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanDeleteBrand")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteBrand(int id)
 		{

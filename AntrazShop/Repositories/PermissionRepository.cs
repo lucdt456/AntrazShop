@@ -52,24 +52,17 @@ namespace AntrazShop.Repositories
 			return await _context.Permissions.Skip(recSkip).Take(take).ToListAsync();
 		}
 
-		public async Task<IEnumerable<Permission>> GetAllPermissionsInController(string controllerName, int recSkip, int take)
-		{
-			return await _context.Permissions
-								 .Where(p => p.NameController == controllerName)
-								 .Skip(recSkip)
-								 .Take(take)
-								 .ToListAsync();
-		}
-
 		public async Task<int> GetPermissionCount()
 		{
 			return await _context.Permissions.CountAsync();
 		}
 
-		public async Task<int> GetPermissionInControllerCount(string controllerName)
+		public async Task<IEnumerable<PermissionGroup>> GetPermissionGroup()
 		{
-			return await _context.Permissions.Where(p => p.NameController == controllerName).CountAsync();
+			return await _context.PermissionGroups
+				.AsNoTracking()
+				.Include(pg => pg.Permissions)
+				.ToListAsync();
 		}
-
 	}
 }

@@ -1,5 +1,6 @@
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntrazShop.Controllers.API
@@ -38,6 +39,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanCreateCategory")]
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory([FromBody] CategoryDTO dto)
 		{
@@ -50,6 +52,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanUpdateCategory")]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDTO dto)
 		{
@@ -62,6 +65,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanDeleteCategory")]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteCategory(int id)
 		{

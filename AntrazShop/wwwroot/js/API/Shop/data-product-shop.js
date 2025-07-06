@@ -127,20 +127,20 @@ function loadProducts2() {
         $("#list-product-2").append(`
             <div class="col">
                 <div class="tpproduct p-relative mb-20">
-                    <div class="tpproduct__thumb p-relative text-center">
-                        <a href="#">
-                            <img src="/admin/imgs/product/${product.folderImage}/${product.imageView}" style="max-width: 308px; max-height: 308px; width: auto; height: auto; object-fit: contain;" alt="">
-                        </a>
-                        <a class="tpproduct__thumb-img" href="/shop/productdetail?id=${product.id}">
-                            <img src="/admin/imgs/product/${product.folderImage}/${product.imageView}" style="max-width: 308px; max-height: 308px; width: auto; height: auto; object-fit: contain;" alt="">
-                            <img src="/admin/imgs/product/${product.folderImage}/${product.imageView}"  alt="">
-                        </a>
+                    <div class="tpproduct__thumb p-relative text-center" style="overflow: hidden; display: flex; align-items: center; justify-content: center; height: 308px; margin: 0 auto;">
+                <a href="/shop/productdetail?id=${product.id}"">
+                    <img src="/admin/imgs/product/${product.folderImage}/${product.imageView}" 
+                         style="max-width: 308px; max-height: 308px; width: auto; height: auto; object-fit: contain; transition: transform 0.3s ease; transform-origin: center center;" 
+                         alt=""
+                         onmouseover="this.style.transform='scale(1.1)'"
+                         onmouseout="this.style.transform='scale(1)'">
+                </a>
                         <div class="tpproduct__info bage">
                             <span class="tpproduct__info-discount bage__discount">-${product.discountAmount}</span>
                             <span class="tpproduct__info-hot bage__hot">HOT</span>
                         </div>
                         <div class="tpproduct__shopping">
-                            <a class="tpproduct__shopping-wishlist" href="wishlist.html">
+                            <a class="tpproduct__shopping-wishlist">
                                 <i class="icon-heart icons"></i>
                             </a>
                             <a class="tpproduct__shopping-cart"href="/shop/productdetail?id=${product.id}">
@@ -334,18 +334,17 @@ function loadProducts3() {
                             ${starRate}
                         </div>
                         <ul class="tplist__content-info">
-                            <li>Tồn kho: ${product.totalStock} </li>
+                            <li>Đã bán: ${product.soldAmount} </li>
                         </ul>
                     </div>
                     <div class="tplist__price justify-content-end">
                         <h4 class="tplist__instock">
-                            Availability: <span>92 in stock</span>
+                            Tồn kho: <span>${product.totalStock}</span>
                         </h4>
                         <h3 class="tplist__count mb-15">${min_price_sale}</del></h3>
                         <button class="tp-btn-2 mb-10" onclick="addToCart(${product.productCCs[0].id})">Thêm vào giỏ</button>
                         <div class="tplist__shopping">
                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                            <a href="#"><i class="icon-layers"></i>Compare</a>
                         </div>
                     </div>
                 </div>

@@ -53,8 +53,9 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
-		//[Authorize(Policy = "CanGetUserCustomer")]
+
 		//Lấy - Tìm kiếm tài khoản khách hàng
+		[Authorize(Policy = "CanGetUserCustomer")]
 		[HttpGet("Customer/{page}/{take}")]
 		public async Task<IActionResult> GetCustomerAccounts(string search = "", int page = 1, int take = 10)
 		{
@@ -71,6 +72,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Tạo tài khoản
+		[Authorize(Policy = "CanCreateWorkerAccount")]
 		[HttpPost("Create")]
 		public async Task<IActionResult> CreateAccount([FromForm] AccountDTO accountDTO)
 		{
@@ -84,7 +86,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Sửa tài khoản
-		[HttpPut("Edit/{idUser}")]
+		[HttpPut("Edit/{userId}")]
 		public async Task<IActionResult> UpdateAccount(int userId, [FromForm] AccountDTO accountDTO)
 		{
 			var response = await _accountManagerService.EditAccount(userId, accountDTO);
@@ -109,7 +111,9 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
-		//Lấy tài khoản
+
+		//Lấy lịch sử đăng nhập tài khoản
+		[Authorize(Policy = "CanGetLoginHistories")]
 		[HttpGet("LoginHistory/{idUser}")]
 		public async Task<IActionResult> GetLoginHistories(int idUser)
 		{
@@ -123,6 +127,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Chỉnh sửa roles
+		[Authorize(Policy = "CanEditUserRoles")]
 		[HttpPut("EditUserRoles/{userId}")]
 		public async Task<IActionResult> EditUserRole(int userId, [FromBody] List<int> roleIds)
 		{
@@ -136,6 +141,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Chỉnh sửa trạng thái active của tài khoản
+		[Authorize(Policy = "CanEditAuthUser")]
 		[HttpPut("EditUserAuth/{userId}")]
 		public async Task<IActionResult> EditAuthUser(int userId, [FromBody] bool isActive)
 		{
@@ -148,7 +154,7 @@ namespace AntrazShop.Controllers.API
 			return Ok(response.Data);
 		}
 
-		//
+		[Authorize(Policy = "CanDeleteAccount")]
 		[HttpDelete("{userId}")]
 		public async Task<IActionResult> DeleteAccount(int userId)
 		{

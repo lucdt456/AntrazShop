@@ -8,8 +8,7 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<List<int>> GetRolePermissions(int roleId);
 		Task<Permission> CreatePermissions(Permission newP);
 		Task<IEnumerable<Permission>> GetPermissions(int recSkip, int take);
-		Task<IEnumerable<Permission>> GetAllPermissionsInController(string controller, int recSkip, int take);
 		Task<int> GetPermissionCount();
-		Task<int> GetPermissionInControllerCount(string controllerName);
+		Task<IEnumerable<PermissionGroup>> GetPermissionGroup();
 	}
 }

@@ -1,0 +1,131 @@
+@{
+    ViewData["Title"] = "Đơn hàng của bạn";
+}
+<!-- breadcrumb-area-start -->
+<div class="breadcrumb__area grey-bg pt-50 pb-55">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tp-breadcrumb__content text-center">
+                    <h4 class="tp-breadcrumb__title">Danh sách đơn hàng</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area-end -->
+<!-- location-area-start -->
+<section class="location-area pt-80 pb-45">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="tplocation__wrapper mb-30" id="list-orders-user">
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h3 class="tplocation__text-title" id="order-code-details">Mã đơn hàng: </h3>
+
+                <div style="margin-top:20px;" class="table-content table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="cart-product-name">Tên sản phẩm</th>
+                                <th class="cart-product-name">Phân loại</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-subtotal">Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-item-details">
+                        </tbody>
+                    </table>
+                </div>
+                <div id="order-information" style="display:none;">
+                    <div class="tplocation__content tplocation__content" style="display:flex; justify-content:space-between; padding:20px 50px; margin-top:20px;">
+                        <ul>
+                            <li style="font-weight:bold">
+                                Tên:
+                            </li>
+                            <li style="font-weight:bold">
+                                SĐT:
+                            </li>
+                            <li style="font-weight:bold; margin-bottom:20px;">
+                                Địa chỉ:
+                            </li>
+
+                            <li style="font-weight:bold">
+                                Thành tiền:
+                            </li>
+                            <li style="font-weight:bold">
+                                Vận chuyển:
+                            </li>
+                            <li style="font-weight:bold">
+                                Giảm giá:
+                            </li>
+                            <li style="font-weight:bold">
+                                Phương thức thanh toán:
+                            </li>
+                            <li style="font-weight:bold">
+                                Tổng:
+                            </li>
+
+                            <li style="font-weight:bold; margin-top:20px">
+                                Trạng thái:
+                            </li>
+                            <li style="font-weight:bold">
+                                Thời gian:
+                            </li>
+                        </ul>
+                        <ul>
+                            <li id="details-discount-name">
+
+                            </li>
+                            <li id="details-discount-phonenumber">
+
+                            </li>
+                            <li id="details-discount-address" style="margin-bottom:20px;">
+
+                            </li>
+                            <li id="details-total-price">
+
+                            </li>
+                            <li>
+                                Miễn phí
+                            </li>
+                            <li id="details-discount-amount">
+
+                            </li>
+                            <li>
+                                Thanh toán khi nhận hàng
+                            </li>
+                            <li id="details-total-price-sale" style="color:green; font-weight:bold; margin-bottom:20px;">
+
+                            </li>
+                            <li id="details-discount-status">
+
+                            </li>
+                            <li id="details-discount-time">
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="text-align:right; margin: 20px 0px;">
+                        <button style="display:none" id="btn-complete-order" class="tp-btn-2">Đã nhận hàng</button>
+                    </div>
+                   
+                    <div class="wg-box mt-20 gap10">
+                        <h6 style="font-weight:bold; margin:20px 0px;" class="body-title">Lịch sử trạng thái</h6>
+                        <div id="history-status">
+                        </div>
+
+                    </div>
+                </div>
+               
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- location-area-end -->
+<script src="~/js/API/order/order.js"></script>

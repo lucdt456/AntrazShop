@@ -118,5 +118,27 @@ namespace AntrazShop.Repositories
 					.ThenInclude(cc => cc.Capacity)
 				.FirstOrDefaultAsync(c => c.UserId == userId && c.ColorCapacityId == colorCapacityId);
 		}
+
+		public async Task CreateCheckout(Order order)
+		{
+			_context.Add(order);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task CreateOrderDetail(List<OrderDetail> details)
+		{
+			foreach (OrderDetail detail in details)
+			{
+				_context.OrderDetails.Add(detail);
+			}
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task RemoveAllFromCart(int userId)
+		{
+			var cartItems = await _context.Carts.Where(c => c.UserId == userId).ToListAsync();
+			_context.Carts.RemoveRange(cartItems);
+			await _context.SaveChangesAsync();
+		}
 	}
 }

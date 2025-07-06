@@ -1,0 +1,115 @@
+<div class="modal-content" style="">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h5>ID: # </h5>
+        <h5 id="id-user"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
+    </div>
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form class="tf-section-2 form-add-product">
+            <div class="wg-box">
+                <fieldset>
+
+                    <div class="upload-image">
+                        <div class="item">
+                            <img id="avatar-image" style="object-fit: contain;" alt="">
+                        </div>
+
+                    </div>
+                </fieldset>
+                <fieldset style="padding:0px 50px">
+                    <div class="antraz-info-row">
+                        <p>Email</p>
+                        <p id="user-email"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Tên tài khoản</p>
+                        <p id="user-name"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Ngày sinh</p>
+                        <p id="user-birthday"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Giới tính</p>
+                        <p id="user-gender"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Địa chỉ</p>
+                        <p id="user-address"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Quê quán</p>
+                        <p id="user-hometown"></p>
+                    </div>
+
+                    <div class="antraz-info-row">
+                        <p>Ngày tạo tài khoản</p>
+                        <p id="user-create-at"></p>
+                    </div>
+
+                    <div style="text-align:right">
+                        <a onclick="historyLogin()" class="body-text tf-color">Lịch sử đăng nhập</a>
+                    </div>
+                </fieldset>
+
+                @* Bảng lịch sử đăng nhập *@
+                <div class="table-responsive" style="max-height:250px; overflow-y: auto;">
+                    <table id="table-history-visiable" class="table table-striped table-hover" style="display:none;">
+                        <thead style=" background: white; font-size:14px; position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th style="width:170px; border:none;">Thời gian</th>
+                                <th style="width:100px; border:none;">Địa chỉ IP</th>
+                                <th style="border:none">Thông tin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-history">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <input id="imageProductName" type="hidden" />
+            <div class="wg-box">
+                <div class="container">
+                    <!--Trạng thái tài khoản-->
+                    <div style="display: flex; align-items: center; margin-bottom:20px;">
+                        <h5>Trạng thái</h5>
+                        <label class="switch" style="margin-left: auto;">
+                            <input type="checkbox" id="isActive">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content:space-between">
+                        <h6 class="mb-4" style="min-width:100px">Chức vụ: </h6>
+                        <p id="user-list-roles"></p>
+                    </div>
+
+                    <div style="text-align:right">
+                        <a onclick="startEditRoles()" style="cursor: pointer;" id="a-edit-role" class="body-text tf-color">Chỉnh sửa vai trò</a>
+                    </div>
+
+
+                    <!--Gán vai trò-->
+                    <div class="row" id="list-roles" style="max-height: 380px; overflow-y: auto; overflow-x: hidden; margin-top:10px; display:none">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+        <div class="col-7"></div>
+        <div class="col-5" style="display: flex; gap: 10px;">
+            <button type="button" id="btn-cancle" class="tf-button style-1 w-full" style="display:none" onclick="cancleEditRole()">Huỷ</button>
+            <button type="button" style="display:none" class="tf-button w-full" onclick="saveSetRoles()" id="btn-save">Lưu thay đổi</button>
+        </div>
+    </div>
+</div>
