@@ -22,6 +22,36 @@ namespace AntrazShop.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("AntrazShop.Data.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Logo")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Capacity", b =>
                 {
                     b.Property<int>("Id")
@@ -71,6 +101,9 @@ namespace AntrazShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -123,6 +156,9 @@ namespace AntrazShop.Migrations
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -155,6 +191,37 @@ namespace AntrazShop.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ColorCapacities");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.EmailCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("EmailCodes");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.LoginHistory", b =>
@@ -194,13 +261,32 @@ namespace AntrazShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Adress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("DeliveryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -233,6 +319,31 @@ namespace AntrazShop.Migrations
                     b.ToTable("OrderDetails");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.OrderStatusLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OrderCode")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderCode");
+
+                    b.ToTable("OrderStatusLogs");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -256,9 +367,31 @@ namespace AntrazShop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("PermissionGroupId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("PermissionGroupId");
+
                     b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.PermissionGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("GroupName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PermissionGroups");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Product", b =>
@@ -274,6 +407,9 @@ namespace AntrazShop.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -337,8 +473,11 @@ namespace AntrazShop.Migrations
 
             modelBuilder.Entity("AntrazShop.Data.Review", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ColorCapacityId")
                         .HasColumnType("int");
@@ -351,15 +490,17 @@ namespace AntrazShop.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<double>("Rating")
                         .HasColumnType("float");
 
-                    b.HasKey("UserId", "ColorCapacityId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ColorCapacityId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -371,6 +512,9 @@ namespace AntrazShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -393,9 +537,6 @@ namespace AntrazShop.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("PermissionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("RoleId", "PermissionId");
@@ -517,9 +658,6 @@ namespace AntrazShop.Migrations
                     b.Property<int>("PermissionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "PermissionId");
 
                     b.HasIndex("PermissionId");
@@ -564,33 +702,6 @@ namespace AntrazShop.Migrations
                     b.HasIndex("ColorCapacityId");
 
                     b.ToTable("WishLists");
-                });
-
-            modelBuilder.Entity("Brand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Logo")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Cart", b =>
@@ -639,6 +750,17 @@ namespace AntrazShop.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.EmailCode", b =>
+                {
+                    b.HasOne("AntrazShop.Data.User", "User")
+                        .WithMany("EmailCodes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.LoginHistory", b =>
                 {
                     b.HasOne("AntrazShop.Data.UserAuthInfo", "UserAuthInfo")
@@ -680,9 +802,29 @@ namespace AntrazShop.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.OrderStatusLog", b =>
+                {
+                    b.HasOne("AntrazShop.Data.Order", "Order")
+                        .WithMany("OrderStatusLogs")
+                        .HasForeignKey("OrderCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.Permission", b =>
+                {
+                    b.HasOne("AntrazShop.Data.PermissionGroup", "PermissionGroup")
+                        .WithMany("Permissions")
+                        .HasForeignKey("PermissionGroupId");
+
+                    b.Navigation("PermissionGroup");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Product", b =>
                 {
-                    b.HasOne("Brand", "Brand")
+                    b.HasOne("AntrazShop.Data.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -823,6 +965,11 @@ namespace AntrazShop.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("AntrazShop.Data.Brand", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("AntrazShop.Data.Capacity", b =>
                 {
                     b.Navigation("ColorCapacities");
@@ -852,6 +999,8 @@ namespace AntrazShop.Migrations
             modelBuilder.Entity("AntrazShop.Data.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("OrderStatusLogs");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Permission", b =>
@@ -859,6 +1008,11 @@ namespace AntrazShop.Migrations
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserPermissions");
+                });
+
+            modelBuilder.Entity("AntrazShop.Data.PermissionGroup", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("AntrazShop.Data.Product", b =>
@@ -884,6 +1038,8 @@ namespace AntrazShop.Migrations
                 {
                     b.Navigation("Carts");
 
+                    b.Navigation("EmailCodes");
+
                     b.Navigation("Reviews");
 
                     b.Navigation("UserAuthInfo")
@@ -899,11 +1055,6 @@ namespace AntrazShop.Migrations
             modelBuilder.Entity("AntrazShop.Data.UserAuthInfo", b =>
                 {
                     b.Navigation("LoginHistories");
-                });
-
-            modelBuilder.Entity("Brand", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

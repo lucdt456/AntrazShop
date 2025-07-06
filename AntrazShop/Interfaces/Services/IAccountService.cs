@@ -1,4 +1,3 @@
-using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Models;
 using AntrazShop.Models.DTOModels;
@@ -11,6 +10,8 @@ namespace AntrazShop.Interfaces.Services
 	{
 		Task<ServiceResponse<AccountVM>> CreateUser(UserDTO dto);
 		Task<ServiceResponse<string>> AuthenticateAsync(Login loginRequest);
-		Task<ServiceResponse<string>> SetUserAuthInfo(int userid, bool isActive);
+		Task<ServiceResponse<string>> SetUserAuthInfo(int userId, bool isActive);
+		Task<ServiceResponse<string>> SetPassword(int userId, string password);
+		Task<ServiceResponse<string>> ChangePassword(ChangePasswordDTO dto);
 	}
 }

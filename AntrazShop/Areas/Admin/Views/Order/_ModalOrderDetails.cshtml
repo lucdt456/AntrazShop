@@ -1,0 +1,145 @@
+<div class="modal-content" style="padding:10px">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h3>Mã đơn hàng: # </h3>
+        <h3 id="order-code"></h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
+    </div>
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <div class="main-content-wrap">
+            <!-- order-detail -->
+            <div class="wg-order-detail">
+                <div class="left flex-grow">
+                    <div class="wg-box mb-20">
+                        <div class="wg-table table-order-detail">
+                            <ul class="table-title flex items-center justify-between gap20 mb-24">
+                                <li>
+                                    <div class="body-title">Danh sách sản phẩm</div>
+                                </li>
+
+                            </ul>
+                            <ul class="flex flex-column" id="list-item-checkout">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="wg-box">
+                        <div class="wg-table table-cart-totals">
+                            <ul class="table-title flex mb-24">
+                                <li>
+                                    <div class="body-title">Tổng</div>
+                                </li>
+                                <li>
+                                    <div class="body-title">Giá</div>
+                                </li>
+                            </ul>
+                            <ul class="flex flex-column gap14">
+                                <li class="cart-totals-item">
+                                    <span class="body-text">Thành tiền:</span>
+                                    <span class="body-title-2" id="total-price"></span>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="cart-totals-item">
+                                    <span class="body-text">Vận chuyển:</span>
+                                    <span class="body-title-2">Miễn phí</span>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="cart-totals-item">
+                                    <span class="body-text">Giảm giá:</span>
+                                    <span class="body-title-2" id="total-discount-amount">0 VNĐ</span>
+                                </li>
+                                <li class="divider"></li>
+                                <li class="cart-totals-item">
+                                    <span class="body-title">Tổng:</span>
+                                    <span class="body-title tf-color-1 total-price-last"></span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                     <div class="wg-box mt-20 gap10">
+                        <div class="body-title">Lịch sử trạng thái</div>
+                        <div id="history-status">
+
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="right" style="width:400px;">
+                    <div class="wg-box mb-20 gap10">
+                        <div class="body-title">Thông tin đơn hàng</div>
+                        <div class="summary-item">
+                            <div class="body-text">Ngày tạo</div>
+                            <div class="body-title-2" id="create-at"></div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="body-text">Tổng</div>
+                            <div class="body-title-2 tf-color-1 total-price-last"></div>
+                        </div>
+                    </div>
+                    <div class="wg-box mb-20 gap10">
+                        <div class="body-title">Thông tin giao hàng</div>
+                        <div class="summary-item">
+                            <div class="body-text">Email</div>
+                            <div class="body-title-2" id="email-user"></div>
+                        </div>
+                       <div class="summary-item">
+                            <div class="body-text">Tên</div>
+                            <div class="body-title-2" id="name-user"></div>
+                        </div>
+                         <div class="summary-item">
+                            <div class="body-text">SĐT</div>
+                            <div class="body-title-2" id="phone-number"></div>
+                        </div>
+                         <div class="summary-item">
+                            <div class="body-text">Địa chỉ</div>
+                            <div class="body-title-2" id="address"></div>
+                        </div>
+                        <div class="body-text" id="address"></div>
+                    </div>
+                    <div class="wg-box mb-20 gap10">
+                        <div class="body-title">Phương thức thanh toán</div>
+                        <div class="body-text">Thanh toán khi nhận hàng</div>
+                    </div>
+                    <div class="wg-box gap10">
+                        <div class="body-title">Trạng thái</div>
+                        <div class="body-title-2" id="status" ></div>
+                         <div class="body-title-2 tf-color-2" style="margin-bottom:10px;" id="last-update-time"></div>
+
+                        <!-- Vận chuyển - Màu xanh dương -->
+                        <button class="tf-button style-1 w-full" id="btn-shipping"
+                           style=" background-color: #dbeafe; color: #3b82f6; border: 1px solid #3b82f6;">
+                            <i class="icon-truck" style="color: #3b82f6;"></i>Vận chuyển
+                        </button>
+
+                        <!-- Huỷ đơn - Màu đỏ -->
+                        <button class="tf-button style-1 w-full" id="btn-reject"
+                           style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">
+                            <i class="icon-x-circle" style="color: #ef4444;"></i>Huỷ đơn
+                        </button>
+                        <!-- Giao hàng - Màu xanh lá -->
+                        <button class="tf-button style-1 w-full" id="btn-complete"
+                           style="background-color: #dcfce7; color: #22c55e; border: 1px solid #22c55e;">
+                            <i class="icon-check-circle" style="color: #22c55e;"></i>Giao hàng
+                        </button>
+                         <!-- Giao thất bại - Màu đỏ -->
+                        <button class="tf-button style-1 w-full" id="btn-failed"
+                           style="background-color: #fee2e2; color: #ef4444; border: 1px solid #ef4444;">
+                            <i class="icon-x-circle" style="color: #ef4444;"></i>Giao thất bại
+                        </button>
+
+                        <!-- Kích hoạt lại - Màu cam/vàng -->
+                        <button class="tf-button style-1 w-full" id="btn-reactivate"
+                           style="background-color: #fef3c7; color: #f59e0b; border: 1px solid #f59e0b;">
+                            <i class="icon-play" style="color: #f59e0b;"></i>Kích hoạt lại
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- /order-detail -->
+        </div>
+    </div>
+</div>
+

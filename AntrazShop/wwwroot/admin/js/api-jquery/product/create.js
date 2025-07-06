@@ -110,8 +110,11 @@ function CreateProduct() {
 
         console.log(productFormData)
         $.ajax({
-            url: 'https://localhost:7092/api/Product/create',
+            url: window.API_URL + '/Product/create',
             type: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             data: productFormData,
             processData: false,
             contentType: false,
@@ -127,66 +130,29 @@ function CreateProduct() {
 
             },
             error: function (xhr, status, error) {
+
+                let errorMessage = 'Đăng nhập thất bại.';
+
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.errors && response.errors.length > 0) {
+                        errorMessage = response.errors.join('\n');
+                    }
+                } catch (e) {
+                    console.error("Lỗi phân tích phản hồi:", e);
+                }
+
                 swal.fire({
                     icon: "error",
                     title: "oops...",
-                    text: "Lỗi không tạo được sản phẩm" + xhr.responseText,
-                    footer: '<a href="#">Có lỗi xảy ra?</a>'
+                    text: errorMessage,
+                    footer: '<a href="#">Tại sao tôi gặp lỗi này?</a>'
                 });
                 console.error(error);
             }
         });
     } else console.log("Lỗi validate")
 }
-function saveUpdate() {
-    let urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get('id');
-    let isValid = validateInput();
-    let imageNameNew = $("#imageView").val().split("\\").pop();
-
-    if (imageNameNew === "") {
-        imageNameNew = $("#imageProductName").val();
-    }
-    if (isValid == true) {
-        let product = {
-            name: $("#name").val(),
-            price: $("#price").val(),
-            discountAmount: $("#discountAmount").val(),
-            description: $("#description").val(),
-            imageView: imageNameNew,
-            brandId: $("#brandid").val(),
-            categoryId: $("#categoryid").val(),
-            status: $("#status").val(),
-            stock: $("#stock").val()
-        }
-        productJson = JSON.stringify(product);
-        $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: productJson,
-            success: function (response) {
-                swal.fire({
-                    title: "Cập nhật thành công",
-                    icon: "success",
-                    draggable: true
-                }).then(() => {
-                    window.location.href = '/admin/product';
-                });
-            },
-            error: function (xhr, status, error) {
-                swal.fire({
-                    icon: "error",
-                    title: "oops...",
-                    text: "lỗi không cập nhật được sản phẩm" + xhr.responseText,
-                    footer: '<a href="#">why do i have this issue?</a>'
-                });
-                console.error(error);
-            }
-        });
-    }
-}
-
 
 //Load dữ liệu phân loại CC ra bảng con
 function loadDataColorCapacity() {
@@ -430,3 +396,4 @@ function SaveProductCC() {
         }
     });
 }
+

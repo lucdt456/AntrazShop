@@ -3,7 +3,6 @@ var pager = {
     totalPage: 2,
     size: 10
 };
-
 //chạy lúc load trang
 $(function () {
     $("#sizePage").val(10);
@@ -28,8 +27,11 @@ $("#sizePage").change(function () {
 //hàm api lấy ds tất cả sản phẩm
 function loadproducts(page, size) {
     $.ajax({
-        url: `https://localhost:7092/api/Product?page=${page}&size=${size}`,
+        url: window.API_URL + `/Product?page=${page}&size=${size}`,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        },
         dataType: 'json',
         success: function (response) {
             console.log(response);
@@ -83,8 +85,11 @@ function searchProducts(page, size) {
     }
     else {
         $.ajax({
-            url: `https://localhost:7092/api/Product/search?search=${searchQuery}&page=${page}&size=${size}`,
+            url: window.API_URL + `/Product/search?search=${searchQuery}&page=${page}&size=${size}`,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             dataType: 'json',
             success: function (response) {
                 console.log(response);
@@ -219,7 +224,7 @@ function loadPageTableProduct(products) {
                         </th>
                         <th class="antraz-table-item">
                             <div class="list-icon-function">
-                                <div class="item eye" data-bs-toggle="modal" data-bs-target="#viewModal" onclick="viewProduct(${product.id})">
+                                <div class="item eye" onclick="viewProduct(${product.id})">
                                  <i class="icon-eye"></i>
                                  </div>
                                 <div class="item edit" onclick="goToEdit(${product.id})">
@@ -324,8 +329,11 @@ function deleteProduct(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `https://localhost:7092/api/Product/${id}`,
+                url: window.API_URL + `/Product/${id}`,
                 type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
                 success: function (response) {
                     swalWithBootstrapButtons.fire({
                         title: "Deleted!",
@@ -359,56 +367,60 @@ function goToEdit(id) {
 
 //Hàm ấn vào mắt xem chi tiết sản phẩm
 function viewProduct(id) {
+    alert('Cập nhật lại sau')
 
-    $("#exampleModalLabel").text("Chi tiết sản phẩm")
-    document.getElementById("btn-save").style.display = "none";
-    document.getElementById("btn-edit").style.display = "inline";
-    $('#name').prop('disabled', true);
-    $('#price').prop('disabled', true);
-    $('#discountAmount').prop('disabled', true);
-    $('#categoryid').prop('disabled', true);
-    $('#brandid').prop('disabled', true);
-    $('#description').prop('disabled', true);
-    $('#imageProductName').prop('disabled', true);
-    $('#status').prop('disabled', true);
-    $('#stock').prop('disabled', true);
-    if (id != null) {
-        $("#id-product").append(id);
-        $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (product) {
+    //$("#exampleModalLabel").text("Chi tiết sản phẩm")
+    //document.getElementById("btn-save").style.display = "none";
+    //document.getElementById("btn-edit").style.display = "inline";
+    //$('#name').prop('disabled', true);
+    //$('#price').prop('disabled', true);
+    //$('#discountAmount').prop('disabled', true);
+    //$('#categoryid').prop('disabled', true);
+    //$('#brandid').prop('disabled', true);
+    //$('#description').prop('disabled', true);
+    //$('#imageProductName').prop('disabled', true);
+    //$('#status').prop('disabled', true);
+    //$('#stock').prop('disabled', true);
+    //if (id != null) {
+    //    $("#id-product").append(id);
+    //    $.ajax({
+    //        url: window.API_URL + `/Product/${id}`,
+    //        type: 'GET',
+    //        headers: {
+    //            'Authorization': 'Bearer ' + token
+    //        },
+    //        dataType: 'json',
+    //        success: function (product) {
 
-                $("#id-product").val('#' + product.id);
-                $("#name").val(product.name);
-                $("#price").val(product.price);
-                $("#discountAmount").val(product.discountAmount);
-                $("#categoryid option").each(function () {
-                    if ($(this).text() === product.category) {
-                        $("#categoryid").val($(this).val());
-                    };
-                });
-                $("#brandid option").each(function () {
-                    if ($(this).text() === product.brand) {
-                        $("#brandid").val($(this).val());
-                    }
-                });
-                $("#description").val(product.description);
+    //            $("#id-product").val('#' + product.id);
+    //            $("#name").val(product.name);
+    //            $("#price").val(product.price);
+    //            $("#discountAmount").val(product.discountAmount);
+    //            $("#categoryid option").each(function () {
+    //                if ($(this).text() === product.category) {
+    //                    $("#categoryid").val($(this).val());
+    //                };
+    //            });
+    //            $("#brandid option").each(function () {
+    //                if ($(this).text() === product.brand) {
+    //                    $("#brandid").val($(this).val());
+    //                }
+    //            });
+    //            $("#description").val(product.description);
 
-                $("#imagePreview").attr("src", `/admin/img/product/${product.imageView}`).show();
-                $("#imageProductName").val(product.imageView);
+    //            $("#imagePreview").attr("src", `/admin/img/product/${product.imageView}`).show();
+    //            $("#imageProductName").val(product.imageView);
 
-                $("#status").val(product.status);
-                $("#stock").val(product.stock);
+    //            $("#status").val(product.status);
+    //            $("#stock").val(product.stock);
 
-            },
-            error: function (xhr, status, error) {
-                alert("Lỗi khi lấy sản phẩm: " + xhr.responseText);
-                console.error(error);
-            }
-        })
-    }
+    //        },
+    //        error: function (xhr, status, error) {
+    //            alert("Lỗi khi lấy sản phẩm: " + xhr.responseText);
+    //            console.error(error);
+    //        }
+    //    })
+    //}
 }
 
 //btn- edit click
@@ -437,56 +449,6 @@ function closeView() {
     searchProducts(pager.currentPage, pager.size);
 }
 
-//save update
-function saveUpdate() {
-    let urlParams = new URLSearchParams(window.location.search);
-    let id = $("#id-product").val().substring(1);
-    console.log(id);
-    let isValid = validateInput();
-    let imageNameNew = $("#imageView").val().split("\\").pop();
-
-    if (imageNameNew === "") {
-        imageNameNew = $("#imageProductName").val();
-    }
-    if (isValid == true) {
-        let product = {
-            name: $("#name").val(),
-            price: $("#price").val(),
-            discountAmount: $("#discountAmount").val(),
-            description: $("#description").val(),
-            imageView: imageNameNew,
-            brandId: $("#brandid").val(),
-            categoryId: $("#categoryid").val(),
-            status: $("#status").val(),
-            stock: $("#stock").val()
-        }
-        productJson = JSON.stringify(product);
-        $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
-            type: 'PUT',
-            contentType: 'application/json',
-            data: productJson,
-            success: function (response) {
-                swal.fire({
-                    title: "Cập nhật thành công",
-                    icon: "success",
-                    draggable: true
-                }).then(() => {
-                    viewProduct(id);
-                });
-            },
-            error: function (xhr, status, error) {
-                swal.fire({
-                    icon: "error",
-                    title: "oops...",
-                    text: "lỗi không cập nhật được sản phẩm" + xhr.responseText,
-                    footer: '<a href="#">why do i have this issue?</a>'
-                });
-                console.error(error);
-            }
-        });
-    }
-}
 //validate
 function validateInput() {
     $(".error-message").text("");

@@ -9,6 +9,8 @@ using AntrazShop.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
+using System.Text.Json.Serialization;
+using AntrazShop.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +51,7 @@ builder.Services.AddSwaggerGen(c =>
 	});
 });
 
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddCors(options =>
 {
@@ -86,15 +89,48 @@ builder.Services.AddAuthentication(options =>
 	};
 });
 
-
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+	options.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 
 builder.Services.AddAuthorization(options =>
 {
-	options.AddPolicy("CanViewProducts", policy => policy.Requirements.Add(new PermissionRequirement("ViewProducts")));
-	options.AddPolicy("CanEditProducts", policy => policy.Requirements.Add(new PermissionRequirement("EditProducts")));
-	options.AddPolicy("CanDeleteProducts", policy => policy.Requirements.Add(new PermissionRequirement("DeleteProducts")));
 	options.AddPolicy("CanGetUserWorkers", policy => policy.Requirements.Add(new PermissionRequirement("GetUserWorkers")));
+	options.AddPolicy("CanGetUserCustomer", policy => policy.Requirements.Add(new PermissionRequirement("GetUserCustomer")));
+	options.AddPolicy("CanCreateWorkerAccount", policy => policy.Requirements.Add(new PermissionRequirement("CreateWorkerAccount")));
+	options.AddPolicy("CanGetLoginHistories", policy => policy.Requirements.Add(new PermissionRequirement("GetLoginHistories")));
+	options.AddPolicy("CanEditUserRoles", policy => policy.Requirements.Add(new PermissionRequirement("EditUserRoles")));
+	options.AddPolicy("CanEditAuthUser", policy => policy.Requirements.Add(new PermissionRequirement("EditAuthUser")));
+	options.AddPolicy("CanDeleteAccount", policy => policy.Requirements.Add(new PermissionRequirement("DeleteAccount")));
+	options.AddPolicy("CanCreateBrand", policy => policy.Requirements.Add(new PermissionRequirement("CreateBrand")));
+	options.AddPolicy("CanUpdateBrand", policy => policy.Requirements.Add(new PermissionRequirement("UpdateBrand")));
+	options.AddPolicy("CanDeleteBrand", policy => policy.Requirements.Add(new PermissionRequirement("DeleteBrand")));
+	options.AddPolicy("CanAddToCart", policy => policy.Requirements.Add(new PermissionRequirement("AddToCart")));
+	options.AddPolicy("CanGetCart", policy => policy.Requirements.Add(new PermissionRequirement("CanGetCart")));
+	options.AddPolicy("CanUpdateCartItem", policy => policy.Requirements.Add(new PermissionRequirement("UpdateCartItem")));
+	options.AddPolicy("CanRemoveFromCart", policy => policy.Requirements.Add(new PermissionRequirement("RemoveFromCart")));
+	options.AddPolicy("CanCheckOut", policy => policy.Requirements.Add(new PermissionRequirement("CheckOut")));
+	options.AddPolicy("CanGetRoles", policy => policy.Requirements.Add(new PermissionRequirement("GetRoles")));
+	options.AddPolicy("CanCreateCategory", policy => policy.Requirements.Add(new PermissionRequirement("CreateCategory")));
+	options.AddPolicy("CanUpdateCategory", policy => policy.Requirements.Add(new PermissionRequirement("UpdateCategory")));
+	options.AddPolicy("CanDeleteCategory", policy => policy.Requirements.Add(new PermissionRequirement("DeleteCategory")));
+	options.AddPolicy("CanGetOrders", policy => policy.Requirements.Add(new PermissionRequirement("GetOrders")));
+	options.AddPolicy("CanUpdateOrderStatus", policy => policy.Requirements.Add(new PermissionRequirement("UpdateOrderStatus")));
+	options.AddPolicy("CanGetPermissions", policy => policy.Requirements.Add(new PermissionRequirement("GetPermissions")));
+	options.AddPolicy("CanGetPermissionGroups", policy => policy.Requirements.Add(new PermissionRequirement("GetPermissionGroups")));
+	options.AddPolicy("CanCreatePermissions", policy => policy.Requirements.Add(new PermissionRequirement("CreatePermissions")));
+	options.AddPolicy("CanAddProduct", policy => policy.Requirements.Add(new PermissionRequirement("AddProduct")));
+	options.AddPolicy("CanUpdateProduct", policy => policy.Requirements.Add(new PermissionRequirement("UpdateProduct")));
+	options.AddPolicy("CanDeleteProduct", policy => policy.Requirements.Add(new PermissionRequirement("DeleteProduct")));
+	options.AddPolicy("CanEditProductCC", policy => policy.Requirements.Add(new PermissionRequirement("EditProductCC")));
+	options.AddPolicy("CanCreateProductCC", policy => policy.Requirements.Add(new PermissionRequirement("CreateProductCC")));
+	options.AddPolicy("CanDeleteProductCC", policy => policy.Requirements.Add(new PermissionRequirement("DeleteProductCC")));
+	options.AddPolicy("CanDeleteRole", policy => policy.Requirements.Add(new PermissionRequirement("DeleteRole")));
+	options.AddPolicy("CanEditRolePermission", policy => policy.Requirements.Add(new PermissionRequirement("EditRolePermission")));
+	options.AddPolicy("CanEditRole", policy => policy.Requirements.Add(new PermissionRequirement("EditRole")));
 });
+
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -122,7 +158,23 @@ builder.Services.AddScoped<IProductCCService, ProductCCService>();
 builder.Services.AddScoped <IRoleResponsive, RoleRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IShopService, ShopService>();
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+
+builder.Services.AddScoped<IOrderManagerService, OrderManagerService>();
+builder.Services.AddScoped<IOrderManagerRepository, OrderManagerRepository>();
+
+builder.Services.AddSingleton<IEmailSender, EmailSender>(); 
+
 builder.Services.AddAutoMapper(typeof(Program));
+
+
 
 var app = builder.Build();
 

@@ -1,3 +1,236 @@
 @{
     ViewData["Title"] = "Chi tiết sản phẩm";
 }
+
+<!-- shop-details-area-start -->
+<section class="shopdetails-area grey-bg pb-50">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-12">
+                <div class="tpdetails__area mr-60 pb-30">
+                    <div class="tpdetails__product mb-30">
+                        <div class="tpdetails__title-box">
+                            <h3 class="tpdetails__title" id="current-product-name"></h3>
+                            <ul class="tpdetails__brand">
+                                <li> Thương hiệu: <a id="current-product-brand"></a> </li>
+                                <li id="current-product-rating">
+
+                                </li>
+                                <li>
+                                    <b class="current-product-reviews-count"></b>
+                                    <b>Đánh giá</b>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tpdetails__box">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="tpproduct-details__nab">
+                                        <div class="tab-content" id="nav-tabContents">
+                                            <div class="tab-pane fade show active w-img" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                                                <img id="current-product-image">
+                                                <div class="tpproduct__info bage">
+                                                    <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade w-img" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                                                <img src="~/img/product/product-details-2.png" alt="">
+                                                <div class="tpproduct__info bage">
+                                                    <span class="tpproduct__info-discount bage__discount">-90%</span>
+                                                    <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade w-img" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
+                                                <img src="~/img/product/product-details-3.png" alt="">
+                                                <div class="tpproduct__info bage">
+                                                    <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="product__details">
+                                        <div class="product__details-price-box">
+                                            <h5 class="product__details-price" id="current-product-sale-price"></h5>
+                                            <del id="current-product-price"></del>           
+                                        </div>
+                                        <div class="product__details-stock mb-5">
+                                            <ul>
+                                                <li>Danh mục: <span id="current-product-category"></span></li>
+                                                <li>Tồn kho: <i id="current-product-stock"></i></li>
+                                                <li>Đã bán: <i style="color:gray" id="current-product-soldAmount"></i></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="product__details-cart">
+                                            <div class="product__details-quantity d-flex align-items-center mb-15">
+                                                <b>Số lượng:</b>
+                                                <div class="product__details-count mr-10">
+                                                    <button class="cart-minus"><i class="far fa-minus"></i></button>
+                                                    <input class="tp-cart-input" type="text" id="current-productCC-quantity" value="1">
+                                                    <button class="cart-plus"><i class="far fa-plus"></i></button>
+                                                </div>
+                                                <div class="product__details-btn">
+                                                    <button type="button" onclick="addProductDetailToCart()" class="tp-btn tp-color-btn w-100 banner-animation"> Thêm vào giỏ</button>
+                                                </div>
+                                            </div>
+
+                                            <div style="margin-bottom: 20px;">
+                                                <h4 style="margin-bottom: 10px; font-size: 16px;">Phiên bản</h4>
+                                                <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="current-productCC">
+
+
+                                                </div>
+                                            </div>
+
+                                            <ul style="margin-top:20px" class="product__details-check">
+                                                <li>
+                                                    <a href="#"><i class="icon-heart icons"></i> Thêm vào danh sách ước</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="icon-share-2"></i> Chia sẻ</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tpdescription__box">
+                        <div class="tpdescription__box-center d-flex align-items-center justify-content-center">
+                            <nav>
+                                <div class="nav nav-tabs" role="tablist">
+                                    <button class="nav-link active" id="nav-description-tab" data-bs-toggle="tab" data-bs-target="#nav-description" type="button" role="tab" aria-controls="nav-description" aria-selected="true">Thông tin</button>
+                                    <button class="nav-link" id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review" aria-selected="false">Đánh giá <span class="current-product-reviews-count">(1)</span></button>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-description" role="tabpanel" aria-labelledby="nav-description-tab" tabindex="0">
+                                <div class="tpdescription__content">
+                                    <p id="current-product-description"></p>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
+                                <div class="tpreview__wrapper">
+                                    <h4 class="tpreview__wrapper-title">1 review for Cheap and delicious fresh chicken</h4>
+                                    <div class="tpreview__comment">
+                                        <div class="tpreview__comment-img mr-20">
+                                            <img src="~/img/testimonial/test-avata-1.png" alt="">
+                                        </div>
+                                        <div class="tpreview__comment-text">
+                                            <div class="tpreview__comment-autor-info d-flex align-items-center justify-content-between">
+                                                <div class="tpreview__comment-author">
+                                                    <span>admin</span>
+                                                </div>
+                                                <div class="tpreview__comment-star">
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                </div>
+                                            </div>
+                                            <span class="date mb-20">--April 9, 2022: </span>
+                                            <p>very good</p>
+                                        </div>
+                                    </div>
+                                    <div class="tpreview__form">
+                                        <h4 class="tpreview__form-title mb-25">Add a review </h4>
+                                        <form action="#">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="tpreview__input mb-30">
+                                                        <input type="text" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="tpreview__input mb-30">
+                                                        <input type="email" placeholder="Email">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="tpreview__star mb-20">
+                                                        <h4 class="title">Your Rating</h4>
+                                                        <div class="tpreview__star-icon">
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tpreview__input mb-30">
+                                                        <textarea name="text" placeholder="Message"></textarea>
+                                                        <div class="tpreview__submit mt-30">
+                                                            <button class="tp-btn">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12">
+                <div class="tpsidebar pb-30">
+                    <div class="tpsidebar__warning mb-30">
+                        <ul>
+                            <li>
+                                <div class="tpsidebar__warning-item">
+                                    <div class="tpsidebar__warning-icon">
+                                        <i class="icon-package"></i>
+                                    </div>
+                                    <div class="tpsidebar__warning-text">
+                                        <p>Miễn phí vận chuyển<br> 0 VNĐ</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tpsidebar__warning-item">
+                                    <div class="tpsidebar__warning-icon">
+                                        <i class="icon-shield"></i>
+                                    </div>
+                                    <div class="tpsidebar__warning-text">
+                                        <p>Hàng chính hãng 100%</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="tpsidebar__warning-item">
+                                    <div class="tpsidebar__warning-icon">
+                                        <i class="icon-package"></i>
+                                    </div>
+                                    <div class="tpsidebar__warning-text">
+                                        <p>Bảo hành sửa chữa 6 tháng <br> 1 đổi 1 trong 7 ngày</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tpsidebar__banner mb-30">
+                        <img src="~/img/shape/banner-sidebar-antraz.svg" alt="">
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- shop-details-area-end -->
+
+
+
+<script src="~/js/API/Shop/produc-detail.js"></script>

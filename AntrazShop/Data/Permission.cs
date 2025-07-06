@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AntrazShop.Data
 {
@@ -15,6 +16,11 @@ namespace AntrazShop.Data
 
 		[StringLength(255)]
 		public string Description { get; set; }
+
+		[ForeignKey("PermissionGroup")]
+		public int? PermissionGroupId { get; set; }
+
+		public PermissionGroup? PermissionGroup { get; set; }
 
 		[Required]
 		[StringLength(100)]

@@ -2,176 +2,18 @@
     ViewBag.Title = "Nhân sự";
 }
 <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 75vw">
-        <div class="modal-content" style="">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5>ID: # </h5>
-                <h5 id="id-user"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <form class="tf-section-2 form-add-product">
-                    <div class="wg-box">
-                        <fieldset>
-
-                            <div class="upload-image">
-                                <div class="item">
-                                    <img id="avatar-image" style="object-fit: contain;" alt="">
-                                </div>
-
-                            </div>
-                        </fieldset>
-                        <fieldset style="padding:0px 50px">
-                            <div class="antraz-info-row">
-                                <p>Email</p>
-                                <p id="user-email"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Tên tài khoản</p>
-                                <p id="user-name"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Ngày sinh</p>
-                                <p id="user-birthday"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Giới tính</p>
-                                <p id="user-gender"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Địa chỉ</p>
-                                <p id="user-address"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Quê quán</p>
-                                <p id="user-hometown"></p>
-                            </div>
-
-                            <div class="antraz-info-row">
-                                <p>Ngày tạo tài khoản</p>
-                                <p id="user-create-at"></p>
-                            </div>
-
-                            <div style="text-align:right">
-                                <a onclick="historyLogin()" class="body-text tf-color">Lịch sử đăng nhập</a>
-                            </div>
-                        </fieldset>
-
-                        @* Bảng lịch sử đăng nhập *@
-                        <div class="table-responsive" style="max-height:250px; overflow-y: auto;">
-                            <table id="table-history-visiable" class="table table-striped table-hover" style="display:none;">
-                                <thead style=" background: white; font-size:14px; position: sticky; top: 0; z-index: 1;">
-                                    <tr>
-                                        <th style="width:170px; border:none;">Thời gian</th>
-                                        <th style="width:100px; border:none;">Địa chỉ IP</th>
-                                        <th style="border:none">Thông tin</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-history">
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                    <input id="imageProductName" type="hidden" />
-                    <div class="wg-box">
-                        <div class="container">
-                            <!--Trạng thái tài khoản-->
-                            <div style="display: flex; align-items: center; margin-bottom:20px;">
-                                <h5>Trạng thái</h5>
-                                <label class="switch" style="margin-left: auto;">
-                                    <input type="checkbox" id="isActive">
-                                    <span class="slider"></span>
-                                </label>
-                            </div>
-
-                            <div style="display: flex; justify-content:space-between">
-                                <h6 class="mb-4">Chức vụ: </h6>
-                                <p id="user-list-roles"></p>
-                            </div>
-
-                            <!--Gán vai trò-->
-                            <div class="row">
-
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Update product</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="update-product" id="update-product1">
-                                            <label class="" for="update-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="update-product" id="update-product2" checked>
-                                            <label class="" for="update-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Delete product</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="delete-product" id="delete-product1" checked>
-                                            <label class="" for="delete-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="delete-product" id="delete-product2">
-                                            <label class="" for="delete-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Apply discount</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" type="radio" name="apply-product" id="apply-product1">
-                                            <label class="" for="apply-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" type="radio" name="apply-product" id="apply-product2" checked>
-                                            <label class="" for="apply-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="col-6 mb-24">
-                                    <div class="body-title mb-10">Create coupon</div>
-                                    <div class="radio-buttons">
-                                        <div class="item">
-                                            <input class="" disabled type="radio" name="create-product" id="create-product1">
-                                            <label class="" for="create-product1"><span class="body-title-2">Allow</span></label>
-                                        </div>
-                                        <div class="item">
-                                            <input class="" disabled type="radio" name="create-product" id="create-product2" checked>
-                                            <label class="" for="create-product2"><span class="body-title-2">Deny</span></label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </form>
-            </div>
-            @*  <!-- Modal Footer -->
-            <div class="modal-footer">
-                <div class="col-7"></div>
-                <div class="col-5" style="display: flex; gap: 10px;">
-                    <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal" onclick="closeView()">Đóng</button>
-                    <button type="button" class="tf-button w-full" id="btn-edit">Chỉnh sửa</button>
-                    <button type="button" class="tf-button w-full" onclick="saveUpdate()" id="btn-save">Lưu thay đổi</button>
-                </div>
-            </div> *@
-        </div>
+        @Html.Partial("_AccountViewModal")
     </div>
 </div>
+
+<div class="modal fade" id="createAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 75vw">
+        @Html.Partial("_CreateModal")
+    </div>
+</div>
+
+
 <div class="main-content-inner">
 
     <!-- main-content-wrap -->
@@ -227,19 +69,19 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="/admin/product/create"><i class="icon-plus"></i>Thêm mới</a>
+                <a class="tf-button style-1 w208" onclick="openModalCreate()"><i class="icon-plus"></i>Thêm mới</a>
             </div>
             <table class="antraz-table">
                 <thead>
                     <tr class="antraz-table-title">
-                        <th>Họ tên</th>
+                        <th style="width:20%">Họ tên</th>
                         <th>Mã NV</th>
-                        <th style="width:20%">Email</th>
-                        <th style="width:15%">Role</th>
+                        <th style="width:18%">Email</th>
+                        <th style="width:12%">Role</th>
+                        <th style="width:12%">Trạng thái</th>
                         <th>Giới tính</th>
                         <th>Ngày sinh</th>
                         <th>Hành động</th>
-
                     </tr>
                 </thead>
                 <tbody id="table-data">

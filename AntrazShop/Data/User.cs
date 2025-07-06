@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AntrazShop.Data
 {
+	// Ví dụ Entity User
 	[Table("Users")]
 	public class User
 	{
@@ -54,7 +55,7 @@ namespace AntrazShop.Data
 		public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
 		public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
 		public ICollection<Review> Reviews { get; set; } = new List<Review>();
-
 		public UserAuthInfo UserAuthInfo { get; set; }
+		public ICollection<EmailCode> EmailCodes { get; set; } = new List<EmailCode>();
 	}
 }

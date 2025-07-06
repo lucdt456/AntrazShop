@@ -1,4 +1,3 @@
-using AntrazShop.Data;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using Microsoft.AspNetCore.Authorization;
@@ -24,8 +23,13 @@ namespace AntrazShop.Controllers.API
 		[HttpGet]
 		public async Task<IActionResult> GetProducts(int page = 1, int size = 10)
 		{
-			var (products, pagination) = await _productService.GetProducts(page, size);
+			var response = await _productService.GetProducts(page, size);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
 
+			var (products, pagination) = response.Data;
 			return Ok(new
 			{
 				Products = products,
@@ -33,12 +37,17 @@ namespace AntrazShop.Controllers.API
 			});
 		}
 
-		//[Authorize]
 		//Tìm kiếm sản phẩm
 		[HttpGet("search")]
 		public async Task<IActionResult> SearchProducts(string? search, int page = 1, int size = 10)
 		{
-			var (products, pagination) = await _productService.SearchProducts(search, page, size);
+			var response = await _productService.SearchProducts(search, page, size);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+
+			var (products, pagination) = response.Data;
 			return Ok(new
 			{
 				Products = products,
@@ -50,22 +59,29 @@ namespace AntrazShop.Controllers.API
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetProduct(int id)
 		{
-			var product = await _productService.GetProduct(id);
-			if (product != null)
+			var response = await _productService.GetProduct(id);
+			if (!response.IsSuccess)
 			{
-				return Ok(product);
+				return BadRequest(new { errors = response.Errors });
 			}
-			else return NotFound(new { message = "Không tìm thấy sản phẩm" });
+			return Ok(response.Data);
 		}
 
 		//Tạo sản phẩm
+		[Authorize(Policy = "CanAddProduct")]
 		[HttpPost("create")]
 		public async Task<IActionResult> AddProduct([FromForm] ProductDTO newProduct)
 		{
-			return Ok(await _productService.AddProduct(newProduct));
+			var response = await _productService.AddProduct(newProduct);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			else return Ok(response.Data);
 		}
 
 		//Edit sản phẩm
+		[Authorize(Policy = "CanUpdateProduct")]
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateProduct(int id, [FromForm] ProductDTO productUpdate)
 		{
@@ -77,6 +93,7 @@ namespace AntrazShop.Controllers.API
 			else return Ok(response.Data);
 		}
 
+		[Authorize(Policy = "CanDeleteProduct")]
 		//Xoá sản phẩm
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteProduct(int id)
@@ -90,6 +107,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Chỉnh sửa phân loại sản phẩm
+		[Authorize(Policy = "CanEditProductCC")]
 		[HttpPut("{productFolder}/{idCC}")]
 		public async Task<IActionResult> EditProductCC(string productFolder, int idCC, [FromForm] ProductColorCapacityDTO dTO)
 		{
@@ -102,6 +120,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Tạo phân loại sản phẩm mới
+		[Authorize(Policy = "CanCreateProductCC")]
 		[HttpPost("{idProduct}/{productFolder}")]
 		public async Task<IActionResult> CreateProductCC(int idProduct, string productFolder, [FromForm] ProductColorCapacityDTO dTO)
 		{
@@ -114,6 +133,7 @@ namespace AntrazShop.Controllers.API
 		}
 
 		//Xoá phân loại sản phẩm
+		[Authorize(Policy = "CanDeleteProductCC")]
 		[HttpDelete("{id}/{productFolder}")]
 		public async Task<IActionResult> DeleteProductCC(int id, string productFolder)
 		{

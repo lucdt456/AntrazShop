@@ -6,9 +6,6 @@ namespace AntrazShop.Data
 	[Table("RolePermissions")]
 	public class RolePermission
 	{
-		[Key]
-		public int Id { get; set; }
-
 		[Required]
 		[ForeignKey("Role")]
 		public int RoleId { get; set; }

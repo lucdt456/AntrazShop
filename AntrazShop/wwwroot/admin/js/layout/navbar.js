@@ -39,6 +39,7 @@ function checkAuth() {
 function loadNavbar() {
     const decoded = jwt_decode(token); // Giải mã token
     $('#claim-name').text(decoded.Name);
+    localStorage.setItem('id-claim', `${decoded.Id}`);
     $('#claim-avatar').attr('src', `/admin/imgs/avatar/${decoded.Avatar}`);
 
     if (decoded.IsWorkerAccount != "True") {

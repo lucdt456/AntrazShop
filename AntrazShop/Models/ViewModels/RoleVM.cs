@@ -8,6 +8,7 @@ namespace AntrazShop.Models.ViewModels
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int CountUser { get; set; }
+		public DateTime CreateAt { get; set; }
 		public ICollection<PermissionVM> Permissions { get; set; }
 		public ICollection<string> UserNames { get; set; }
 	}

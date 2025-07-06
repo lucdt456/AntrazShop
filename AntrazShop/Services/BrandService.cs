@@ -23,7 +23,8 @@ namespace AntrazShop.Services
 			var response = new ServiceResponse<BrandVM>();
 			try
 			{
-				var brand = _mapper.Map<Brand>(dto); 
+				var brand = _mapper.Map<Brand>(dto);
+				brand.CreateAt = DateTime.Now;
 
 				brand = await _brandRepository.CreateBrand(brand);
 

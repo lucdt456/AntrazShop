@@ -1,7 +1,6 @@
 $(function () {
     findH3CreateOrUpdate();
 });
-
 var productEdit = {
     imageView: '',
     folderImage: ''
@@ -15,6 +14,7 @@ function findH3CreateOrUpdate() {
         if (textH3 === 'Chỉnh sửa sản phẩm') {
             document.getElementById("btn_create").style.display = "none";
             document.getElementById("btn_update").style.display = "inline";
+            document.getElementById("btn_reset").style.display = "none";
 
             $("table.antraz-table th:first-child").text("Mã SP");
             $("table.antraz-table th:first-child").css("width", "10%");
@@ -60,8 +60,11 @@ function saveUpdate() {
             }
 
             $.ajax({
-                url: `https://localhost:7092/api/Product/${id}`,
+                url: window.API_URL + `/Product/${id}`,
                 type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
                 data: productFormData,
                 processData: false,
                 contentType: false,
@@ -77,11 +80,23 @@ function saveUpdate() {
 
                 },
                 error: function (xhr, status, error) {
+
+                    let errorMessage = 'Đăng nhập thất bại.';
+
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.errors && response.errors.length > 0) {
+                            errorMessage = response.errors.join('\n');
+                        }
+                    } catch (e) {
+                        console.error("Lỗi phân tích phản hồi:", e);
+                    }
+
                     swal.fire({
                         icon: "error",
                         title: "oops...",
-                        text: "Lỗi không cập nhật được sản phẩm" + xhr.responseText,
-                        footer: '<a href="#">Có lỗi xảy ra?</a>'
+                        text: errorMessage,
+                        footer: '<a href="#">Tại sao tôi gặp lỗi này?</a>'
                     });
                     console.error(error);
                 }
@@ -101,8 +116,11 @@ function loadEdit(id) {
     if (id != null) {
         $("#id-product").append(id);
         $.ajax({
-            url: `https://localhost:7092/api/Product/${id}`,
+            url: window.API_URL + `/Product/${id}`,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            },
             dataType: 'json',
             success: function (product) {
                 productX = product;
@@ -248,8 +266,11 @@ function AddProductCC() {
                 let urlParams = new URLSearchParams(window.location.search);
                 let idProduct = urlParams.get('id');
                 $.ajax({
-                    url: `https://localhost:7092/api/Product/${idProduct}/${productX.folderImage}`,
+                    url: window.API_URL + `/Product/${idProduct}/${productX.folderImage}`,
                     type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
                     data: productCCFormData,
                     processData: false,
                     contentType: false,
@@ -382,8 +403,11 @@ function SaveProductCC() {
                 }
                 let idProductCC = $("#idCC").val();
                 $.ajax({
-                    url: `https://localhost:7092/api/Product/${productX.folderImage}/${idProductCC}`,
+                    url: window.API_URL + `/Product/${productX.folderImage}/${idProductCC}`,
                     type: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
                     data: productCCFormData,
                     processData: false,
                     contentType: false,
@@ -447,8 +471,11 @@ function DeleteProductCC(button) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `https://localhost:7092/api/Product/${idProductCC}/${productX.folderImage}`,
+                url: window.API_URL + `/Product/${idProductCC}/${productX.folderImage}`,
                 type: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
                 success: function (response) {
                     swalWithBootstrapButtons.fire({
                         title: "Deleted!",

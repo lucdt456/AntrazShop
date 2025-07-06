@@ -13,7 +13,7 @@ function createUser() {
         }
         userJson = JSON.stringify(user);
         $.ajax({
-            url: `https://localhost:7092/api/Account/Register`,
+            url: window.API_URL + `/Account/Register`,
             type: 'POST',
             contentType: 'application/json',
             data: userJson,

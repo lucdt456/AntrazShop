@@ -124,7 +124,7 @@ namespace AntrazShop.Repositories
 					.Include(cc => cc.Capacity)
 					.Where(cc => cc.ProductId == colorCapacity.ProductId)
 					.ToListAsync();
-				
+
 			}
 			else throw new Exception("Không tìm thấy phân loại sản phẩm");
 		}
@@ -132,6 +132,7 @@ namespace AntrazShop.Repositories
 		public async Task<IEnumerable<ColorCapacity>> GetProductCCsFromProductId(int id)
 		{
 			return await _context.ColorCapacities
+				.AsNoTracking()
 						.Include(cc => cc.Color)
 						.Include(cc => cc.Capacity)
 						.Where(cc => cc.ProductId == id)
@@ -141,9 +142,10 @@ namespace AntrazShop.Repositories
 		public async Task DeleteProductCC(int id)
 		{
 			var productCC = await _context.ColorCapacities.FindAsync(id);
-			if (productCC == null) {
+			if (productCC == null)
+			{
 				throw new Exception("Không tìm thấy phân loại sản phẩm");
-			} 
+			}
 			else
 			{
 				_context.ColorCapacities.Remove(productCC);

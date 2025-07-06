@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="MailKit" Version="4.13.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.13" />
@@ -16,16 +17,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="MimeKit" Version="4.13.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\API\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Respositories\Interfaces\" />
     <Folder Include="Areas\Admin\Services\Interfaces\" />
     <Folder Include="wwwroot\admin\imgs\product\" />
     <Folder Include="wwwroot\admin\img\brandlogo\" />
+    <Folder Include="wwwroot\admin\js\api-jquery\Category\" />
     <Folder Include="wwwroot\test\img\" />
   </ItemGroup>
 

@@ -1,3 +1,65 @@
 @{
     ViewData["Title"] = "Giỏ hàng";
 }
+<!-- breadcrumb-area-start -->
+<div class="breadcrumb__area pt-5 pb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="tp-breadcrumb__content">
+                    <div class="tp-breadcrumb__list">
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb-area-end -->
+<!-- cart area -->
+<section class="cart-area pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">Ảnh</th>
+                                    <th style="width:30%" class="cart-product-name">Tên sản phẩm</th>
+                                    <th class="cart-product-name">Phân loại</th>
+                                    <th class="product-price">Giá</th>
+                                    <th class="product-price">Giảm giá</th>
+                                    <th class="product-quantity">Số lượng</th>
+                                    <th class="product-subtotal">Tổng</th>
+                                    <th class="product-remove">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-table-row">
+                            </tbody>
+                        </table>
+                    </div>           
+                    <div class="row justify-content-end">
+                        <div class="col-md-5 ">
+                            <div class="cart-page-total">
+                                <h2>Tổng giỏ hàng</h2>
+                                <ul class="mb-20">
+                                    <li>Tổng tiền <span id="total-price-cart-items-cart"></span></li>
+                                    <li>Giảm giá <span id="total-discount-amount"></span></li>
+                                    <li>Tổng thanh toán <span id="total-current-price"></span></li>
+                                </ul>
+                                <a href="/cart/checkout" class="tp-btn tp-color-btn banner-animation">Mua hàng</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- cart area end-->
+
+
+
+<script src="~/js/API/Shop/cart.js"></script>

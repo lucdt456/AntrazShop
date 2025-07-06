@@ -154,7 +154,7 @@ namespace AntrazShop.Services
 					Birthday = dto.Birthday,
 					Address = dto.Address.Trim(),
 					Hometown = dto.Hometown.Trim(),
-					workerAccount = dto.IsWorkerAccount,
+					workerAccount = true,
 					CreatedAt = DateTime.Now
 				};
 
@@ -176,7 +176,7 @@ namespace AntrazShop.Services
 				};
 
 				await _accountRepository.CreateUserAuthInfo(auth);
-
+				
 				response.Data = _mapper.Map<AccountVM>(user);
 			}
 			catch (Exception ex)
@@ -195,9 +195,6 @@ namespace AntrazShop.Services
 				//Lấy tài khoản
 				var user = await _accountManagerRepository.GetUser(userId);
 				string avatarNameFile = user.Avatar;
-
-				avatarNameFile = FileNameHelper.EmailToSlug(user.Email) + Path.GetExtension(dTO.Avatar.FileName);
-
 				var imageAvtPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "avatar", avatarNameFile);
 
 				//xử lý ảnh
@@ -208,7 +205,7 @@ namespace AntrazShop.Services
 					{
 						File.Delete(imageAvtPath);
 					}
-
+					avatarNameFile = FileNameHelper.EmailToSlug(user.Email) + Path.GetExtension(dTO.Avatar.FileName);
 					imageAvtPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "admin", "imgs", "avatar", avatarNameFile);
 
 					using (var stream = new FileStream(imageAvtPath, FileMode.Create))
@@ -225,7 +222,6 @@ namespace AntrazShop.Services
 				user.Birthday = dTO.Birthday;
 				user.Address = dTO.Address;
 				user.Hometown = dTO.Hometown;
-				user.workerAccount = dTO.IsWorkerAccount;
 
 				user = await _accountManagerRepository.UpdateUser(userId, user);
 				response.Data = _mapper.Map<AccountVM>(user);
@@ -292,6 +288,21 @@ namespace AntrazShop.Services
 			return response;
 		}
 
-
+		public async Task<ServiceResponse<string>> DeleteAccount(int userId)
+		{
+			var response = new ServiceResponse<string>();
+			try
+			{
+				await _accountManagerRepository.DeleteAuthAccount(userId);
+				await _accountManagerRepository.DeleteAccount(userId);
+				response.Data = "Xoá thành công!";
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
 	}
 }

@@ -36,6 +36,12 @@
                         <option value="1">Apple</option>
                         <option value="2">Samsung</option>
                         <option value="3">Dell</option>
+                        <option value="4">Sony</option>
+                        <option value="5">Xiaomi</option>
+                        <option value="6">Acer</option>
+                        <option value="7">Lenovo</option>
+                        <option value="8">Asus</option>
+                        <option value="9">Logitech</option>
                     </select>
 
                     <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
@@ -51,6 +57,14 @@
                         <option value="">Chọn danh mục</option>
                         <option value="1">Smart Phone</option>
                         <option value="2">Laptop</option>
+                        <option value="3">Tài cả</option>
+                        <option value="4">Tivi</option>
+                        <option value="5">Phụ kiện điện thoại</option>
+                        <option value="6">Gaming Gear</option>
+                        <option value="7">Âm thanh</option>
+                        <option value="8">Sạc & Cáp</option>
+                        <option value="9">PC & Linh kiện</option>
+                        <option value="10">Màn hình & Phụ kiện</option>
                     </select>
                     <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
                 </div>
@@ -121,7 +135,9 @@
         <div class="cols gap10">
             <button type="button" id="btn_create" class="tf-button w-full" onclick="CreateProduct()">Tạo sản phẩm</button>
             <button type="button" id="btn_update" class="tf-button w-full" style="display:none" onclick="saveUpdate()">Lưu sản phẩm</button>
-            <button onclick="ResetData()" class="tf-button style-1 w-full">Làm mới</button>
+            <button onclick="ResetData()" id="btn_reset" class="tf-button style-1 w-full">Làm mới</button>
         </div>
     </div>
 </form>
+
+<script src="/admin/js/api-jquery/product/load-brand-category.js"></script>

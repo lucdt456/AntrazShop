@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AntrazShop.Data
 {
@@ -12,13 +13,13 @@ namespace AntrazShop.Data
 		[Required]
 		[ForeignKey("Order")]
 		public Guid OrderCode { get; set; }
-
+		[JsonIgnore]
 		public Order Order { get; set; }
 
 		[Required]
 		[ForeignKey("ColorCapacity")]
 		public int ColorCapacityId { get; set; }
-
+		[JsonIgnore]
 		public ColorCapacity ColorCapacity { get; set; }
 
 		[Required]

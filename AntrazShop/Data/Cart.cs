@@ -28,6 +28,6 @@ namespace AntrazShop.Data
 		[Required]
 		[Range(0, double.MaxValue, ErrorMessage = "Tổng tiền không được âm")]
 		[Column(TypeName = "decimal(18,2)")] 
-		public double Total { get; set; }
+		public Decimal Total { get; set; }
 	}
 }

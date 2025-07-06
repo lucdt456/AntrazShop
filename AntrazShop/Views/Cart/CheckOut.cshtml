@@ -1,3 +1,114 @@
 @{
     ViewData["Title"] = "Thanh toán";
 }
+<!-- checkout-area start -->
+<section class="checkout-area pb-50">
+    <div class="container">
+        <form action="#">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="checkbox-form">
+                        <h3>Chi tiết hoá đơn</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Họ <span class="required">*</span></label>
+                                    <input type="text" id="first-name" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checkout-form-list">
+                                    <label>Tên<span class="required">*</span></label>
+                                    <input type="text" id="last-name" placeholder="">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <label>Số điện thoại <span class="required">*</span></label>
+                                    <input type="text" id="phone-number" placeholder="Nhập số điện thoại">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="checkout-form-list">
+                                    <label>Địa chỉ nhận hàng<span class="required">*</span></label>
+                                    <input type="text" id="adress" placeholder="Nhập địa chỉ cụ thể">
+                                </div>
+                            </div>
+                          
+                          
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="your-order mb-30 ">
+                        <h3>Đơn hàng của bạn</h3>
+                        <div class="your-order-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-total">Tổng</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="check-out-item">
+                                    <tr class="cart_item">
+                                        <td class="product-name">
+                                            Vestibulum suscipit <strong class="product-quantity"> × 1</strong>
+                                        </td>
+                                        <td class="product-total">
+                                            <span class="amount">$165.00</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="cart_item">
+                                        <td class="product-name">
+                                            Vestibulum dictum magna <strong class="product-quantity"> × 1</strong>
+                                        </td>
+                                        <td class="product-total">
+                                            <span class="amount">$50.00</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="cart-subtotal">
+                                        <th>Tổng tiền</th>
+                                        <td><span class="amount" id="total-price-cart-items-cart"></span></td>
+                                    </tr>
+                                    <tr class="cart-subtotal">
+                                        <th>Giảm giá</th>
+                                        <td><span class="amount" id="total-discount-amount"></span></td>
+                                    </tr>
+                                    <tr class="shipping">
+                                        <th>Shipping</th>
+                                        <td>
+                                            <ul>
+                                                <li>
+                                                    <input checked type="radio" name="shipping">
+                                                    <label>Miễn phí giao hàng</label>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr class="order-total">
+                                        <th>Tổng thanh toán</th>
+                                        <td>
+                                            <strong><span class="amount" id="total-current-price"></span></strong>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="payment-method">
+                            <div class="order-button-payment mt-20">
+                                <button type="button" onclick="checkOut()" class="tp-btn tp-color-btn w-100 banner-animation">Xác nhận đơn hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- checkout-area end -->
+
+<script src="~/js/API/Shop/checkout.js"></script>

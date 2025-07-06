@@ -9,6 +9,7 @@ namespace AntrazShop.Data
 
 		}
 		public DbSet<Brand> Brands { get; set; }
+		public DbSet<EmailCode> EmailCodes { get; set; }
 		public DbSet<Cart> Carts { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<Order> Orders { get; set; }
@@ -29,6 +30,8 @@ namespace AntrazShop.Data
 		public DbSet<UserAuthInfo> UserAuthInfos { get; set; }
 		public DbSet<LoginHistory> LoginHistories { get; set; }
 		public DbSet<Sale> Sales { get; set; }
+		public DbSet<PermissionGroup> PermissionGroups { get; set; }
+		public DbSet<OrderStatusLog> OrderStatusLogs { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,7 +52,7 @@ namespace AntrazShop.Data
 						.HasKey(od => new { od.OrderCode, od.ColorCapacityId });
 
 			modelBuilder.Entity<Review>()
-						.HasKey(rv => new { rv.UserId, rv.ColorCapacityId });
+						.HasKey(rv => rv.Id);
 
 			modelBuilder.Entity<UserPermission>().HasKey(up => new { up.UserId, up.PermissionId });
 

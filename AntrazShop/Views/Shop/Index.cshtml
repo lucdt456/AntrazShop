@@ -18,7 +18,9 @@
         </div>
     </div>
 </div>
+
 <!-- breadcrumb-area-end -->
+
 <!-- shop-area-start -->
 <section class="shop-area-start grey-bg pb-200">
     <div class="container">
@@ -43,14 +45,14 @@
                         <div class="row align-items-center">
                             <div class="col-sm-4">
                                 <div class="product__item-count">
-                                    <span>Tổng 40 sản phẩm</span>
+                                    <span id="totalItem"></span>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="tpproductnav tpnavbar product-filter-nav d-flex align-items-center justify-content-center">
                                     <nav>
                                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                            <button class="nav-link" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="false">
+                                            <button onclick="setSwitchListView1()" class="nav-link" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="false">
                                                 <i>
                                                     <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M2 4C3.10457 4 4 3.10457 4 2C4 0.89543 3.10457 0 2 0C0.89543 0 0 0.89543 0 2C0 3.10457 0.89543 4 2 4Z" fill="currentColor" />
@@ -68,7 +70,7 @@
                                                     </svg>
                                                 </i>
                                             </button>
-                                            <button class="nav-link active" id="nav-popular-tab" data-bs-toggle="tab" data-bs-target="#nav-popular" type="button" role="tab" aria-controls="nav-popular" aria-selected="true">
+                                            <button onclick="setSwitchListView2()" class="nav-link active" id="nav-popular-tab" data-bs-toggle="tab" data-bs-target="#nav-popular" type="button" role="tab" aria-controls="nav-popular" aria-selected="true">
                                                 <i>
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M2 4C3.10457 4 4 3.10457 4 2C4 0.89543 3.10457 0 2 0C0.89543 0 0 0.89543 0 2C0 3.10457 0.89543 4 2 4Z" fill="currentColor" />
@@ -83,7 +85,7 @@
                                                     </svg>
                                                 </i>
                                             </button>
-                                            <button class="nav-link" id="nav-product-tab" data-bs-toggle="tab" data-bs-target="#nav-product" type="button" role="tab" aria-controls="nav-product" aria-selected="false">
+                                            <button onclick="setSwitchListView3()" class="nav-link" id="nav-product-tab" data-bs-toggle="tab" data-bs-target="#nav-product" type="button" role="tab" aria-controls="nav-product" aria-selected="false">
                                                 <i>
                                                     <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M2 4C3.10457 4 4 3.10457 4 2C4 0.89543 3.10457 0 2 0C0.89543 0 0 0.89543 0 2C0 3.10457 0.89543 4 2 4Z" fill="currentColor" />
@@ -112,172 +114,46 @@
                         </div>
                     </div>
                     <!--Điều hướng loại hiển thị-end-->
-
+                    <!--List 1 start-->
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-                            <div class="row row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item">
-                                <div class="col">
-                                    <div class="tpproduct p-relative mb-20">
-                                        <div class="tpproduct__thumb p-relative text-center">
-                                            <a href="#"><img src="~/img/product/products21-min.jpg" alt=""></a>
-                                            <a class="tpproduct__thumb-img" href="shop-details-grid.html"><img src="~/img/product/products1-min.jpg" alt=""></a>
-                                            <div class="tpproduct__info bage">
-                                                <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                                <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                            </div>
-                                            <div class="tpproduct__shopping">
-                                                <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                                <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                                <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="tpproduct__content">
-                                            <span class="tpproduct__content-weight">
-                                                <a href="shop-details-3.html">Fresh Fruits</a>,
-                                                <a href="shop-details-3.html">Vagetables</a>
-                                            </span>
-                                            <h4 class="tpproduct__title">
-                                                <a href="shop-details-top-.html">Mangosteen Organic From VietNamese</a>
-                                            </h4>
-                                            <div class="tpproduct__rating mb-5">
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                            </div>
-                                            <div class="tpproduct__price">
-                                                <span>$56.00</span>
-                                                <del>$19.00</del>
-                                            </div>
-                                        </div>
-                                        <div class="tpproduct__hover-text">
-                                            <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                                <a class="tp-btn-2" href="cart.html">Add to cart</a>
-                                            </div>
-                                            <div class="tpproduct__descrip">
-                                                <ul>
-                                                    <li>Type: Organic</li>
-                                                    <li>MFG: August 4.2021</li>
-                                                    <li>LIFE: 60 days</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row row-cols-xxl-4 row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item" id="list-product-1">
+                               
                             </div>
                         </div>
+                        <!--List 1 end-->
+                        <!--List 2 start-->
                         <div class="tab-pane fade show active whight-product" id="nav-popular" role="tabpanel" aria-labelledby="nav-popular-tab">
-                            <div class="row row-cols-xxl-3 row-cols-xl-3 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item">
-                                <div class="col">
-                                    <div class="tpproduct p-relative mb-20">
-                                        <div class="tpproduct__thumb p-relative text-center">
-                                            <a href="#"><img src="~/img/product/products21-min.jpg" alt=""></a>
-                                            <a class="tpproduct__thumb-img" href="shop-details-grid.html"><img src="~/img/product/products1-min.jpg" alt=""></a>
-                                            <div class="tpproduct__info bage">
-                                                <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                                <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                            </div>
-                                            <div class="tpproduct__shopping">
-                                                <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
-                                                <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
-                                                <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="tpproduct__content">
-                                            <span class="tpproduct__content-weight">
-                                                <a href="shop-details-3.html">Fresh Fruits</a>,
-                                                <a href="shop-details-3.html">Vagetables</a>
-                                            </span>
-                                            <h4 class="tpproduct__title">
-                                                <a href="shop-details-top-.html">Mangosteen Organic From VietNamese</a>
-                                            </h4>
-                                            <div class="tpproduct__rating mb-5">
-                                                <a href="#"><i class="bi bi-star-fill"></i></a>
-                                                <a href="#"><i class="bi bi-star-fill"></i></a>
-                                                <a href="#"><i class="bi bi-star-fill"></i></a>
-                                                <a href="#"><i class="bi bi-star-half"></i></a>
-                                                <a href="#"><i class="bi bi-star"></i></a>
-                                            </div>
-                                            <div class="tpproduct__price">
-                                                <span>$56.00</span>
-                                                <del>$19.00</del>
-                                            </div>
-                                        </div>
-                                        <div class="tpproduct__hover-text">
-                                            <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                                                <a class="tp-btn-2" href="cart.html">Add to cart</a>
-                                            </div>
-                                            <div class="tpproduct__descrip">
-                                                <ul>
-                                                    <li>Type: Organic</li>
-                                                    <li>MFG: August 4.2021</li>
-                                                    <li>LIFE: 60 days</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row row-cols-xxl-3 row-cols-xl-3 row-cols-lg-3 row-cols-md-3 row-cols-sm-2 row-cols-1 tpproduct__shop-item" id="list-product-2">
+                               
                             </div>
+
                         </div>
+                        <!--List 2 end-->
+                        <!--List 3 start-->
                         <div class="tab-pane fade whight-product" id="nav-product" role="tabpanel" aria-labelledby="nav-product-tab">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="tplist__product d-flex align-items-center justify-content-between mb-20">
-                                        <div class="tplist__product-img">
-                                            <a href="#" class="tplist__product-img-one"><img src="~/img/product/products41-min.jpg" alt=""></a>
-                                            <a class="tplist__product-img-two" href="shop-details.html"><img src="~/img/product/products48-min.jpg" alt=""></a>
-                                            <div class="tpproduct__info bage">
-                                                <span class="tpproduct__info-discount bage__discount">-50%</span>
-                                                <span class="tpproduct__info-hot bage__hot">HOT</span>
-                                            </div>
-                                        </div>
-                                        <div class="tplist__content">
-                                            <span>500 gram</span>
-                                            <h4 class="tplist__content-title"><a href="#">Fresh Mangosteen 100% Organic From VietNamese</a></h4>
-                                            <div class="tplist__rating mb-5">
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                                <a href="#"><i class="icon-star_outline1"></i></a>
-                                            </div>
-                                            <ul class="tplist__content-info">
-                                                <li>Delicous Non-Dairy cheese sauce</li>
-                                                <li>Vegan & Allergy Friendly</li>
-                                                <li>Smooth, velvety Dairy free cheese sauce</li>
-                                            </ul>
-                                        </div>
-                                        <div class="tplist__price justify-content-end">
-                                            <h4 class="tplist__instock">Availability: <span>92 in stock</span> </h4>
-                                            <h3 class="tplist__count mb-15">$56.00</h3>
-                                            <button class="tp-btn-2 mb-10">Add to cart</button>
-                                            <div class="tplist__shopping">
-                                                <a href="#"><i class="icon-heart icons"></i> wishlist</a>
-                                                <a href="#"><i class="icon-layers"></i>Compare</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="row" id="list-product-3">
+                                
                             </div>
                         </div>
+                        <!--List 3 end-->
                     </div>
                     <div class="basic-pagination text-center mt-35">
                         <nav>
-                            <ul>
+                            <ul id="pageNumber">
                                 <li>
-                                    <a href="" id="firstPageButton"><i class="fas fa-angle-double-left"></i></a>
+                                    <a style="cursor: pointer;" id="firstPageButton"><i class="fas fa-angle-double-left"></i></a>
                                 </li>
 
                                 <li>
-                                    <a href="" id="prevPageButton"><i class="fa-solid fa-angle-left"></i></a>
+                                    <a style="cursor: pointer;" id="prevPageButton"><i class="fa-solid fa-angle-left"></i></a>
                                 </li>
 
                                 <li>
-                                    <a href="" id="nextPageButton"><i class="fa-solid fa-angle-right"></i></a>
+                                    <a style="cursor: pointer;" id="nextPageButton"><i class="fa-solid fa-angle-right"></i></a>
                                 </li>
                                 <li>
-                                    <a href="" id="lastPageButton"><i class="fa-solid fa-angles-right"></i></a>
+                                    <a style="cursor: pointer;" id="lastPageButton"><i class="fa-solid fa-angles-right"></i></a>
                                 </li>
                             </ul>
                         </nav>
@@ -289,6 +165,8 @@
 </section>
 <!-- shop-area-end -->
 
+<script src="~/js/API/Shop/product.js"></script>
 <script src="~/admin/js/api-jquery/Base/pagination-base.js"></script>
 <script src="~/js/API/Shop/sidebar.js"></script>
+
 <script src="~/js/API/Shop/data-product-shop.js"></script>

@@ -20,5 +20,6 @@ namespace AntrazShop.Data
 
 		[StringLength(255)]
 		public string? Image { get; set; }
+		public DateTime CreateAt { get; set; }
 	}
 }

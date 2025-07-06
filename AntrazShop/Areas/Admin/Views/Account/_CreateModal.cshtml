@@ -1,0 +1,145 @@
+<div class="modal-content" style="">
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h5>TẠO TÀI KHOẢN NHÂN VIÊN</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeView()"></button>
+    </div>
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form class="tf-section-2 form-add-product">
+            <div class="wg-box">
+                <fieldset>
+                    <label class="body-title mb-20">Ảnh đại diện</label>
+                    <div class="upload-image mb-16">
+                        <div class="item up-load image-border" style="width:100%">
+                            <label class="uploadfile mb-0" for="create-avatar-input" style="gap:0;">
+                                <!-- icon -->
+                                <span id="create-uploadIcon" class="icon" style="">
+                                    <i class="icon-upload-cloud"></i>
+                                </span>
+
+                                <!-- Ảnh thay thế icon -->
+                                <div class="img-preview-product" style="width:100%; display:none;">
+                                    <img style="object-fit: contain;" id="create-avatar-preview" alt="">
+                                </div>
+
+                                <!-- Input -->
+                                <input class="form-control-plaintext" type="file" id="create-avatar-input" accept="image/*">
+                                <div class="text-tiny error-message text-danger" id="create-error-message-image" style="font-style : italic"></div>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Họ và tên -->
+                <fieldset>
+                    <label for="create-user-name" class="body-title mb-10">Họ và tên <span class="tf-color-1">*</span></label>
+                    <input id="create-user-name" class="mb-10 validate-input" type="text" placeholder="Nhập tên của bạn" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <!-- Email -->
+                <fieldset class="email">
+                    <label for="create-user-email" class="body-title mb-10">Email <span class="tf-color-1">*</span></label>
+                    <input autocomplete="username" id="create-user-email" class="mb-10 validate-input" type="email" placeholder="Nhập địa chỉ email" tabindex="0" value="">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <div class="gap22 cols">
+                    <!-- Giới tính -->
+                    <fieldset>
+                        <label for="create-user-gender" class="body-title mb-10">Giới tính</label>
+                        <div class="select">
+                            <select id="create-user-gender" class="mb-10">
+                                <option value="">Chọn</option>
+                                <option>Nam</option>
+                                <option>Nữ</option>
+                            </select>
+                            <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Ngày sinh -->
+                    <fieldset>
+                        <label for="create-user-birthday" class="body-title mb-10">Ngày sinh</label>
+                        <input id="create-user-birthday" class="mb-10" type="date" placeholder="Nhập ngày sinh" tabindex="0">
+                        <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                    </fieldset>
+                </div>
+
+                <!-- Mật khẩu -->
+                <fieldset class="password">
+                    <label for="create-user-password" class="body-title mb-10">Mật khẩu <span class="tf-color-1">*</span></label>
+                    <input id="create-user-password" autocomplete="new-password" class="password-input validate-input mb-10" type="password" placeholder="Nhập mật khẩu" tabindex="0" value="">
+                    <span class="show-pass">
+                        <i class="icon-eye view"></i>
+                        <i class="icon-eye-off hide"></i>
+                    </span>
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <!-- Xác nhận mật khẩu -->
+                <fieldset class="password">
+                    <label for="create-user-repassword" class="body-title mb-10">Xác nhận mật khẩu <span class="tf-color-1">*</span></label>
+                    <input id="create-user-repassword" autocomplete="new-password" class="password-input validate-input mb-10" type="password" placeholder="Nhập lại mật khẩu" tabindex="0" value="">
+                    <span class="show-pass">
+                        <i class="icon-eye view"></i>
+                        <i class="icon-eye-off hide"></i>
+                    </span>
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <!-- Số điện thoại -->
+                <fieldset class="phoneNumber">
+                    <label for="create-user-phone" class="body-title mb-10">Số điện thoại</label>
+                    <input id="create-user-phone" class="mb-10" type="tel" placeholder="Nhập số điện thoại" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <!-- Địa chỉ -->
+                <fieldset class="adress">
+                    <label for="create-user-address" class="body-title mb-10">Địa chỉ</label>
+                    <input id="create-user-address" class="mb-10" type="text" placeholder="Nhập địa chỉ" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+
+                <!-- Quê quán -->
+                <fieldset class="adress">
+                    <label for="create-user-hometown" class="body-title mb-10">Quê quán</label>
+                    <input id="create-user-hometown" class="mb-10" type="text" placeholder="Nhập quê quán" tabindex="0">
+                    <div class="text-tiny error-message text-danger" style="font-style : italic"></div>
+                </fieldset>
+            </div>
+
+            <div class="wg-box">
+                <div class="container">
+                    <!--Trạng thái tài khoản-->
+                    <div style="display: flex; align-items: center; margin-bottom:20px;">
+                        <h5>Trạng thái</h5>
+                        <label class="switch" style="margin-left: auto;">
+                            <input type="checkbox" id="create-isActive" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content:space-between">
+                        <h6 class="mb-4" style="min-width:100px">Chức vụ: </h6>
+                    </div>
+
+                    <!--Gán vai trò-->
+                    <div class="row" id="list-roles-create" style="max-height: 380px; overflow-y: auto; overflow-x: hidden; margin-top:10px;">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+        <div class="col-7"></div>
+        <div class="col-5" style="display: flex; gap: 10px;">
+            <button type="button" class="tf-button style-1 w-full" data-bs-dismiss="modal">Hủy</button>
+            <button type="button" class="tf-button w-full" onclick="createAccount()" id="btn-create">Tạo mới</button>
+        </div>
+    </div>
+</div>
+<script src="~/admin/js/api-jquery/account/CreateWorkerAccount.js"></script>

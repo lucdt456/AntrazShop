@@ -6,9 +6,6 @@ namespace AntrazShop.Data
 	[Table("UserPermissions")]
 	public class UserPermission
 	{
-		[Key]
-		public int Id { get; set; }
-
 		[Required]
 		[ForeignKey("User")]
 		public int UserId { get; set; }

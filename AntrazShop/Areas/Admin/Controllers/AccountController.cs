@@ -21,19 +21,11 @@ namespace AntrazShop.Areas.Admin.Controllers
 		{
 			return View();
 		}
-		public IActionResult Role()
-		{
-			return View();
-		}
-		public IActionResult CreateRole()
-		{
-			return View();
-		}
 		public IActionResult Customer()
 		{
 			return View();
 		}
-		public IActionResult RolePermissions()
+		public IActionResult FogotPassword()
 		{
 			return View();
 		}

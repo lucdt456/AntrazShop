@@ -13,15 +13,8 @@
                             <nav id="mobile-menu">
                                 <ul>
                                     <li><a href="/">Trang chủ</a></li>
-                                    <li class="has-dropdown">
-                                        <a href="/shop">Cửa hàng</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="blog.html">Big image</a></li>
-                                            <li><a href="blog-right-sidebar.html">Right sidebar</a></li>
-                                            <li><a href="blog-left-sidebar.html">Left sidebar</a></li>
-                                            <li><a href="blog-details.html">Single Post</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a href="/shop">Cửa hàng</a></li>
+                                   
                                     <li><a href="/Shop">Tin tức</a></li> 
                                 </ul>
                             </nav>
@@ -37,7 +30,7 @@
                             <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
                                 <button>
                                     <i><img src="~/img/icon/cart-1.svg" alt=""></i>
-                                    <span>5</span>
+                                    <span class="span-cart-item-count"></span>
                                 </button>
                             </div>
                            
@@ -45,12 +38,27 @@
                                 <a href="/shop/wishlist"><i class="icon-heart icons"></i></a>
                             </div>
 
-                            <div class="header__info-user tpcolor__yellow ml-10">
-                                <a href="/admin/account/login"><i class="icon-user"></i></a>
+                            <div id="navbar-login" style="display:none" class="header__info-user tpcolor__yellow ml-10">
+                                <a href="/admin/account/login">Đăng nhập</a>
                             </div>
 
-                            <div class="header__info-user tpcolor__yellow ml-10">
-                                <a href="/account"><i class="icon-user"></i></a>
+                            <div id="navbar-account" class="header__info-user tpcolor__yellow ml-10" style="position: relative;">
+                                <button onclick="toggleAccountDropdown()" style="display: block; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid #f0f0f0;">
+                                    <img id="claim-avatar" style="width: 100%; height: 100%; object-fit: cover;" />
+                                </button>
+
+                                <!-- Dropdown Menu -->
+                                <div id="account-dropdown" style="display: none; position: absolute; right: 0; top: 50px; background-color: white; min-width: 180px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius: 8px; z-index: 1000; border: 1px solid #e0e0e0;">
+                                    <a href="/Account" style="color: #333;padding: 0px 16px 0px 16px; none; display: flex; align-items: center;">
+                                        <i style="background:white;" class="fa-regular fa-user"></i> Tài khoản
+                                    </a>
+                                    <a href="/order" style="color: #333; padding: 0px 16px 0px 16px; text-decoration: none; display: flex; align-items: center;">
+                                        <i style="background:white;" class="fa-regular fa-rectangle-list"></i> Đơn hàng
+                                    </a>
+                                    <a href="#" onclick="logout()" style="color: #333; padding: 0px 16px 0px 16px; text-decoration: none; display: flex; align-items: center;">
+                                        <i style="background:white;" class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,70 +95,16 @@
             <h4 class="tpcart__title">Giỏ hàng</h4>
             <div class="tpcart__product">
                 <div class="tpcart__product-list">
-                    <ul>
-                        <li>
-                            <div class="tpcart__item">
-                                <div class="tpcart__img">
-                                    <img src="~/img/product/products1-min.jpg" alt="">
-                                    <div class="tpcart__del">
-                                        <a href="#"><i class="icon-x-circle"></i></a>
-                                    </div>
-                                </div>
-                                <div class="tpcart__content">
-                                    <span class="tpcart__content-title">
-                                        <a href="shop-details.html">Stacy's Pita Chips Parmesan Garlic & Herb From Nature</a>
-                                    </span>
-                                    <div class="tpcart__cart-price">
-                                        <span class="quantity">1 x</span>
-                                        <span class="new-price">$162.80</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="tpcart__item">
-                                <div class="tpcart__img">
-                                    <img src="~/img/product/products12-min.jpg" alt="">
-                                    <div class="tpcart__del">
-                                        <a href="#"><i class="icon-x-circle"></i></a>
-                                    </div>
-                                </div>
-                                <div class="tpcart__content">
-                                    <span class="tpcart__content-title">
-                                        <a href="shop-details.html">Banana, Beautiful Skin, Good For Health 1Kg</a>
-                                    </span>
-                                    <div class="tpcart__cart-price">
-                                        <span class="quantity">1 x</span>
-                                        <span class="new-price">$138.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="tpcart__item">
-                                <div class="tpcart__img">
-                                    <img src="~/img/product/products3-min.jpg" alt="">
-                                    <div class="tpcart__del">
-                                        <a href="#"><i class="icon-x-circle"></i></a>
-                                    </div>
-                                </div>
-                                <div class="tpcart__content">
-                                    <span class="tpcart__content-title">
-                                        <a href="shop-details.html">Quaker Popped Rice Crisps Snacks Chocolate</a>
-                                    </span>
-                                    <div class="tpcart__cart-price">
-                                        <span class="quantity">1 x</span>
-                                        <span class="new-price">$162.8</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                    <ul id="list-cart-items">
+                    
+                        
+                    
                     </ul>
                 </div>
                 <div class="tpcart__checkout">
                     <div class="tpcart__total-price d-flex justify-content-between align-items-center">
                         <span> Tổng tiền:</span>
-                        <span class="heilight-price"> $300.00</span>
+                        <span class="heilight-price" id="total-price-cart-items"></span>
                     </div>
                     <div class="tpcart__checkout-btn">
                         <a class="tpcart-btn mb-10" href="/Cart">Giỏ hàng</a>
@@ -193,7 +147,7 @@
                         <div class="header__info-cart tpcolor__oasis ml-10 tp-cart-toggle">
                             <button>
                                 <i><img src="~/img/icon/cart-1.svg" alt=""></i>
-                                <span>5</span>
+                                <span class="span-cart-item-count"></span>
                             </button>
                         </div>
                     </div>
@@ -251,3 +205,4 @@
     </div>
     <!-- sidebar-menu-area-end -->
 </header>
+<script src="~/js/API/Layout/dropdown-account.js"></script>
