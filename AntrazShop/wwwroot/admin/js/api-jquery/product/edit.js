@@ -166,8 +166,22 @@ function loadEdit(id) {
 function LoadProductCC(productCCs) {
     $("#productCC-list").empty();
     $.each(productCCs, function (index, productCC) {
-
-        let status = (productCC.status == 1) ? '<div class="block-available">Đang bán</div>' : '<div class="block-pending">Ngừng bán</div>';
+        statusInt = productCC.status;
+        if (productCC.stock == 0) statusInt = 2;
+        let status;
+        switch (statusInt) {
+            case 0:
+                status = '<div class="block-pending">Ngừng bán</div>';
+                break;
+            case 1:
+                status = '<div class="block-available">Đang bán</div>';
+                break;
+            case 2:
+                status = '<div class="block-not-available">Hết hàng</div>';
+                break;
+            default:
+                status = "---";
+        }
 
         $("#productCC-list").append(
             ` <tr class="antraz-table-list">
@@ -276,15 +290,15 @@ function AddProductCC() {
                     contentType: false,
 
                     success: function (response) {
-                        swal.fire({
-                            title: "Thành công!",
+                        Swal.fire({
+                            position: "center",
                             icon: "success",
-                            draggable: true
-                        }).then(() => {
-                            loadEdit(idProduct);
-                            $('#productCCModal').modal('hide');
-
+                            title: "Thêm thành công!",
+                            showConfirmButton: false,
+                            timer: 1000
                         });
+                        loadEdit(idProduct);
+                        $('#productCCModal').modal('hide');
 
                     },
                     error: function (xhr, status, error) {
@@ -413,17 +427,17 @@ function SaveProductCC() {
                     contentType: false,
 
                     success: function (response) {
-                        swal.fire({
-                            title: "Thành công!",
+                        Swal.fire({
+                            position: "center",
                             icon: "success",
-                            draggable: true
-                        }).then(() => {
-                            let urlParams = new URLSearchParams(window.location.search);
-                            let id = urlParams.get('id');
-                            loadEdit(id);
-                            $('#productCCModal').modal('hide');
-
+                            title: "Cập nhật thành công!",
+                            showConfirmButton: false,
+                            timer: 1000
                         });
+                        let urlParams = new URLSearchParams(window.location.search);
+                        let id = urlParams.get('id');
+                        loadEdit(id);
+                        $('#productCCModal').modal('hide');
 
                     },
                     error: function (xhr, status, error) {
@@ -477,10 +491,12 @@ function DeleteProductCC(button) {
                     'Authorization': 'Bearer ' + token
                 },
                 success: function (response) {
-                    swalWithBootstrapButtons.fire({
-                        title: "Deleted!",
-                        text: "Your file has been deleted.",
-                        icon: "success"
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Xoá thành công!",
+                        showConfirmButton: false,
+                        timer: 1000
                     });
                     let urlParams = new URLSearchParams(window.location.search);
                     let id = urlParams.get('id');

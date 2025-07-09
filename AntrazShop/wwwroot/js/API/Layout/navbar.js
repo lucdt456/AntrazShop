@@ -19,6 +19,8 @@ function loadNavbar() {
         if (decoded.exp < now) {
             document.getElementById('navbar-login').style.display = 'block';
             document.getElementById('navbar-account').style.display = 'none';
+            localStorage.removeItem('token');
+            localStorage.removeItem('id-claim');
         }
         else {
             $('#claim-avatar').attr('src', `/admin/imgs/avatar/${decoded.Avatar}`);
@@ -38,8 +40,8 @@ function logout() {
 
 function gotoAccount() {
     try {
-        const decoded = jwt_decode(token); // Giải mã token
-        const now = Math.floor(Date.now() / 1000); // thời gian hiện tại (giây)
+        const decoded = jwt_decode(token); 
+        const now = Math.floor(Date.now() / 1000); (giây)
 
         if (decoded.exp < now) {
             window.location.href = '/admin/account/login';

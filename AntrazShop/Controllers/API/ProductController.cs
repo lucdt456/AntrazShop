@@ -144,5 +144,17 @@ namespace AntrazShop.Controllers.API
 			}
 			else return Ok("Xoá thành công!");
 		}
+
+		[Authorize(Policy = "CanReviewProduct")]
+		[HttpPost("Review")]
+		public async Task<IActionResult> AddReview(ReviewDTO dto)
+		{
+			var response = await _productService.AddReview(dto);
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			else return Ok(response.Data);
+		}
 	}
 }

@@ -126,5 +126,11 @@ namespace AntrazShop.Repositories
 			var products = await _context.Products.Select(p => p.Name).ToListAsync();
 			return products.Any(p => FileNameHelper.ToSlug(p) == FileNameHelper.ToSlug(name));
 		}
+
+		public async Task AddReview(Review review)
+		{
+			_context.Reviews.Add(review);
+			await _context.SaveChangesAsync();
+		}
 	}
 }

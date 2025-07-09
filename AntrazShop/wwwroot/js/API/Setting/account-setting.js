@@ -95,18 +95,20 @@ $("#btn-save-change-password").click(function () {
         data: JSON.stringify(changePasswordData),
         success: function (response) {
             Swal.fire({
-                title: "Đổi mật khẩu thành công!",
+                position: "center",
                 icon: "success",
-                draggable: true
-            }).then(() => {
-                $("#change-password-area").hide();
-                $("#btn-change-password").fadeToggle(300);
-
-                $("#create-user-password").val("");
-                $("#new-user-password").val("");
-                $("#new-user-repassword").val("");
-                $(".error-message").text("");
+                title: "Cập nhật thông tin thành công!",
+                showConfirmButton: false,
+                timer: 1000
             });
+            $("#change-password-area").hide();
+            $("#btn-change-password").fadeToggle(300);
+
+            $("#create-user-password").val("");
+            $("#new-user-password").val("");
+            $("#new-user-repassword").val("");
+            $(".error-message").text("");
+          
         },
         error: function (xhr, status, error) {
             handleAjaxError(xhr, status, error, "Lỗi khi đổi mật khẩu!");
@@ -203,16 +205,18 @@ $("#btn-save-information").click(function () {
         contentType: false,
         success: function (response) {
             Swal.fire({
-                title: "Cập nhật thông tin thành công!",
+                position: "center",
                 icon: "success",
-                draggable: true
-            }).then(() => {
-                selectedEditAvatarFile = null;
-                viewInformation();
-
-                $(".edit-information").attr("disabled", true);
-                $("#edit-information-button").fadeToggle(300);
+                title: "Cập nhật thông tin thành công!",
+                showConfirmButton: false,
+                timer: 1000
             });
+            selectedEditAvatarFile = null;
+            viewInformation();
+
+            $(".edit-information").attr("disabled", true);
+            $("#edit-information-button").fadeToggle(300);
+          
         },
         error: function (xhr, status, error) {
             handleAjaxError(xhr, status, error, "Lỗi khi cập nhật thông tin!");

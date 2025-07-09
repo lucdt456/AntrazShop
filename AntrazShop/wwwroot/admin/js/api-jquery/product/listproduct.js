@@ -179,7 +179,7 @@ function loadPageTableProduct(products) {
                 statusText = '<div class="block-not-available">Hết hàng</div>';
                 break;
             default:
-                status = "---";
+                statusText = "---";
         }
 
         // xử lý tên quá dài
