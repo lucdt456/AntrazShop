@@ -8,5 +8,8 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<IEnumerable<Product>> GetProducts(ProductFilter filter, int skip, int take);
 
 		Task<int> GetTotalProductCountFilter(ProductFilter filter);
+		Task<IEnumerable<Product>> GetProductsTopSale ();
+		Task<IEnumerable<Product>> GetProductsTopSell();
+		Task<IEnumerable<Product>> GetProductsTopRating();
 	}
 }

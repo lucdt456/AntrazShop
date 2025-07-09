@@ -4,6 +4,8 @@ using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
 using AntrazShop.Models.DTOModels;
 using AntrazShop.Models.ViewModels;
+using AntrazShop.Repositories;
+using AspNetCoreGeneratedDocument;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 namespace AntrazShop.Services
@@ -473,6 +475,31 @@ namespace AntrazShop.Services
 				var productVMs = _mapper.Map<List<ProductVM>>(products);
 
 				response.Data = (productVMs, pagination);
+			}
+			catch (Exception ex)
+			{
+				response.IsSuccess = false;
+				response.Errors.Add(ex.Message);
+			}
+			return response;
+		}
+
+		public async Task<ServiceResponse<string>> AddReview(ReviewDTO dto)
+		{
+			var response = new ServiceResponse<string>();
+			try
+			{
+				var review = new Review
+				{
+					UserId = dto.UserId,
+					ColorCapacityId = dto.ColorCapacityId,
+					CreatedAt = DateTime.Now,
+					Rating = dto.Rating,
+					Description = dto.Description
+				};
+
+				await _productRepository.AddReview(review);
+				response.Data = "Thêm bình luận thành công!";
 			}
 			catch (Exception ex)
 			{

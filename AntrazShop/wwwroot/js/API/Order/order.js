@@ -52,6 +52,7 @@ function loadData() {
                     default:
                         statusColor = '#6c757d';
                 }
+                let formatTimeStatus = formatDateTime(order.createAt);
 
                 $("#list-orders-user").append(`
                   <div style="cursor: pointer;" onclick="viewOrderDetail('${order.orderCode}')" class="tplocation__item d-flex align-items-center">
@@ -69,7 +70,7 @@ function loadData() {
                                        SĐT: ${order.phoneNumber}
                                    </li>
                                    <li>
-                                       Tạo lúc: ${order.createAt}
+                                       Tạo lúc: ${formatTimeStatus}
                                    </li>
                                    <li>
                                        Trạng thái: <span style="color: ${statusColor}; font-weight: bold;">${order.status}</span>
@@ -86,6 +87,16 @@ function loadData() {
             handleAjaxError(xhr, status, error, "Lỗi khi tải danh sách đơn hàng!");
         }
     })
+}
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
 function viewOrderDetail(orderCode) {
@@ -138,7 +149,8 @@ function viewOrderDetail(orderCode) {
     $("#details-discount-address").text(orderTarget.address);
 
     $("#details-discount-status").text(orderTarget.status);
-    $("#details-discount-time").text(orderTarget.lastStatusDate);
+    let formatTimeStatus = formatDateTime(orderTarget.lastStatusDate);
+    $("#details-discount-time").text(formatTimeStatus);
 
     let statusColor = '';
 
@@ -220,18 +232,6 @@ function viewOrderDetail(orderCode) {
             }
         </style>
     `);
-    }
-
-    // Format thời gian
-    function formatDateTime(dateString) {
-        const date = new Date(dateString);
-        const day = date.getDate().toString().padStart(2, '0');
-        const month = (date.getMonth() + 1).toString().padStart(2, '0');
-        const year = date.getFullYear();
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-
-        return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
     $("#history-status").empty();

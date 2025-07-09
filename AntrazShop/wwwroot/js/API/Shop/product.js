@@ -1,4 +1,12 @@
 function addToCart(idProduct) {
+    if (!token) {
+        Swal.fire({
+            title: "Bạn chưa đăng nhập?",
+            text: "Vui lòng đăng nhập để thêm sản phẩm!",
+            icon: "question"
+        });
+        return;
+    }
 
     const cartData = {
         "userId": localStorage.getItem('id-claim'),
@@ -15,34 +23,18 @@ function addToCart(idProduct) {
         contentType: 'application/json',
         data: JSON.stringify(cartData),
         success: function (response) {
-            swal.fire({
-                title: "Bạn vừa thêm 1 sản phẩm vào giỏ hàng",
+            Swal.fire({
+                position: "center",
                 icon: "success",
-                draggable: true
-            }).then(() => {
-                loadCartItem();
+                title: "Thêm sản phẩm vào giỏ hàng thành công!",
+                showConfirmButton: false,
+                timer: 1000
             });
+            loadCartItem();
         },
         error: function (xhr, status, error) {
 
-            let errorMessage = 'Error';
-
-            try {
-                const response = JSON.parse(xhr.responseText);
-                if (response.errors && response.errors.length > 0) {
-                    errorMessage = response.errors.join('\n');
-                }
-            } catch (e) {
-                console.error("Lỗi phân tích phản hồi:", e);
-            }
-
-            swal.fire({
-                icon: "error",
-                title: "oops...",
-                text: errorMessage,
-                footer: '<a href="#">Tại sao tôi gặp lỗi này?</a>'
-            });
-            console.error(error);
+            handleAjaxError(xhr, status, error, "Lỗi khi thêm sản phẩm vào giỏ hàng");
         }
     });
 

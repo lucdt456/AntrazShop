@@ -6,6 +6,7 @@ namespace AntrazShop.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class ShopController : ControllerBase
     {
 		private readonly IShopService _shopService;
@@ -32,5 +33,46 @@ namespace AntrazShop.Controllers.API
 
 		}
 
+		[HttpGet("TopRating")]
+		public async Task<IActionResult> GetProductsTopRating()
+		{
+			var response = await _shopService.GetProductsTopRating();
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+
+			return Ok(response.Data);
+
+		}
+
+		[HttpGet("TopSold")]
+		public async Task<IActionResult> GetProductsTopSell()
+		{
+			var response = await _shopService.GetProductsTopSell();
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+
+			return Ok(response.Data);
+
+		}
+
+		[HttpGet("TopSaling")]
+		public async Task<IActionResult> GetProductsTopSale()
+		{
+			var response = await _shopService.GetProductsTopSale();
+
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+
+			return Ok(response.Data);
+
+		}
 	}
 }

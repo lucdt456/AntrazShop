@@ -37,7 +37,8 @@ namespace AntrazShop.Helper
 
 			// Review -> ProductReviewVM
 			CreateMap<Review, ProductReviewVM>()
-				.ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name));
+				.ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name))
+				.ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.User.Avatar));
 
 			// ColorCapacity -> ProductColorCapacityVM
 			CreateMap<ColorCapacity, ProductColorCapacityVM>()

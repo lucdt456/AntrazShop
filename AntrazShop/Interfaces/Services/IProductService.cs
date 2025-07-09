@@ -13,7 +13,6 @@ namespace AntrazShop.Interfaces.Services
 		Task<ServiceResponse<string>> AddProduct(ProductDTO newProduct);
 		Task<ServiceResponse<Product>> UpdateProduct(int id,  ProductDTO productUpdaTe);
 		Task<ServiceResponse<bool>> DeleteProduct(int id);
-
-	
+		Task<ServiceResponse<string>> AddReview(ReviewDTO dto);
 	}
 }

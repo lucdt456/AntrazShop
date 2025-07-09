@@ -8,15 +8,19 @@ var ProductList = [];
 var SwitchListView = 2;
 
 function loadData() {
+    let ascendingPrice = $('input[name="ascendingPrice"]:checked').val();
+    if (ascendingPrice == 'null') ascendingPrice = null;
+    if (ascendingPrice == 'true') ascendingPrice = true;
+    if (ascendingPrice == 'false') ascendingPrice = false;
+    console.log(ascendingPrice);
     let Filter = {
         brandIds: FListBrandIds,
         categoryIds: FListCategoryIds,
         searchText: FSearchText,
         minPrice: FPrice.Min,
         maxPrice: FPrice.Max,
-        ascendingPrice: null
+        ascendingPrice: ascendingPrice
     };
-
     window.scrollTo(0, 0);
 
     pager.numberShowing = $("#numberShowing").val();
@@ -68,7 +72,7 @@ function loadData() {
             }
         },
         error: function (xhr, status, error) {
-            console.error("Lỗi: ", error);
+            handleAjaxError(xhr, status, error, "Lỗi khi load sản phẩm");
         }
     });
 }
@@ -121,8 +125,8 @@ function loadProducts2() {
             }
         }
 
-        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' đ';
-        let min_price = product.minPrice.toLocaleString('vi-VN') + ' đ';
+        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' VNĐ';
+        let min_price = product.minPrice.toLocaleString('vi-VN') + ' VNĐ';
 
         $("#list-product-2").append(`
             <div class="col">
@@ -160,9 +164,11 @@ function loadProducts2() {
                             ${starRate}
                         </div>
                         <div class="tpproduct__price">
-                            <span>${min_price_sale}</span>
-                            <del>${min_price}</del>
-                        </div>
+                   <span>${min_price_sale}</span>
+               </div>
+                <div class="tpproduct__price">
+                   <del>${min_price}</del>
+               </div>
                     </div>
                     <div class="tpproduct__hover-text">
                         <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
@@ -212,17 +218,16 @@ function loadProducts1() {
             }
         }
 
-        let mbClass = (index < 4) ? "mb-20" : ""; 
+        let mbClass = (index < 4) ? "mb-20" : "";
 
-        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' đ';
-        let min_price = product.minPrice.toLocaleString('vi-VN') + ' đ';
+        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' VNĐ';
+        let min_price = product.minPrice.toLocaleString('vi-VN') + ' VNĐ';
 
         $("#list-product-1").append(`
-            <div class="col target-product">
-             <input type="hidden" class="hidden-id" value="${product.id}" />
-                <div class="tpproduct p-relative ${mbClass}" style="z-index: ${6 - index};">
+            <div class="col">
+                <div class="tpproduct p-relative ${mbClass}">
                     <div class="tpproduct__thumb p-relative text-center">
-                        <a href="#">
+                        <a href="/shop/productdetail?id=${product.id}">
                             <img src="/admin/imgs/product/${product.folderImage}/${product.imageView}" alt="">
                         </a>
                         <a class="tpproduct__thumb-img" href="/shop/productdetail?id=${product.id}">
@@ -233,7 +238,7 @@ function loadProducts1() {
                             <span class="tpproduct__info-hot bage__hot">HOT</span>
                         </div>
                         <div class="tpproduct__shopping">
-                            <a class="tpproduct__shopping-wishlist" href="wishlist.html">
+                            <a class="tpproduct__shopping-wishlist">
                                 <i class="icon-heart icons"></i>
                             </a>
                             <a class="tpproduct__shopping-cart" href="/shop/productdetail?id=${product.id}">
@@ -257,14 +262,14 @@ function loadProducts1() {
                             <del>${min_price}</del>
                         </div>
                     </div>
-                    <div class="tpproduct__hover-text" style="z-index: 999;">
+                    <div class="tpproduct__hover-text">
                         <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
-                            <button class="tp-btn-2"  onclick="addToCart(${product.productCCs[0].id})">Thêm vào giỏ</button>
+                            <button class="tp-btn-2" onclick="addToCart(${product.productCCs[0].id})">Thêm vào giỏ</button>
                         </div>
                         <div class="tpproduct__descrip">
                             <ul>
                                 <li>Đã bán ${product.soldAmount}</li>
-                                <li>Tồn kho: ${product.totalStock} </li>
+                                <li>Tồn kho: ${product.totalStock}</li>
                             </ul>
                         </div>
                     </div>
@@ -273,7 +278,6 @@ function loadProducts1() {
         `);
     });
 }
-
 
 function loadProducts3() {
     $("#list-product-3").empty();
@@ -306,8 +310,8 @@ function loadProducts3() {
             }
         }
 
-        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' đ';
-        let min_price = product.minPrice.toLocaleString('vi-VN') + ' đ';
+        let min_price_sale = (product.minPrice - product.discountAmount).toLocaleString('vi-VN') + ' VNĐ';
+        let min_price = product.minPrice.toLocaleString('vi-VN') + ' VNĐ';
 
         $("#list-product-3").append(`
             <div class="col-lg-12" target-product>
@@ -341,8 +345,11 @@ function loadProducts3() {
                         <h4 class="tplist__instock">
                             Tồn kho: <span>${product.totalStock}</span>
                         </h4>
-                        <h3 class="tplist__count mb-15">${min_price_sale}</del></h3>
-                        <button class="tp-btn-2 mb-10" onclick="addToCart(${product.productCCs[0].id})">Thêm vào giỏ</button>
+                        <h3 class="tplist__count">${min_price_sale}</h3>
+                          <div class="tpproduct__price">
+                   <del>${min_price}</del>
+               </div>
+                        <button class="tp-btn-2 mt-10 mb-10" onclick="addToCart(${product.productCCs[0].id})">Thêm vào giỏ</button>
                         <div class="tplist__shopping">
                             <a href="#"><i class="icon-heart icons"></i> wishlist</a>
                         </div>
