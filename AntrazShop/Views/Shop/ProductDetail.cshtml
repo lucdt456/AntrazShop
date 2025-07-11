@@ -121,50 +121,57 @@
 
                             <div class="tab-pane fade" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab" tabindex="0">
                                 <div class="tpreview__wrapper">
-                                    <div style="margin-bottom: 30px; display: flex; gap: 20px; justify-content: center;">
-                                        <button id="all-star" style="background-color: darkcyan; color: black" type="button" class="tp-btn">Tất cả</button>
-                                        <button id="1-stars" style="background-color: lightgreen; color: black" type="button" class="tp-btn">1 sao</button>
-                                        <button id="2-stars" style="background-color: lightgreen; color: black" type="button" class="tp-btn">2 sao</button>
-                                        <button id="3-stars" style="background-color: lightgreen; color: black" type="button" class="tp-btn">3 sao</button>
-                                        <button id="4-stars" style="background-color: lightgreen; color: black" type="button" class="tp-btn">4 sao</button>
-                                        <button id="5-stars" style="background-color: lightgreen; color: black" type="button" class="tp-btn">5 sao</button>
+                                    <h4 class="tpreview__wrapper-title">1 review for Cheap and delicious fresh chicken</h4>
+                                    <div class="tpreview__comment">
+                                        <div class="tpreview__comment-img mr-20">
+                                            <img src="~/img/testimonial/test-avata-1.png" alt="">
+                                        </div>
+                                        <div class="tpreview__comment-text">
+                                            <div class="tpreview__comment-autor-info d-flex align-items-center justify-content-between">
+                                                <div class="tpreview__comment-author">
+                                                    <span>admin</span>
+                                                </div>
+                                                <div class="tpreview__comment-star">
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                    <i class="icon-star_outline1"></i>
+                                                </div>
+                                            </div>
+                                            <span class="date mb-20">--April 9, 2022: </span>
+                                            <p>very good</p>
+                                        </div>
                                     </div>
-                                    <div id="list-reviews" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
-
-                                    </div>
-                                    
                                     <div class="tpreview__form">
-                                        <h4 class="tpreview__form-title mb-25">Thêm đánh giá mới</h4>
+                                        <h4 class="tpreview__form-title mb-25">Add a review </h4>
                                         <form action="#">
                                             <div class="row">
-                                                
+                                                <div class="col-lg-6">
+                                                    <div class="tpreview__input mb-30">
+                                                        <input type="text" placeholder="Name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="tpreview__input mb-30">
+                                                        <input type="email" placeholder="Email">
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-12">
-                                                    <div style="display:flex; justify-content:space-between;">
-                                                        <div class="tpreview__star mb-20">
-                                                            <h4 class="title">Chọn số sao</h4>
-                                                            <div class="tpreview__star-icon">
-                                                                <a style="cursor:pointer;" id="1st-star"><i class="bi bi-star-fill"></i></a>
-                                                                <a style="cursor:pointer;" id="2nd-star"><i class="bi bi-star-fill"></i></a>
-                                                                <a style="cursor:pointer;" id="3th-star"><i class="bi bi-star-fill"></i></a>
-                                                                <a style="cursor:pointer;" id="4th-star"><i class="bi bi-star-fill"></i></a>
-                                                                <a style="cursor:pointer;" id="5th-star"><i class="bi bi-star-fill"></i></a>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tpreview__select mb-20">
-                                                            <select id="list-product-color-capacity">
-                                                                <option value="0">Chọn sản phẩm</option>
-                                                                <option value="123">Mới nhất</option>
-                                                                <option value="highest">Sao cao nhất</option>
-                                                                <option value="lowest">Sao thấp nhất</option>
-                                                            </select>
+                                                    <div class="tpreview__star mb-20">
+                                                        <h4 class="title">Your Rating</h4>
+                                                        <div class="tpreview__star-icon">
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
+                                                            <a href="#"><i class="icon-star_outline1"></i></a>
                                                         </div>
                                                     </div>
-                                                    
                                                     <div class="tpreview__input mb-30">
-                                                        <textarea name="text" placeholder="Đánh giá" id="description-review"></textarea>
+                                                        <textarea name="text" placeholder="Message"></textarea>
                                                         <div class="tpreview__submit mt-30">
-                                                            <button onclick="addNewReview()" type="button" class="tp-btn">Đánh giá</button>
+                                                            <button class="tp-btn">Submit</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -226,4 +233,4 @@
 
 
 
-<script src="~/js/API/Shop/product-detail.js"></script>
+<script src="~/js/API/Shop/produc-detail.js"></script>

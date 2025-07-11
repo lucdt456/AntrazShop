@@ -34,8 +34,7 @@ namespace AntrazShop.Repositories
 						.Where(p => filter.BrandIds.Any() ? filter.BrandIds.Contains(p.BrandId) : true)
 						.Where(p => filter.CategoryIds.Any() ? filter.CategoryIds.Contains(p.CategoryId) : true)
 						.Where(p => p.ColorCapacities.Any(cc => cc.Price <= filter.MaxPrice && cc.Price >= filter.MinPrice))
-						.Select(p => new
-						{
+						.Select(p => new {
 							Product = p,
 							MinPrice = p.ColorCapacities
 								.Where(cc => cc.Price <= filter.MaxPrice && cc.Price >= filter.MinPrice)
@@ -63,8 +62,7 @@ namespace AntrazShop.Repositories
 						.Where(p => filter.BrandIds.Any() ? filter.BrandIds.Contains(p.BrandId) : true)
 						.Where(p => filter.CategoryIds.Any() ? filter.CategoryIds.Contains(p.CategoryId) : true)
 						.Where(p => p.ColorCapacities.Any(cc => cc.Price <= filter.MaxPrice && cc.Price >= filter.MinPrice))
-						.Select(p => new
-						{
+						.Select(p => new {
 							Product = p,
 							MaxPrice = p.ColorCapacities
 								.Where(cc => cc.Price <= filter.MaxPrice && cc.Price >= filter.MinPrice)
@@ -98,6 +96,7 @@ namespace AntrazShop.Repositories
 						.ToListAsync();
 			}
 		}
+
 		public async Task<int> GetTotalProductCountFilter(ProductFilter filter)
 		{
 			return await _context.Products
@@ -107,68 +106,6 @@ namespace AntrazShop.Repositories
 				.Where(p => filter.CategoryIds.Any() ? filter.CategoryIds.Contains(p.CategoryId) : true)
 				.Where(p => p.ColorCapacities.Any(cc => cc.Price <= filter.MaxPrice && cc.Price >= filter.MinPrice))
 				.CountAsync();
-		}
-
-		public async Task<IEnumerable<Product>> GetProductsTopRating()
-		{
-			return await _context.Products
-				.AsNoTracking()
-				.Include(p => p.Brand)
-				.Include(p => p.Category)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Color)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Capacity)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Reviews)
-						.ThenInclude(r => r.User)
-				.Select(p => new
-				{
-					Product = p,
-					AverageRating = p.ColorCapacities
-						.Where(cc => cc.Reviews.Any())
-						.SelectMany(cc => cc.Reviews)
-						.Average(r => (double?)r.Rating) ?? 0
-				})
-				.OrderByDescending(x => x.AverageRating)
-				.Take(10)
-				.Select(x => x.Product)
-				.ToListAsync();
-		}
-
-		public async Task<IEnumerable<Product>> GetProductsTopSale()
-		{
-			return await _context.Products
-				.AsNoTracking()
-				.OrderByDescending(p => p.DiscountAmount)
-				.Include(p => p.Brand)
-				.Include(p => p.Category)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Color)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Capacity)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Reviews)
-						.ThenInclude(r => r.User)
-				.ToListAsync();
-		}
-
-		public async Task<IEnumerable<Product>> GetProductsTopSell()
-		{
-			return await _context.Products
-				.AsNoTracking()
-				.Include(p => p.Brand)
-				.Include(p => p.Category)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Color)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Capacity)
-				.Include(p => p.ColorCapacities)
-					.ThenInclude(cc => cc.Reviews)
-						.ThenInclude(r => r.User)
-				.OrderByDescending(p => p.ColorCapacities.Sum(cc => cc.SoldAmount))
-				.Take(10)
-				.ToListAsync();
 		}
 	}
 }

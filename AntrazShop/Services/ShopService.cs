@@ -1,4 +1,3 @@
-using AntrazShop.Data;
 using AntrazShop.Helper;
 using AntrazShop.Interfaces.Repositories;
 using AntrazShop.Interfaces.Services;
@@ -32,56 +31,6 @@ namespace AntrazShop.Services
 				var productVMs = _mapper.Map<List<ProductVM>>(products);
 
 				response.Data = (productVMs, pagination);
-			}
-			catch (Exception ex)
-			{
-				response.IsSuccess = false;
-				response.Errors.Add(ex.Message);
-			}
-			return response;
-		}
-
-		public async Task<ServiceResponse<IEnumerable<ProductVM>>> GetProductsTopRating()
-		{
-			var response = new ServiceResponse<IEnumerable<ProductVM>>();
-			try
-			{
-				var products = await _shopRepository.GetProductsTopRating();
-				response.Data = _mapper.Map<List<ProductVM>>(products);
-				
-			}
-			catch (Exception ex)
-			{
-				response.IsSuccess = false;
-				response.Errors.Add(ex.Message);
-			}
-			return response;
-		}
-
-		public async Task<ServiceResponse<IEnumerable<ProductVM>>> GetProductsTopSale()
-		{
-			var response = new ServiceResponse<IEnumerable<ProductVM>>();
-			try
-			{
-				var products = await _shopRepository.GetProductsTopSale();
-				response.Data = _mapper.Map<List<ProductVM>>(products);
-
-			}
-			catch (Exception ex)
-			{
-				response.IsSuccess = false;
-				response.Errors.Add(ex.Message);
-			}
-			return response;
-		}
-
-		public async Task<ServiceResponse<IEnumerable<ProductVM>>> GetProductsTopSell()
-		{
-			var response = new ServiceResponse<IEnumerable<ProductVM>>();
-			try
-			{
-				var products = await _shopRepository.GetProductsTopSell();
-				response.Data = _mapper.Map<List<ProductVM>>(products);
 			}
 			catch (Exception ex)
 			{

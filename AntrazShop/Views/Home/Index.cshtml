@@ -121,7 +121,7 @@
                 <div class="tpnavtab__area pb-40">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">Sản phẩm mới</button>
+                            <button class="nav-link active" id="nav-all-tab" data-bs-toggle="tab" data-bs-target="#nav-all" type="button" role="tab" aria-controls="nav-all" aria-selected="true">Tất cả sản phẩm</button>
                             <button class="nav-link" id="nav-meat-tab" data-bs-toggle="tab" data-bs-target="#nav-meat" type="button" role="tab" aria-controls="nav-meat" aria-selected="false">Sale mạnh nhất</button>
                             <button class="nav-link" id="nav-vegetables-tab" data-bs-toggle="tab" data-bs-target="#nav-vegetables" type="button" role="tab" aria-controls="nav-vegetables" aria-selected="false">Bán chạy nhất</button>
                             <button class="nav-link" id="nav-snacks-tab" data-bs-toggle="tab" data-bs-target="#nav-snacks" type="button" role="tab" aria-controls="nav-snacks" aria-selected="false">Đánh giá tốt</button>
@@ -131,7 +131,7 @@
                         <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab" tabindex="0">
                             <div class="tpproduct__arrow p-relative">
                                 <div class="swiper-container tpproduct-active tpslider-bottom p-relative">
-                                    <div class="swiper-wrapper" id="new-product-list">
+                                    <div class="swiper-wrapper" id="all-product-list">
                                        <!--Tất cả-->
                                        
                                     </div>
@@ -145,8 +145,56 @@
                         <div class="tab-pane fade" id="nav-meat" role="tabpanel" aria-labelledby="nav-meat-tab" tabindex="0">
                             <div class="tpproduct__arrow p-relative">
                                 <div class="swiper-container tpproduct-active tpslider-bottom p-relative">
-                                    <div class="swiper-wrapper" id="top-product-sale">
+                                    <div class="swiper-wrapper">
                                         <!--Sale-->
+                                        <div class="swiper-slide">
+                                            <div class="tpproduct p-relative">
+                                                <div class="tpproduct__thumb p-relative text-center">
+                                                    <a href="#"><img src="~/img/product/products30-min.jpg" alt=""></a>
+                                                    <a class="tpproduct__thumb-img" href="shop-details.html"><img src="~/img/product/products29-min.jpg" alt=""></a>
+                                                    <div class="tpproduct__info bage">
+                                                        <span class="tpproduct__info-discount bage__discount">-50%</span>
+                                                        <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                    </div>
+                                                    <div class="tpproduct__shopping">
+                                                        <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                                        <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                                        <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__content">
+                                                    <span class="tpproduct__content-weight">
+                                                        <a href="shop-details.html"></a>
+                                                    </span>
+                                                    <h4 class="tpproduct__title">
+                                                        <a href="shop-details-top-.html">Mangosteen Organic From VietNamese</a>
+                                                    </h4>
+                                                    <div class="tpproduct__rating mb-5">
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                    </div>
+                                                    <div class="tpproduct__price">
+                                                        <span>$56.00</span>
+                                                        <del>$19.00</del>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__hover-text">
+                                                    <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                                        <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                                    </div>
+                                                    <div class="tpproduct__descrip">
+                                                        <ul>
+                                                            <li>Type: Organic</li>
+                                                            <li>MFG: August 4.2021</li>
+                                                            <li>LIFE: 60 days</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tpproduct-btn">
@@ -158,9 +206,57 @@
                         <div class="tab-pane fade" id="nav-vegetables" role="tabpanel" aria-labelledby="nav-vegetables-tab" tabindex="0">
                             <div class="tpproduct__arrow p-relative">
                                 <div class="swiper-container tpproduct-active tpslider-bottom p-relative">
-                                    <!--Bán chạy-->
-                                    <div class="swiper-wrapper" id="top-product-sold">   
-                                       
+                                    <div class="swiper-wrapper">
+                                        <!--Bán chạy-->
+                                        <div class="swiper-slide">
+                                            <div class="tpproduct p-relative">
+                                                <div class="tpproduct__thumb p-relative text-center">
+                                                    <a href="#"><img src="~/img/product/products21-min.jpg" alt=""></a>
+                                                    <a class="tpproduct__thumb-img" href="shop-details-grid.html"><img src="~/img/product/products1-min.jpg" alt=""></a>
+                                                    <div class="tpproduct__info bage">
+                                                        <span class="tpproduct__info-discount bage__discount">-50%</span>
+                                                        <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                    </div>
+                                                    <div class="tpproduct__shopping">
+                                                        <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                                        <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                                        <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__content">
+                                                    <span class="tpproduct__content-weight">
+                                                        <a href="shop-details-3.html">Fresh Fruits</a>,
+                                                        <a href="shop-details-3.html">Vagetables</a>
+                                                    </span>
+                                                    <h4 class="tpproduct__title">
+                                                        <a href="shop-details-top-.html">Mangosteen Organic From VietNamese</a>
+                                                    </h4>
+                                                    <div class="tpproduct__rating mb-5">
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                    </div>
+                                                    <div class="tpproduct__price">
+                                                        <span>$56.00</span>
+                                                        <del>$19.00</del>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__hover-text">
+                                                    <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                                        <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                                    </div>
+                                                    <div class="tpproduct__descrip">
+                                                        <ul>
+                                                            <li>Type: Organic</li>
+                                                            <li>MFG: August 4.2021</li>
+                                                            <li>LIFE: 60 days</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tpproduct-btn">
@@ -172,9 +268,57 @@
                         <div class="tab-pane fade" id="nav-snacks" role="tabpanel" aria-labelledby="nav-snacks-tab" tabindex="0">
                             <div class="tpproduct__arrow p-relative">
                                 <div class="swiper-container tpproduct-active tpslider-bottom p-relative">
-                                    <!--Đánh giá tốt-->
-                                    <div class="swiper-wrapper" id="top-product-rating">
-                                       
+                                    <div class="swiper-wrapper">
+                                        <!--Đánh giá tốt-->
+                                        <div class="swiper-slide">
+                                            <div class="tpproduct p-relative">
+                                                <div class="tpproduct__thumb p-relative text-center">
+                                                    <a href="#"><img src="~/img/product/products21-min.jpg" alt=""></a>
+                                                    <a class="tpproduct__thumb-img" href="shop-details-grid.html"><img src="~/img/product/products1-min.jpg" alt=""></a>
+                                                    <div class="tpproduct__info bage">
+                                                        <span class="tpproduct__info-discount bage__discount">-50%</span>
+                                                        <span class="tpproduct__info-hot bage__hot">HOT</span>
+                                                    </div>
+                                                    <div class="tpproduct__shopping">
+                                                        <a class="tpproduct__shopping-wishlist" href="wishlist.html"><i class="icon-heart icons"></i></a>
+                                                        <a class="tpproduct__shopping-wishlist" href="#"><i class="icon-layers"></i></a>
+                                                        <a class="tpproduct__shopping-cart" href="#"><i class="icon-eye"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__content">
+                                                    <span class="tpproduct__content-weight">
+                                                        <a href="shop-details-3.html">Fresh Fruits</a>,
+                                                        <a href="shop-details-3.html">Vagetables</a>
+                                                    </span>
+                                                    <h4 class="tpproduct__title">
+                                                        <a href="shop-details-top-.html">Mangosteen Organic From VietNamese</a>
+                                                    </h4>
+                                                    <div class="tpproduct__rating mb-5">
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                        <a href="#"><i class="icon-star_outline1"></i></a>
+                                                    </div>
+                                                    <div class="tpproduct__price">
+                                                        <span>$56.00</span>
+                                                        <del>$19.00</del>
+                                                    </div>
+                                                </div>
+                                                <div class="tpproduct__hover-text">
+                                                    <div class="tpproduct__hover-btn d-flex justify-content-center mb-10">
+                                                        <a class="tp-btn-2" href="cart.html">Add to cart</a>
+                                                    </div>
+                                                    <div class="tpproduct__descrip">
+                                                        <ul>
+                                                            <li>Type: Organic</li>
+                                                            <li>MFG: August 4.2021</li>
+                                                            <li>LIFE: 60 days</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tpproduct-btn">
