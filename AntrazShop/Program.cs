@@ -129,7 +129,6 @@ builder.Services.AddAuthorization(options =>
 	options.AddPolicy("CanDeleteRole", policy => policy.Requirements.Add(new PermissionRequirement("DeleteRole")));
 	options.AddPolicy("CanEditRolePermission", policy => policy.Requirements.Add(new PermissionRequirement("EditRolePermission")));
 	options.AddPolicy("CanEditRole", policy => policy.Requirements.Add(new PermissionRequirement("EditRole")));
-	options.AddPolicy("CanReviewProduct", policy => policy.Requirements.Add(new PermissionRequirement("ReviewProduct")));
 });
 
 
@@ -170,9 +169,6 @@ builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 
 builder.Services.AddScoped<IOrderManagerService, OrderManagerService>();
 builder.Services.AddScoped<IOrderManagerRepository, OrderManagerRepository>();
-
-builder.Services.AddScoped<IDashboardRepository, DashboardRepository>();
-builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>(); 
 

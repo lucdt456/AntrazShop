@@ -13,6 +13,5 @@ namespace AntrazShop.Interfaces.Repositories
 		Task<IEnumerable<Product>> GetProductsWithDetails(int recSkip, int take);
 		Task<int> GetTotalProductCountSearch(string search);
 		Task<bool> CheckProductNameExist(string name);
-		Task AddReview(Review review);
 	}
 }
