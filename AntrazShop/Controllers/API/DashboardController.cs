@@ -36,5 +36,16 @@ namespace AntrazShop.Controllers.API
 			}
 			return Ok(response.Data);
 		}
+
+		[HttpGet("RevenueOverview")]
+		public async Task<IActionResult> GetRevenueOverview()
+		{
+			var response = await _dashboardService.GetRevenueOverview();
+			if (!response.IsSuccess)
+			{
+				return BadRequest(new { errors = response.Errors });
+			}
+			return Ok(response.Data);
+		}
 	}
 }

@@ -25,7 +25,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Respositories\Interfaces\" />
     <Folder Include="Areas\Admin\Services\Interfaces\" />
-    <Folder Include="wwwroot\admin\imgs\product\" />
     <Folder Include="wwwroot\admin\img\brandlogo\" />
     <Folder Include="wwwroot\admin\js\api-jquery\Category\" />
     <Folder Include="wwwroot\test\img\" />

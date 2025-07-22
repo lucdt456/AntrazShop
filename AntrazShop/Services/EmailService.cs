@@ -104,7 +104,6 @@ namespace AntrazShop.Services
                 <p>Mật khẩu mới của bạn là: <strong style='font-size: 24px; color: blue;'>{newPassword}</strong></p>
                 <p>Vui lòng đổi lại mật khẩu trong cài đặt để đảm bảo an toàn.</p>";
 
-				// Gửi email mã xác nhận
 				await _emailSender.SendEmailAsync(dto.Email, "Xác nhận đổi mật khẩu thành công", emailBody);
 				response.Data = "Mật khẩu đã được gửi về email!";
 

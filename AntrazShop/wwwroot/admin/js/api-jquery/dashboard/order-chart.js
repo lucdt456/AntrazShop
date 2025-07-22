@@ -74,11 +74,9 @@ function loadOrder() {
 
 function loadRecentOrder() {
     let dayCount = $('#recent-order-count-day').val();
-    let urlAPI = window.API_URL + `/Dashboard/OrderOverView/${dayCount}`
-    console.log(urlAPI);
 
     $.ajax({
-        url: urlAPI,
+        url: window.API_URL + `/Dashboard/OrderOverView/${dayCount}`,
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + token

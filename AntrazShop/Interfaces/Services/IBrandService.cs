@@ -7,6 +7,11 @@ namespace AntrazShop.Interfaces.Services
 	public interface IBrandService
 	{
 		Task<ServiceResponse<IEnumerable<BrandVM>>> GetBrands();
+		/// <summary>
+		/// Lấy thương hiệu qua id
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		Task<ServiceResponse<BrandVM>> GetBrand(int id);
 		Task<ServiceResponse<BrandVM>> CreateBrand(BrandDTO dto);
 		Task<ServiceResponse<BrandVM>> UpdateBrand(int id, BrandDTO dto);
